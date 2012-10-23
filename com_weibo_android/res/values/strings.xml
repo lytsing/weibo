@@ -31,10 +31,5 @@
     <string name="send_sucess">分享成功！</string>
     <string name="send_failed">分享失败！</string>
     <string name="del_pic">是否删除图片？</string>
-    <string name="popup_menu_button">上传相片</string>
-
-    <!-- add for test -->
-    <string name="popup_menu_search">Search</string>
-    <string name="popup_menu_add">Add</string>
     
 </resources>

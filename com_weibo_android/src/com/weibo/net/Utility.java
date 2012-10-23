@@ -140,9 +140,6 @@ public class Utility {
         }
         request.setHeader("User-Agent", System.getProperties().getProperty("http.agent")
                 + " WeiboAndroidSDK");
-        // Add by deli
-        //request.setHeader("Accept-Encoding","gzip");
-        request.addHeader("Accept-Encoding", "gzip"); 
     }
 
     public static boolean isBundleEmpty(WeiboParameters bundle) {

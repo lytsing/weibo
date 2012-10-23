@@ -7,6 +7,8 @@ This projects aims to provide a small, fast user experience.
 * No annoying ads.
 * High performance.
 
+![Example Image](http://lytsing/images/weibo1.png)  ![Example Image](http://lytsing/images/weibo2.png) 
+
 ### Want to contribute?
 
 GitHub has some great articles on [how to get started with Git and GitHub](http://help.github.com/) and how to [fork a project](http://help.github.com/forking/).

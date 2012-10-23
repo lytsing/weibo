@@ -16,6 +16,7 @@
  */
 package com.weibo.net;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -24,24 +25,20 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,13 +77,10 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.share_mblog_view);
-        
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy); 
 
         Intent in = this.getIntent();
-
+        mPicPath = in.getStringExtra(EXTRA_PIC_URI);
+        mContent = in.getStringExtra(EXTRA_WEIBO_CONTENT);
         mAccessToken = in.getStringExtra(EXTRA_ACCESS_TOKEN);
         mTokenSecret = in.getStringExtra(EXTRA_TOKEN_SECRET);
 
@@ -101,6 +95,8 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
         LinearLayout total = (LinearLayout) this.findViewById(R.id.ll_text_limit_unit);
         total.setOnClickListener(this);
         mTextNum = (TextView) this.findViewById(R.id.tv_text_limit);
+        ImageView picture = (ImageView) this.findViewById(R.id.ivDelPic);
+        picture.setOnClickListener(this);
 
         mEdit = (EditText) this.findViewById(R.id.etEdit);
         mEdit.addTextChangedListener(new TextWatcher() {
@@ -116,7 +112,7 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
                 int len = mText.length();
                 if (len <= WEIBO_MAX_LENGTH) {
                     len = WEIBO_MAX_LENGTH - len;
-                    mTextNum.setTextColor(getResources().getColor(R.color.text_num_gray));
+                    mTextNum.setTextColor(R.color.text_num_gray);
                     if (!mSend.isEnabled())
                         mSend.setEnabled(true);
                 } else {
@@ -129,11 +125,21 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
                 mTextNum.setText(String.valueOf(len));
             }
         });
-
+        mEdit.setText(mContent);
         mPiclayout = (FrameLayout) ShareActivity.this.findViewById(R.id.flPic);
-        
-        mPiclayout.setVisibility(View.VISIBLE);
-        
+        if (TextUtils.isEmpty(this.mPicPath)) {
+            mPiclayout.setVisibility(View.GONE);
+        } else {
+            mPiclayout.setVisibility(View.VISIBLE);
+            File file = new File(mPicPath);
+            if (file.exists()) {
+                Bitmap pic = BitmapFactory.decodeFile(this.mPicPath);
+                ImageView image = (ImageView) this.findViewById(R.id.ivImage);
+                image.setImageBitmap(pic);
+            } else {
+                mPiclayout.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -173,7 +179,16 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
                         }
                     }).setNegativeButton(R.string.cancel, null).create();
             dialog.show();
-        } 
+        } else if (viewId == R.id.ivDelPic) {
+            Dialog dialog = new AlertDialog.Builder(this).setTitle(R.string.attention)
+                    .setMessage(R.string.del_pic)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mPiclayout.setVisibility(View.GONE);
+                        }
+                    }).setNegativeButton(R.string.cancel, null).create();
+            dialog.show();
+        }
     }
 
     private String upload(Weibo weibo, String source, String file, String status, String lon,
@@ -212,59 +227,6 @@ public class ShareActivity extends Activity implements OnClickListener, RequestL
         AsyncWeiboRunner weiboRunner = new AsyncWeiboRunner(weibo);
         weiboRunner.request(this, url, bundle, Utility.HTTPMETHOD_POST, this);
         return rlt;
-    }
-    
-    public void onPopupButtonClick(View button) {
-        PopupMenu popup = new PopupMenu(this, button);
-        popup.getMenuInflater().inflate(R.menu.popup, popup.getMenu());
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                //Toast.makeText(PopupMenu1.this, "Clicked popup menu item " + item.getTitle(),
-                //        Toast.LENGTH_SHORT).show();
-                                
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 2);
-
-                return true;
-            }
-        });
-
-        popup.show();
-    }  
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) { 
-            if(null == data){
-                Toast.makeText(ShareActivity.this, "添加图片失败!",
-                                Toast.LENGTH_SHORT).show();
-                                        
-                return;
-            }
-            Uri uri = data.getData();
-            mPicPath = getRealPathFromURI(uri);
-            Log.d("pic url == ", mPicPath);
-        }  
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-    
- // And to convert the image URI to the direct file system path of the image file
-    public String getRealPathFromURI(Uri contentUri) {
-
-            // can post image
-            String [] proj={MediaStore.Images.Media.DATA};
-            Cursor cursor = managedQuery( contentUri,
-                            proj, // Which columns to return
-                            null,       // WHERE clause; which rows to return (all rows)
-                            null,       // WHERE clause selection arguments (none)
-                            null); // Order-by clause (ascending by name)
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-
-            return cursor.getString(column_index);
     }
 
     @Override
