@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <com.markupartist.android.widget.ActionBar
+            android:id="@+id/actionbar"
+            style="@style/ActionBar" />
+
+        <LinearLayout
+            android:id="@+id/timelist_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="visible" >
+
+            <!-- We have to indicate that the listview is now a PullAndLoadListView -->
+            <com.costum.android.widget.PullAndLoadListView
+                android:id="@+id/msg_list_item"
+                android:listSelector="#fff8f8f8"
+                android:drawSelectorOnTop="false"
+                android:background="#fff8f8f8"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:cacheColorHint="#fff8f8f8"
+                android:dividerHeight="0.0dip"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        layout="@layout/fullscreen_loading_indicator"
+        android:visibility="visible" >
+    </include>
+
+</merge>

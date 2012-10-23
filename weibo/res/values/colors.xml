@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fake_info_text">#ff909090</color>
+    <color name="mblog_top_info">#ffffffff</color>
+
+    <!-- Google+ -->
+    <color name="stream_name_color">#333</color>
+    <color name="stream_link_color">#ff6f8fc7</color>
+    <color name="stream_content_color">#333</color>
+    <color name="stream_reshare_line_color">#ffcccccc</color>
+    <color name="default_stream_image_background">#eee</color>
+</resources>

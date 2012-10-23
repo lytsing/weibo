@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">凌波微步</string>
+    
+    
+    <string name="WidgetProvider_timestamp_today">今天</string>
+    <string name="WidgetProvider_timestamp_yesterday">昨天</string>
+    <string name="WidgetProvider_timestamp_hour_ago">%s 小时前</string>
+    <string name="WidgetProvider_timestamp_hours_ago">%s 小时前</string>
+    <string name="WidgetProvider_timestamp_minutes_ago">%s 分钟前</string>
+    <string name="WidgetProvider_timestamp_just_now">刚刚</string>
+
+
+    <string name="setting">设置</string>
+    <string name="help_and_info">帮助</string>
+    <string name="more">更多</string>
+
+
+    <!-- fullscreen_loading_indicator.xml -->
+    <string name="loading">加载中\u2026</string>
+
+    <string name="settings_general_section_header">General</string>
+    <string name="settings_about_header">About</string>
+    <string name="os_licenses_label">Open source licenses</string>
+    <string name="os_licenses_summary">License details for open source software</string>
+    <string name="settings_build_version">Build version</string>
+
+	<!-- listview.xml -->
+	<string name="mblog_fake_tip">此微博为不实信息。</string>
+	
+	<!-- TimelineActivity.java -->
+	<string name="new_blog_toast">Receive %d New Weibo</string>
+    <string name="no_new_blog_toast">No new weibo.</string>
+
+	<!-- repost.xml -->
+	<string name="add_comment">Add comment </string>
+	<string name="repost">Repost</string>
+	<string name="favorites">Favorites</string>
+	
+
+	<string name="comment_sucess">Comment sucessful!</string>
+
+    <string name="locating">Get location data....</string>
+    <string name="say_something">Say something\u2026</string>
+
+	<!-- StatusDetailActivity.java -->
+	<string name="title_mblog_content">Weibo Content</string>
+
+    <string name="take_photo">Take photo</string>
+    <string name="pick_photo">Choose photo from Gallery</string>
+
+	<!-- status_list_footer.xml -->
+	<string name="network_error_list_footer">No connection</string>
+	<string name="retry">Retry</string>
+
+    <string name="look_largepic">Large Image</string>
+
+</resources>
+

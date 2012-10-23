@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#bf000000"
+    android:padding="0.0dip" >
+
+    <RelativeLayout
+        android:id="@+id/imageLinearLayoutBottom"
+        android:layout_width="fill_parent"
+        android:layout_height="52.0dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/preview_toolbar_background"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/toLargeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5.0dip"
+            android:layout_marginTop="6.0dip"
+            android:background="@drawable/preview_toolbutton"
+            android:text="@string/look_largepic"
+            android:textColor="#ffc3c3c3"
+            android:textSize="12.0dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/imageLinearLayoutBottom" >
+
+        <RelativeLayout
+            android:id="@+id/imageLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="13.329987dip"
+            android:background="@drawable/pic_bg" >
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:id="@+id/ivImageDia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:maxHeight="@dimen/image_dialog_max_height"
+                android:maxWidth="@dimen/image_dialog_max_width"
+                android:scaleType="fitXY" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

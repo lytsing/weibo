@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="@string/settings_about_header">
+		<Preference
+			android:title="@string/os_licenses_label"
+			android:key="os-licenses"
+			android:summary="@string/os_licenses_summary" />
+		<Preference
+			android:title="@string/settings_build_version"
+			android:key="build-version" />
+	</PreferenceCategory>
+</PreferenceScreen>
+

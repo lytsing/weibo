@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/more_menu_item"
+		android:title="@string/more" />
+    
+	<item
+		android:id="@+id/setting_menu_item"
+		android:title="@string/setting" />
+	<item
+		android:id="@+id/help_info_menu_item"
+		android:title="@string/help_and_info" />
+</menu>
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">凌波微步</string>
+    
+    
+    <string name="WidgetProvider_timestamp_today">今天</string>
+    <string name="WidgetProvider_timestamp_yesterday">昨天</string>
+    <string name="WidgetProvider_timestamp_hour_ago">%s 小时前</string>
+    <string name="WidgetProvider_timestamp_hours_ago">%s 小时前</string>
+    <string name="WidgetProvider_timestamp_minutes_ago">%s 分钟前</string>
+    <string name="WidgetProvider_timestamp_just_now">刚刚</string>
+
+
+    <string name="setting">设置</string>
+    <string name="help_and_info">帮助</string>
+    <string name="more">更多</string>
+
+
+    <!-- fullscreen_loading_indicator.xml -->
+    <string name="loading">加载中\u2026</string>
+
+	<string name="settings_general_section_header">常规</string>
+	<string name="settings_about_header">关于</string>
+	<string name="os_licenses_label">开放源代码许可</string>
+	<string name="os_licenses_summary">开放源代码软件的许可详情</string>
+	<string name="settings_build_version">版本号</string>
+	
+	<!-- TimelineActivity.java -->
+	<string name="new_blog_toast">您有%d条更新</string>
+    <string name="no_new_blog_toast">没有新的微博。</string>
+
+	<!-- repost.xml -->
+	<string name="add_comment"> 添加评论</string>
+	<string name="repost"> 转发</string>
+	<string name="favorites">收藏</string>
+	
+	<string name="comment_sucess">评论成功!</string>
+
+	<!-- StatusDetailActivity.java -->
+	<string name="title_mblog_content">微博正文</string>
+
+    <string name="take_photo">"拍照"</string>
+    <string name="pick_photo">"从图库中选择照片"</string>
+
+    <string name="look_largepic">查看原图</string>
+
+</resources>
+

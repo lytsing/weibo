@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widget_height">72.0dip</dimen>
+    <dimen name="widget_write_margin_top">12.0dip</dimen>
+    <dimen name="widget_write_margin_left">20.0dip</dimen>
+    <dimen name="widget_content_margin_top">10.0dip</dimen>
+    <dimen name="widget_content_margin_left">10.0dip</dimen>
+    <dimen name="widget_logo_size">30.0dip</dimen>
+    <dimen name="dialog_updateversion_width">400.0dip</dimen>
+    <dimen name="dialog_updateversion_height">293.0dip</dimen>
+    <dimen name="detail_ad_margin_top">110.0dip</dimen>
+    <dimen name="emotion_view_height">100.0dip</dimen>
+    <dimen name="chat_view_height">130.0dip</dimen>
+</resources>

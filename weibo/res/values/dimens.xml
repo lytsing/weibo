@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="preview_pic_size">70.0px</dimen>
+    <dimen name="content_primary_size">18.0sp</dimen>
+
+    <!-- Google+ -->
+    <dimen name="stream_name_text_size">16sp</dimen>
+    <dimen name="stream_original_author_name_text_size">14sp</dimen>
+    <dimen name="stream_content_text_size">16sp</dimen>
+    <dimen name="stream_feedback_text_size">14sp</dimen>
+    <dimen name="stream_fav_icon_size">14dip</dimen>
+
+    <dimen name="image_dialog_max_width">300.0dip</dimen>
+    <dimen name="image_dialog_max_height">385.0dip</dimen>
+
+</resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="ButtonBarDefaultStyle" parent="@android:style/ButtonBar">
+		<item name="android:paddingLeft">2.0dip</item>
+		<item name="android:paddingTop">4.0dip</item>
+		<item name="android:paddingRight">2.0dip</item>
+	</style>
+	<style name="FinskyBaseDialogTheme" parent="@android:style/Theme.Holo.Light.Dialog">
+		<item name="finskyButtonBarStyle">@style/ButtonBarDefaultStyle</item>
+		<item name="finskyButtonBarButtonStyle">?android:buttonStyle</item>
+	</style>
+
+    <style name="Dialog_Fullscreen">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Dialog_Anim</item>
+    </style>
+    <style name="Dialog_Anim">
+        <item name="android:windowEnterAnimation">@anim/fading_in</item>
+        <item name="android:windowExitAnimation">@anim/fading_out</item>
+    </style>
+
+</resources>
