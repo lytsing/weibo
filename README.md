@@ -7,7 +7,7 @@ This projects aims to provide a small, fast user experience.
 * No annoying ads.
 * High performance.
 
-![Example Image](http://lytsing/images/weibo1.png)  ![Example Image](http://lytsing/images/weibo2.png) 
+![TimeLine Image](http://lytsing.org/images/weibo1.png)  ![Status detail Image](http://lytsing.org/images/weibo2.png) 
 
 ### Want to contribute?
 
