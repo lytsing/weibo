@@ -70,14 +70,14 @@ public class TimelineActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (hasLogin()) {
+        if (hasAccessToken()) {
             initView();
         } else {
             mWeibo.authorize(TimelineActivity.this, new AuthDialogListener());
         }
     }
 
-    private boolean hasLogin() {
+    private boolean hasAccessToken() {
         SharedPreferences prefs = Preferences.get(this);
 
         String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
@@ -345,11 +345,16 @@ public class TimelineActivity extends BaseActivity {
         }
         
         protected void onPostExecute(String result) {
+
+            aq.id(R.id.fullscreen_loading_indicator).gone();
+
             if ("OK".equals(result)) {
                 showContents();
                 setLastSyncTime(Util.getNowLocaleTime());
+            } else if ("expired_token".equals(result)) {
+                displayToast("Error:" + result);
+                mWeibo.authorize(TimelineActivity.this, new AuthDialogListener());
             } else {
-                aq.id(R.id.fullscreen_loading_indicator).gone();
                 displayToast("Error:" + result);
             }
         }
@@ -390,7 +395,6 @@ public class TimelineActivity extends BaseActivity {
     }
 
     private void showContents() {
-        aq.id(R.id.fullscreen_loading_indicator).gone();
         aq.id(R.id.timelist_list).visible();
         
         // FIXME: put it here, else will pop up "Tap to Refresh"

@@ -48,7 +48,7 @@
 			android:text="@string/share_dialog_title"
 			android:layout_centerInParent="true"
 			android:textSize="20sp"
-			android:textColor="#333"
+			android:textColor="#000"
 			android:textStyle="bold"/>
 				
 		<Button
@@ -115,22 +115,27 @@
 			</RelativeLayout>
 			
 			<FrameLayout
-                android:id="@+id/flPic"
-                android:layout_width="250dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center_horizontal"
-                android:background="#00ffffff"
-                android:visibility="visible" >
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:onClick="onPopupButtonClick"
-                    android:text="@string/popup_menu_button" >
-                </Button>
-            </FrameLayout>
-
+				android:id="@+id/flPic"
+				android:layout_width="250dp"
+				android:layout_height="200dp"
+				android:background="#00ffffff"
+				android:visibility="visible"
+				android:layout_gravity="center_horizontal">
+				<ImageView
+					android:id="@+id/ivImage"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:src="@drawable/dota"
+					android:background="@drawable/image_background"
+					android:layout_gravity="center"
+					android:layout_margin="8dp"/>	
+				<ImageView
+					android:id="@+id/ivDelPic"
+					android:layout_width="35dp"
+					android:layout_height="35dp"
+					android:src="@drawable/del_pic"
+					android:layout_gravity="right"/>
+			</FrameLayout>
 		</LinearLayout>
 		
 		<LinearLayout
