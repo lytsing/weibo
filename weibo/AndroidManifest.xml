@@ -70,7 +70,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
         <activity
-            android:name=".ImageViewerActivity"
+            android:name=".ui.ImageViewerActivity"
             android:launchMode="singleTask"
             android:theme="@style/Dialog_Fullscreen" >
             <intent-filter>
@@ -80,7 +80,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ImageZoomActivity"
+            android:name=".ui.ImageZoomActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
     </application>
