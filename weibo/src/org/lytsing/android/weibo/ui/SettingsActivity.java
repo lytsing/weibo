@@ -27,6 +27,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 
+import com.androidquery.util.AQUtility;
+
 public class SettingsActivity extends PreferenceActivity {
 	
 	@Override
@@ -52,8 +54,14 @@ public class SettingsActivity extends PreferenceActivity {
         if ("os-licenses".equals(preference.getKey())) {
             startActivity(WebViewDialog.getIntent(this, R.string.os_licenses_label,
                     "file:///android_asset/licenses.html"));
+        } else if ("clear-cache".equals(preference.getKey())) {
+            image_clear_disk();
         }
         return true;
+    }
+    
+    private void image_clear_disk(){
+        AQUtility.cleanCacheAsync(this, 0, 0);
     }
     
     private void configureAboutSection(PreferenceScreen preferenceScreen) {

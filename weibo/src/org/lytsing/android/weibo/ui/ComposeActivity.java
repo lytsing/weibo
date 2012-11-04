@@ -156,8 +156,6 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 showIMM();
             }
         });
-        
-        aq.id(R.id.ly_loadlocation).visible();
     }
     
     
@@ -297,6 +295,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 mLatitude = "";
                 mLongitude = "";
             } else {
+                aq.id(R.id.ly_loadlocation).visible();
                 location_ajax();
             }
         }

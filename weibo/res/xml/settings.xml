@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
-	<PreferenceCategory android:title="@string/settings_about_header">
-		<Preference
-			android:title="@string/os_licenses_label"
-			android:key="os-licenses"
-			android:summary="@string/os_licenses_summary" />
-		<Preference
-			android:title="@string/settings_build_version"
-			android:key="build-version" />
-	</PreferenceCategory>
+    <PreferenceCategory
+        android:key="category-general"
+        android:title="@string/settings_general_section_header" >
+        <Preference
+            android:key="clear-cache"
+            android:summary="@string/clear_cache_summary"
+            android:title="@string/clear_cache_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_about_header" >
+        <Preference
+            android:key="os-licenses"
+            android:summary="@string/os_licenses_summary"
+            android:title="@string/os_licenses_label" />
+        <Preference
+            android:key="build-version"
+            android:title="@string/settings_build_version" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
-

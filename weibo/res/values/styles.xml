@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<style name="ButtonBarDefaultStyle" parent="@android:style/ButtonBar">
-		<item name="android:paddingLeft">2.0dip</item>
-		<item name="android:paddingTop">4.0dip</item>
-		<item name="android:paddingRight">2.0dip</item>
-	</style>
-	<style name="FinskyBaseDialogTheme" parent="@android:style/Theme.Holo.Light.Dialog">
-		<item name="finskyButtonBarStyle">@style/ButtonBarDefaultStyle</item>
-		<item name="finskyButtonBarButtonStyle">?android:buttonStyle</item>
-	</style>
+    <style name="ButtonBarDefaultStyle" parent="@android:style/ButtonBar">
+        <item name="android:paddingLeft">2.0dip</item>
+        <item name="android:paddingTop">4.0dip</item>
+        <item name="android:paddingRight">2.0dip</item>
+    </style>
+    <style name="FinskyBaseDialogTheme" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="finskyButtonBarStyle">@style/ButtonBarDefaultStyle</item>
+        <item name="finskyButtonBarButtonStyle">?android:buttonStyle</item>
+    </style>
+
+    <style name="TransparentTitleBackground">
+        <item name="android:background">@null</item>
+    </style>
+    <style name="SettingsTheme" parent="@android:style/Theme">
+        <item name="android:windowTitleSize">@dimen/action_bar_height</item>
+        <item name="android:windowTitleBackgroundStyle">@style/TransparentTitleBackground</item>
+    </style>
 
     <style name="Dialog_Fullscreen">
         <item name="android:windowBackground">@android:color/transparent</item>

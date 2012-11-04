@@ -20,6 +20,8 @@
     <string name="loading">加载中\u2026</string>
 
     <string name="settings_general_section_header">General</string>
+    <string name="clear_cache_title">Glear cache</string>
+    <string name="clear_cache_summary">Glear cache temp file</string>
     <string name="settings_about_header">About</string>
     <string name="os_licenses_label">Open source licenses</string>
     <string name="os_licenses_summary">License details for open source software</string>
