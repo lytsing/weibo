@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lytsing.android.weibo;
+package org.lytsing.android.weibo.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +22,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.androidquery.AQuery;
+
+import org.lytsing.android.weibo.Consts;
+import org.lytsing.android.weibo.R;
 
 public class ImageViewerActivity extends Activity {
 

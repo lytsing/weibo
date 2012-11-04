@@ -1,40 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical" >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-	<com.markupartist.android.widget.ActionBar
-		android:id="@+id/actionbar"
-		style="@style/ActionBar" />
+    <LinearLayout
+        android:id="@+id/detail_info"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-	<include
-	    android:id="@+id/list_item_stream_detail"
-	    android:layout_marginTop="4.0dip"
-	    android:layout_marginLeft="4.0dip"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		layout="@layout/list_item_stream_activity" />
+        <com.markupartist.android.widget.ActionBar
+            android:id="@+id/actionbar"
+            style="@style/ActionBar" />
 
-	<View
-		android:id="@+id/divider"
-		android:layout_width="fill_parent"
-		android:layout_height="1.0dip"
-		android:background="@android:drawable/divider_horizontal_dark" />
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            >
+        </ListView>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/info_buttons_bar"
+        android:paddingLeft="2.0dip"
+        android:paddingTop="4.0dip"
+        android:paddingRight="2.0dip"
+        android:layout_width="fill_parent"
+        android:layout_height="52.0dip"
+        >
+        
+    </LinearLayout>
 
-	<LinearLayout
-		android:id="@+id/comment"
-		android:layout_width="fill_parent"
-		android:layout_height="0dip"
-		android:layout_weight="1.0" >
-
-		<ListView
-			android:id="@+id/list_view"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent" >
-		</ListView>
-	</LinearLayout>
-
-</LinearLayout>
-
-
+</FrameLayout>

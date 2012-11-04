@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.lytsing.android.weibo;
-
-import com.androidquery.AQuery;
+package org.lytsing.android.weibo.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.androidquery.AQuery;
+
+import org.lytsing.android.weibo.R;
 
 public class ImageZoomActivity extends Activity {
     

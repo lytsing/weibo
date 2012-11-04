@@ -106,14 +106,10 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         initView();
         
         initGridView();
-        
-        location_ajax();
-
     }
     
     public void initView() {
         this.setContentView(R.layout.newblog2);
-        
         
         aq = new AQuery(this);
         
@@ -303,7 +299,6 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             } else {
                 location_ajax();
             }
-            
         }
     }
     

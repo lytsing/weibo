@@ -48,6 +48,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.androidquery.AQuery;
+import com.commonsware.cwac.merge.MergeAdapter;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.AbstractAction;
 import com.markupartist.android.widget.ActionBar.IntentAction;
@@ -63,8 +64,8 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     private Statuses mStatus;
 
     private ActionBar mActionBar;
-        
-    private AQuery aq;
+            
+    private MergeAdapter mAdapter = null;
     
     private ListView mListView;
     
@@ -79,8 +80,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy); 
-
-        aq = new AQuery(this);
         
         mActionBar = (ActionBar) findViewById(R.id.actionbar);
 
@@ -92,7 +91,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         
         mStatus = (Statuses) i.getSerializableExtra(Consts.STATUSES_KEY);
         
-        initData();
+        initView();
 
         new GetCommentTask().execute();
     }
@@ -132,11 +131,19 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     }
 
 
-    private void initData() {
+    private void initView() {
         
         mCommentsAdapter = new CommentsAdapter(this);
         mListView = (ListView) findViewById(R.id.list_view);
-        mListView.setAdapter(mCommentsAdapter);
+        
+        View view = Util.inflateView(R.layout.list_item_stream_activity, this, null);
+        
+        mAdapter = new MergeAdapter();
+        mAdapter.addView(view);
+        mAdapter.addAdapter(mCommentsAdapter);
+        mListView.setAdapter(mAdapter);
+        
+        AQuery aq = new AQuery(view);
                 
         aq.id(R.id.stream_user_name).text(mStatus.user.name);
         
@@ -171,7 +178,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         if (mStatus.comments_count > 0) {
             aq.id(R.id.tweet_comment_pic).visible();
             aq.id(R.id.tweet_comment).text(String.valueOf(mStatus.comments_count)).visible();
-        }
+        }        
     }
 
     private String loadCommentData() {
