@@ -63,7 +63,7 @@ public class Token {
 
     public void setExpiresIn(String expiresIn) {
         if (expiresIn != null && !expiresIn.equals("0")) {
-            setExpiresIn(System.currentTimeMillis() + Integer.parseInt(expiresIn) * 1000);
+            setExpiresIn(System.currentTimeMillis() + Long.parseLong(expiresIn) * 1000);
         }
     }
 

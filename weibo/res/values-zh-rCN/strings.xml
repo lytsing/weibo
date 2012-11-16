@@ -32,6 +32,9 @@
     <string name="favorites">收藏</string>
     <string name="comment_sucess">评论成功!</string>
 
+    <string name="locating">获取位置数据....</string>
+    <string name="say_something">说点儿什么吧……</string>
+
     <!-- StatusDetailActivity.java -->
     <string name="title_mblog_content">微博正文</string>
     <string name="take_photo">"拍照"</string>
