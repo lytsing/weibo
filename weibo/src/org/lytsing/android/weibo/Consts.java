@@ -17,8 +17,8 @@
 package org.lytsing.android.weibo;
 
 public class Consts {
-	public static final String ACTION_SHOW_IMAGE_VIWVER = "org.lytsing.android.weibo.action.showimagevieweractivity";
-	
+    public static final String ACTION_SHOW_IMAGE_VIWVER = "org.lytsing.android.weibo.action.showimagevieweractivity";
+    
     public static final String STATUSES_KEY = "statuses";
 
     public static final String MIDDLE_IMAGE_URL_KEY = "middle_image_url";

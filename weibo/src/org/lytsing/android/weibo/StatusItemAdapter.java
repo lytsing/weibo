@@ -184,7 +184,7 @@ public class StatusItemAdapter extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent("org.lytsing.android.weibo.action.showimagevieweractivity");
+                    Intent intent = new Intent(Consts.ACTION_SHOW_IMAGE_VIWVER);
                     intent.putExtra(Consts.MIDDLE_IMAGE_URL_KEY, middleImageUrl);
                     intent.putExtra(Consts.ORIGINAL_PIC_URL_KEY, originalPicUrl);
                     

@@ -282,8 +282,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         return "";
     }
     
-    
-    
     private String addFavorites(Weibo weibo, String id)
             throws MalformedURLException, IOException, WeiboException {
         String url = Weibo.SERVER + "favorites/create.json";
@@ -317,18 +315,23 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                 doRePost();
                 break;
             case R.id.favorites_menu_item:
-                try {
-                    addFavorites(mWeibo, mStatus.idstr);
-                } catch (MalformedURLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (WeiboException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            addFavorites(mWeibo, mStatus.idstr);
+                        } catch (MalformedURLException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (WeiboException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
                 break;
             default:
                 break;
@@ -350,23 +353,28 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                     int whichButton) {
-                                String comment = commentText.getText().toString();
+                                final String comment = commentText.getText().toString();
                                 if (comment.trim().length() > 0) {
-                                    try {
-                                        addComment(mWeibo, mStatus.idstr, comment);
-                                    } catch (MalformedURLException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    } catch (WeiboException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    }
-                                }
+                                    new Thread(new Runnable(){
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                addComment(mWeibo, mStatus.idstr, comment);
+                                            } catch (MalformedURLException e) {
+                                                // TODO Auto-generated catch block
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                // TODO Auto-generated catch block
+                                                e.printStackTrace();
+                                            } catch (WeiboException e) {
+                                                // TODO Auto-generated catch block
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                        
+                                    }).start();
 
-                                /* User clicked OK so do some stuff */
+                                }
                             }
                         })
                 .setNegativeButton(android.R.string.cancel,
@@ -392,21 +400,32 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                     int whichButton) {
-                                String comment = commentText.getText().toString(); // TODO: neet to URLencode
-                                int is_comment = (comment.trim().length() > 0 ? 1 : 0);
-                                    try {
-                                        rePost(mWeibo, mStatus.idstr, comment, is_comment);
-                                    } catch (MalformedURLException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    } catch (WeiboException e) {
-                                        // TODO Auto-generated catch block
-                                        e.printStackTrace();
+                                final String comment = commentText.getText().toString(); // TODO: neet to URLencode
+                                final int is_comment = (comment.trim().length() > 0 ? 1 : 0);
+                                
+                                new Thread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            rePost(mWeibo, mStatus.idstr, comment, is_comment);
+                                        } catch (MalformedURLException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        } catch (WeiboException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+
+                                        }
                                     }
-                                }
+
+                                }).start();
+
+                            }
+
                         })
                 .setNegativeButton(android.R.string.cancel,
                         new DialogInterface.OnClickListener() {
