@@ -70,6 +70,8 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     private ListView mListView;
     
     private CommentsAdapter mCommentsAdapter;
+    
+    private AQuery aq = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,38 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
             mActionBar.setProgressBarVisibility(View.GONE);
         }
     }
+    
+    private class AddCommentTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String content = params[0];
+            
+            String error = "OK";
+            
+            try {
+                addComment(mWeibo, mStatus.idstr, content);
+            } catch (MalformedURLException e) {
+                error = e.getMessage();
+            } catch (IOException e) {
+                error = e.getMessage();
+            } catch (WeiboException e) {
+                error = e.getMessage();
+            }
+
+            return error;
+        }
+        
+        protected void onPostExecute(String result) {
+            if (!"OK".equals(result)) {
+                displayToast("Error:" + result);
+            }
+            
+            displayToast(R.string.comment_sucess);
+            
+            aq.id(R.id.embedded_text_editor).getEditText().setText("");
+        }
+    }
 
 
     private void initView() {
@@ -143,7 +177,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         mAdapter.addAdapter(mCommentsAdapter);
         mListView.setAdapter(mAdapter);
         
-        AQuery aq = new AQuery(view);
+        aq = new AQuery(view);
                 
         aq.id(R.id.stream_user_name).text(mStatus.user.name);
         
@@ -178,7 +212,19 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         if (mStatus.comments_count > 0) {
             aq.id(R.id.tweet_comment_pic).visible();
             aq.id(R.id.tweet_comment).text(String.valueOf(mStatus.comments_count)).visible();
-        }        
+        }
+                
+        aq = new AQuery(this);
+        aq.id(R.id.send_button_comment).clicked(this, "buttonClickedQuickPost");
+    }
+    
+    public void buttonClickedQuickPost(View button) {
+        
+        final String content = aq.id(R.id.embedded_text_editor).getText().toString();
+        
+        if (content != null && content.length() > 0) {
+            new AddCommentTask().execute(content);
+        }
     }
 
     private String loadCommentData() {
@@ -355,7 +401,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                                     int whichButton) {
                                 final String comment = commentText.getText().toString();
                                 if (comment.trim().length() > 0) {
-                                    new Thread(new Runnable(){
+                                    new Thread(new Runnable() {
                                         @Override
                                         public void run() {
                                             try {

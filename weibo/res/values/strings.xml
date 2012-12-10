@@ -49,7 +49,9 @@
     <string name="title_mblog_content">Weibo Content</string>
 
     <string name="take_photo">Take photo</string>
-    <string name="pick_photo">Choose photo from Gallery</string>
+    <string name="pick_photo">Choose photo from Gallery</string> 
+    <string name="comment">Comment</string>
+    <string name="type_to_compose_text_enter_to_send">Quick comment</string>
 
     <!-- status_list_footer.xml -->
     <string name="network_error_list_footer">No connection</string>

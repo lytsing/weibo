@@ -14,5 +14,7 @@
     <dimen name="image_dialog_max_height">385.0dip</dimen>
 
     <dimen name="action_bar_height">41.0dip</dimen>
+    <dimen name="input_text_height">18sp</dimen>
+    
 
 </resources>

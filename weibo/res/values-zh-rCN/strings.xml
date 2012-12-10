@@ -40,5 +40,7 @@
     <string name="take_photo">"拍照"</string>
     <string name="pick_photo">"从图库中选择照片"</string>
     <string name="look_largepic">查看原图</string>
+    <string name="comment">评论</string>
+    <string name="type_to_compose_text_enter_to_send">快速评论</string>
 
 </resources>
