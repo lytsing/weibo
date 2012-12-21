@@ -15,3 +15,6 @@ cd -
 android update project -p . --name Weibo -t android-16
 ant debug
 
+# Install 
+adb install -r bin/Weibo-debug.apk 
+

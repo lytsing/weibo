@@ -210,6 +210,7 @@ public class TimelineActivity extends BaseActivity {
             
             if ("OK".equals(result)) {
                 mActionBar.setProgressBarVisibility(View.GONE);
+                mAdapter.notifyDataSetChanged();
                 // Call onRefreshComplete when the list has been refreshed.
                 mListView.onRefreshComplete();
                 mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
@@ -350,6 +351,7 @@ public class TimelineActivity extends BaseActivity {
 
             if ("OK".equals(result)) {
                 showContents();
+                mAdapter.notifyDataSetChanged();
                 setLastSyncTime(Util.getNowLocaleTime());
             } else if ("expired_token".equals(result)) {
                 displayToast("Error:" + result);
@@ -381,6 +383,7 @@ public class TimelineActivity extends BaseActivity {
                 displayToast("Error:" + result);
             }
 
+            mAdapter.notifyDataSetChanged();
             // Call onLoadMoreComplete when the LoadMore task, has finished
             mListView.onLoadMoreComplete();
 

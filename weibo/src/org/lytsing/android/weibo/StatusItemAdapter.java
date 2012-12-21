@@ -39,18 +39,18 @@ import android.widget.TextView;
 import com.androidquery.AQuery;
 import com.weibo.net.WeiboException;
 
+/**
+ * Statuses item adapter
+ */
 public class StatusItemAdapter extends BaseAdapter {
     
     private Context mContext;
 
     private List<Statuses> mStatuses;
     
-    protected Handler mHandler;
-
     public StatusItemAdapter(Context context) {
         mContext = context;
         mStatuses = new ArrayList<Statuses>();
-        mHandler = new Handler();
     }
 
     @Override
@@ -242,22 +242,10 @@ public class StatusItemAdapter extends BaseAdapter {
     
     public void addStatuses(Statuses status) {
         mStatuses.add(status);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                notifyDataSetChanged();
-            }
-        });
     }
     
     public void addNewestStatuses(List<Statuses> statuses) {
         mStatuses.addAll(0, statuses);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                notifyDataSetChanged();
-            }
-        });
     }
 }
 
