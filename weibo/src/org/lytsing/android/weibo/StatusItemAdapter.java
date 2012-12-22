@@ -16,19 +16,9 @@
 
 package org.lytsing.android.weibo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.lytsing.android.weibo.model.Statuses;
-import org.lytsing.android.weibo.util.DateTimeUtils;
-import org.lytsing.android.weibo.util.Log;
-import org.lytsing.android.weibo.util.Util;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +28,15 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.weibo.net.WeiboException;
+
+import org.lytsing.android.weibo.model.Statuses;
+import org.lytsing.android.weibo.util.DateTimeUtils;
+import org.lytsing.android.weibo.util.Log;
+import org.lytsing.android.weibo.util.Util;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Statuses item adapter
@@ -199,8 +198,8 @@ public class StatusItemAdapter extends BaseAdapter {
         if (aq.shouldDelay(position, convertView, parent, statuses.user.profile_image_url)) {
             aq.id(holder.userImage).image(placeholder, 1.0f);
         } else {
-            aq.id(holder.userImage).image(statuses.user.profile_image_url, true, true, 0, 0, placeholder, 0,
-                    1.0f);
+            aq.id(holder.userImage).image(statuses.user.profile_image_url, true, true, 0, 0,
+                    placeholder, AQuery.FADE_IN);
         }
         
         if (statuses.retweeted_status != null) {

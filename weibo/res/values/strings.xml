@@ -18,6 +18,7 @@
 
     <!-- fullscreen_loading_indicator.xml -->
     <string name="loading">Loading\u2026</string>
+    <string name="network_retry">Retry</string>
 
     <string name="settings_general_section_header">General</string>
     <string name="clear_cache_title">Glear cache</string>

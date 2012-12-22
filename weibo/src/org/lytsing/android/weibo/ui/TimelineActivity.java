@@ -16,19 +16,6 @@
 
 package org.lytsing.android.weibo.ui;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
-import org.lytsing.android.weibo.Configuration;
-import org.lytsing.android.weibo.Consts;
-import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.StatusItemAdapter;
-import org.lytsing.android.weibo.model.Statuses;
-import org.lytsing.android.weibo.model.WeiboObject;
-import org.lytsing.android.weibo.util.Log;
-import org.lytsing.android.weibo.util.Preferences;
-import org.lytsing.android.weibo.util.Util;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -52,11 +40,26 @@ import com.weibo.net.WeiboDialogListener;
 import com.weibo.net.WeiboException;
 import com.weibo.net.WeiboParameters;
 
+import org.lytsing.android.weibo.Configuration;
+import org.lytsing.android.weibo.Consts;
+import org.lytsing.android.weibo.R;
+import org.lytsing.android.weibo.StatusItemAdapter;
+import org.lytsing.android.weibo.model.Statuses;
+import org.lytsing.android.weibo.model.WeiboObject;
+import org.lytsing.android.weibo.util.Log;
+import org.lytsing.android.weibo.util.Preferences;
+import org.lytsing.android.weibo.util.Util;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 public class TimelineActivity extends BaseActivity {
 
     private StatusItemAdapter mAdapter = null;
 
     private PullAndLoadListView mListView = null;
+    
+    private GetStatusTask mGetStatusTask = null;
     
     protected long mSinceId = 0;
 
@@ -156,7 +159,8 @@ public class TimelineActivity extends BaseActivity {
         
         mAdapter = new StatusItemAdapter(this);
  
-        new GetStatusTask().execute();
+        mGetStatusTask = new GetStatusTask();
+        mGetStatusTask.execute();
                          
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -181,6 +185,14 @@ public class TimelineActivity extends BaseActivity {
                 }
             }
         });
+    }
+    
+    private void showLoadingIndicator() {
+        aq.id(R.id.placeholder_loading).visible();
+    }
+    
+    private void hideLoadingIndicator() {    
+        aq.id(R.id.placeholder_loading).gone();
     }
     
     private String getLastSyncTime(String pre) {
@@ -336,6 +348,11 @@ public class TimelineActivity extends BaseActivity {
     private class GetStatusTask extends AsyncTask<Void, Void, String> {
         
         @Override
+        protected void onPreExecute () {
+            showLoadingIndicator();
+        }
+        
+        @Override
         protected String doInBackground(Void... params) {
             if (isCancelled()) {
                 return null;
@@ -345,9 +362,10 @@ public class TimelineActivity extends BaseActivity {
             return error;
         }
         
+        @Override
         protected void onPostExecute(String result) {
 
-            aq.id(R.id.fullscreen_loading_indicator).gone();
+            hideLoadingIndicator();
 
             if ("OK".equals(result)) {
                 showContents();
@@ -357,7 +375,25 @@ public class TimelineActivity extends BaseActivity {
                 displayToast("Error:" + result);
                 mWeibo.authorize(TimelineActivity.this, new AuthDialogListener());
             } else {
-                displayToast("Error:" + result);
+                aq.id(R.id.placeholder_error).visible();
+                aq.id(R.id.error_msg).text(result);
+                aq.id(R.id.retry_button).clicked(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // check if any previous task is running, if so then cancel it
+                        // it can be cancelled if it is not in FINISHED state
+                        if (mGetStatusTask != null
+                                && mGetStatusTask.getStatus() != AsyncTask.Status.FINISHED) {
+                            mGetStatusTask.cancel(true);
+                        } 
+
+                        // every time create new object, as AsynTask can be executed only once 
+                        // (an exception will be thrown if a second execution is attempted.)
+                        mGetStatusTask = new GetStatusTask();
+                        mGetStatusTask.execute();
+                    }
+                });
             }
         }
     }

@@ -16,5 +16,7 @@
     <dimen name="action_bar_height">41.0dip</dimen>
     <dimen name="input_text_height">18sp</dimen>
     
+    <dimen name="page_loading_indicator_left_padding">6.0dip</dimen>
+    
 
 </resources>

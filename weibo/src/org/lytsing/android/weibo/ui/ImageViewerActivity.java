@@ -45,7 +45,7 @@ public class ImageViewerActivity extends Activity {
         mOriginalPicUrl = getIntent().getStringExtra(Consts.ORIGINAL_PIC_URL_KEY);
 
         aq.id(R.id.ivImageDia).progress(R.id.progress)
-            .image(mMiddleImageUrl, false, false);
+            .image(mMiddleImageUrl, false, false, 0, 0, null, AQuery.FADE_IN_NETWORK, 0);
 
         aq.id(R.id.toLargeImage).clicked(this, "buttonClicked");
 

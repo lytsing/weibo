@@ -30,12 +30,15 @@
                 android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
+    
+    <include
+        android:id="@+id/placeholder_loading"
+        layout="@layout/page_loading_indicator"
+        android:visibility="gone" />
 
     <include
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        layout="@layout/fullscreen_loading_indicator"
-        android:visibility="visible" >
-    </include>
+        android:id="@+id/placeholder_error"
+        layout="@layout/page_error_indicator"
+        android:visibility="gone" />
 
 </merge>
