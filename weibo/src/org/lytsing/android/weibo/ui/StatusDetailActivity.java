@@ -16,26 +16,10 @@
 
 package org.lytsing.android.weibo.ui;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Date;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.lytsing.android.weibo.CommentsAdapter;
-import org.lytsing.android.weibo.Consts;
-import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.model.Comment;
-import org.lytsing.android.weibo.model.Statuses;
-import org.lytsing.android.weibo.util.Log;
-import org.lytsing.android.weibo.util.Util;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.format.DateFormat;
@@ -52,50 +36,66 @@ import com.commonsware.cwac.merge.MergeAdapter;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.AbstractAction;
 import com.markupartist.android.widget.ActionBar.IntentAction;
-import com.weibo.net.AsyncWeiboRunner;
-import com.weibo.net.AsyncWeiboRunner.RequestListener;
-import com.weibo.net.Utility;
-import com.weibo.net.Weibo;
-import com.weibo.net.WeiboException;
-import com.weibo.net.WeiboParameters;
+import com.weibo.sdk.android.WeiboException;
+import com.weibo.sdk.android.api.CommentsAPI;
+import com.weibo.sdk.android.api.FavoritesAPI;
+import com.weibo.sdk.android.api.WeiboAPI;
+import com.weibo.sdk.android.net.RequestListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.lytsing.android.weibo.CommentsAdapter;
+import org.lytsing.android.weibo.Consts;
+import org.lytsing.android.weibo.R;
+import org.lytsing.android.weibo.model.Comment;
+import org.lytsing.android.weibo.model.Statuses;
+import org.lytsing.android.weibo.util.Log;
+import org.lytsing.android.weibo.util.Util;
+
+import java.io.IOException;
+import java.util.Date;
 
 public class StatusDetailActivity extends BaseActivity implements RequestListener {
 
     private Statuses mStatus;
 
     private ActionBar mActionBar;
-            
+
     private MergeAdapter mAdapter = null;
-    
+
     private ListView mListView;
-    
+
     private CommentsAdapter mCommentsAdapter;
-    
+
     private AQuery aq = null;
+
+    private CommentsAPI api = new CommentsAPI(TimelineActivity.accessToken);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail);
-        
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
-        StrictMode.setThreadPolicy(policy); 
-        
+        StrictMode.setThreadPolicy(policy);
+
         mActionBar = (ActionBar) findViewById(R.id.actionbar);
 
-        mActionBar.setHomeAction(new IntentAction(this, TimelineActivity.createIntent(this), R.drawable.ic_title_home_default));
+        mActionBar.setHomeAction(new IntentAction(this, TimelineActivity.createIntent(this),
+                R.drawable.ic_title_home_default));
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.addAction(new RefreshAction());
 
         Intent i = this.getIntent();
-        
+
         mStatus = (Statuses) i.getSerializableExtra(Consts.STATUSES_KEY);
-        
+
         initView();
 
-        new GetCommentTask().execute();
+        loadCommentData();
     }
 
     private class RefreshAction extends AbstractAction {
@@ -110,85 +110,60 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         }
     }
 
-    private class GetCommentTask extends AsyncTask<Void, Void, String> {
+    private void addComment(String content, boolean comment_ori) {
+        api.create(content, mStatus.id, comment_ori, new RequestListener() {
 
-        protected void onPreExecute() {
-            mActionBar.setProgressBarVisibility(View.VISIBLE);
-        }
+            @Override
+            public void onComplete(String result) {
+                runOnUiThread(new Runnable() {
 
-        @Override
-        protected String doInBackground(Void... params) {
-            String error = loadCommentData();
-            
-            return error;
-        }
-
-        protected void onPostExecute(String result) {
-            if (!"OK".equals(result)) {
-                displayToast("Error:" + result);
+                    @Override
+                    public void run() {
+                        displayToast(R.string.comment_sucess);
+                        aq.id(R.id.embedded_text_editor).getEditText().setText("");
+                    }
+                });
             }
-            
-            mActionBar.setProgressBarVisibility(View.GONE);
-        }
+
+            @Override
+            public void onError(WeiboException arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onIOException(IOException arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
     }
-    
-    private class AddCommentTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            String content = params[0];
-            
-            String error = "OK";
-            
-            try {
-                addComment(mWeibo, mStatus.idstr, content);
-            } catch (MalformedURLException e) {
-                error = e.getMessage();
-            } catch (IOException e) {
-                error = e.getMessage();
-            } catch (WeiboException e) {
-                error = e.getMessage();
-            }
-
-            return error;
-        }
-        
-        protected void onPostExecute(String result) {
-            if (!"OK".equals(result)) {
-                displayToast("Error:" + result);
-            }
-            
-            displayToast(R.string.comment_sucess);
-            
-            aq.id(R.id.embedded_text_editor).getEditText().setText("");
-        }
-    }
-
 
     private void initView() {
-        
+
         mCommentsAdapter = new CommentsAdapter(this);
         mListView = (ListView) findViewById(R.id.list_view);
-        
+
         View view = Util.inflateView(R.layout.list_item_stream_activity, this, null);
-        
+
         mAdapter = new MergeAdapter();
         mAdapter.addView(view);
         mAdapter.addAdapter(mCommentsAdapter);
         mListView.setAdapter(mAdapter);
-        
+
         aq = new AQuery(view);
-                
+
         aq.id(R.id.stream_user_name).text(mStatus.user.name);
-        
+
         aq.id(R.id.stream_content).text(mStatus.text).visible();
-        
+
         aq.id(R.id.stream_user_image).image(mStatus.user.profile_image_url);
-        
+
         if (mStatus.bmiddle_pic != null) {
             aq.id(R.id.stream_media_1_1).image(mStatus.bmiddle_pic);
         }
-        
+
         if (mStatus.retweeted_status != null) {
             aq.id(R.id.stream_reshare_line).visible();
             String retweetedText = "";
@@ -196,151 +171,128 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                 retweetedText = "@" + mStatus.retweeted_status.user.name + ":";
             }
             retweetedText += mStatus.retweeted_status.text;
-            aq.id(R.id.stream_detail_text).text(retweetedText).textColor(Color.rgb(51, 181, 229)).visible();
+            aq.id(R.id.stream_detail_text).text(retweetedText).textColor(Color.rgb(51, 181, 229))
+                    .visible();
         }
-        
+
         // The last line
         /*
-        aq.id(R.id.tweet_form).text("来自:" + Html.fromHtml(mStatus.source));
-        */
-        
+         * aq.id(R.id.tweet_form).text("来自:" + Html.fromHtml(mStatus.source));
+         */
+
         if (mStatus.reposts_count > 0) {
             aq.id(R.id.tweet_redirect_pic).visible();
             aq.id(R.id.tweet_redirect).text(String.valueOf(mStatus.reposts_count)).visible();
         }
-        
+
         if (mStatus.comments_count > 0) {
             aq.id(R.id.tweet_comment_pic).visible();
             aq.id(R.id.tweet_comment).text(String.valueOf(mStatus.comments_count)).visible();
         }
-                
+
         aq = new AQuery(this);
         aq.id(R.id.send_button_comment).clicked(this, "buttonClickedQuickPost");
     }
-    
+
     public void buttonClickedQuickPost(View button) {
-        
+
         final String content = aq.id(R.id.embedded_text_editor).getText().toString();
-        
+
         if (content != null && content.length() > 0) {
-            new AddCommentTask().execute(content);
+            addComment(content, false);
         }
     }
 
-    private String loadCommentData() {
-        String error = "OK";
-        String string = null;
-        try {
-            string = getComment(mWeibo, mStatus.idstr);
-            //Log.d(string);
-        } catch (MalformedURLException e) {
-            error = e.getMessage();
-            Log.e("MalformedURLException", e);
-        } catch (IOException e) {
-            error = e.getMessage();
-            Log.e("IOException", e);
-        } catch (WeiboException e) {
-            error = e.getMessage();
-            // BUGS: javax.net.ssl.SSLException: Connection closed by peer
-            Log.e("WeiboException:" + e.getStatusCode(), e);
-        }
-        
-        if (!"OK".equals(error)) return error;
+    private void loadCommentData() {
+        mActionBar.setProgressBarVisibility(View.VISIBLE);
 
-        try {
-            JSONObject data = new JSONObject(string);
-            if (data != null) {
-                JSONArray c = data.getJSONArray("comments");
+        api.show(mStatus.id, 0, 0, 50, 1, WeiboAPI.AUTHOR_FILTER.ALL,
+                new RequestListener() {
 
-                for (int i = 0; i < c.length(); i++) {
-                    JSONObject d = c.getJSONObject(i);
-                    String commentBody = d.getString("text");
-                    String createdAt = d.getString("created_at");
-                    Date date = Util.parseDate(createdAt);
-                    Comment comment = new Comment();
-                    comment.setBody(commentBody);
-                    comment.setCreationTime(DateFormat.getDateFormat(getApplicationContext()).format(date));
-                    
-                    // Just extract the username, it's enough.
-                    JSONObject u = d.getJSONObject("user");
-                    String author = u.getString("name");
-                    comment.setAuthor(author);
-                    
-                    mCommentsAdapter.addComment(comment);
-                }
+                    @Override
+                    public void onComplete(String result) {
+                        try {
+                            JSONObject data = new JSONObject(result);
+                            if (data != null) {
+                                JSONArray c = data.getJSONArray("comments");
+
+                                for (int i = 0; i < c.length(); i++) {
+                                    JSONObject d = c.getJSONObject(i);
+                                    String commentBody = d.getString("text");
+                                    String createdAt = d.getString("created_at");
+                                    Date date = Util.parseDate(createdAt);
+                                    Comment comment = new Comment();
+                                    comment.setBody(commentBody);
+                                    comment.setCreationTime(DateFormat.getDateFormat(
+                                            getApplicationContext()).format(date));
+
+                                    // Just extract the username, it's enough.
+                                    JSONObject u = d.getJSONObject("user");
+                                    String author = u.getString("name");
+                                    comment.setAuthor(author);
+
+                                    mCommentsAdapter.addComment(comment);
+                                }
+
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        mActionBar.setProgressBarVisibility(View.GONE);
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            Log.e("JSONException", e);
+                        } catch (WeiboException e) {
+                            Log.e("WeiboException", e);
+                        }
+                        // TODO Auto-generated method stub
+
+                    }
+
+                    @Override
+                    public void onError(WeiboException arg0) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                    @Override
+                    public void onIOException(IOException arg0) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                });
+    }
+
+    private void addFavorites(long id) {
+
+        FavoritesAPI api = new FavoritesAPI(TimelineActivity.accessToken);
+        api.create(id, new RequestListener() {
+
+            @Override
+            public void onComplete(String arg0) {
+                // TODO Auto-generated method stub
+
             }
-        } catch (JSONException e) {
-            error = e.getMessage();
-            Log.e("JSONException", e);
-        } catch (WeiboException e) {
-            error = e.getMessage();
-            Log.e("WeiboException", e);
-        }
-        
-        return error;
+
+            @Override
+            public void onError(WeiboException arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onIOException(IOException arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
+
     }
 
-    private String getComment(Weibo weibo, String id) throws MalformedURLException,
-            IOException, WeiboException {
-        String url = Weibo.SERVER + "comments/show.json";
-        WeiboParameters bundle = new WeiboParameters();
-        bundle.add("source", Weibo.getAppKey());
-        bundle.add("id", id);
-        String result = weibo.request(this, url, bundle, Utility.HTTPMETHOD_GET, weibo.getAccessToken());
-        return result;
-    }
-
-    private String addComment(Weibo weibo, String id, String comment)
-            throws MalformedURLException, IOException, WeiboException {
-        String url = Weibo.SERVER + "comments/create.json";
-        WeiboParameters bundle = new WeiboParameters();
-        bundle.add("source", Weibo.getAppKey());
-        bundle.add("id", id);
-        bundle.add("comment", comment);
-
-        AsyncWeiboRunner weiboRunner = new AsyncWeiboRunner(weibo);
-        weiboRunner.request(this, url, bundle, Utility.HTTPMETHOD_POST, this);
-
-        return "";
-    }
-    
-    private String shortUrlExpand(Weibo weibo, String url_short) throws WeiboException {
-        String url = Weibo.SERVER + "short_url/expand.json";
-        WeiboParameters bundle = new WeiboParameters();
-        bundle.add("source", Weibo.getAppKey());
-        bundle.add("url_short", url_short);
-        String result = weibo.request(this, url, bundle, Utility.HTTPMETHOD_GET, weibo.getAccessToken());
-        return result;
-    }
-     
-    private String rePost(Weibo weibo, String id, String comment, int is_comment)
-            throws MalformedURLException, IOException, WeiboException {
-        String url = Weibo.SERVER + "statuses/repost.json";
-        WeiboParameters bundle = new WeiboParameters();
-        bundle.add("source", Weibo.getAppKey());
-        bundle.add("id", id);
-        bundle.add("status", comment);
-        bundle.add("is_comment", String.valueOf(is_comment));
-        
-        AsyncWeiboRunner weiboRunner = new AsyncWeiboRunner(weibo);
-        weiboRunner.request(this, url, bundle, Utility.HTTPMETHOD_POST, this);
-
-        return "";
-    }
-    
-    private String addFavorites(Weibo weibo, String id)
-            throws MalformedURLException, IOException, WeiboException {
-        String url = Weibo.SERVER + "favorites/create.json";
-        WeiboParameters bundle = new WeiboParameters();
-        bundle.add("source", Weibo.getAppKey());
-        bundle.add("id", id);
-        
-        AsyncWeiboRunner weiboRunner = new AsyncWeiboRunner(weibo);
-        weiboRunner.request(this, url, bundle, Utility.HTTPMETHOD_POST, this);
-
-        return "";
-    }
-    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -361,23 +313,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                 doRePost();
                 break;
             case R.id.favorites_menu_item:
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            addFavorites(mWeibo, mStatus.idstr);
-                        } catch (MalformedURLException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        } catch (WeiboException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+                addFavorites(mStatus.id);
                 break;
             default:
                 break;
@@ -385,13 +321,13 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
         return false;
     }
-    
+
     private void doPostComment() {
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.write_review, null);
         final EditText commentText;
-        commentText = (EditText)textEntryView.findViewById(R.id.comment_box);
-        
+        commentText = (EditText) textEntryView.findViewById(R.id.comment_box);
+
         new AlertDialog.Builder(StatusDetailActivity.this)
                 .setTitle(R.string.add_comment)
                 .setView(textEntryView)
@@ -401,25 +337,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                                     int whichButton) {
                                 final String comment = commentText.getText().toString();
                                 if (comment.trim().length() > 0) {
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                addComment(mWeibo, mStatus.idstr, comment);
-                                            } catch (MalformedURLException e) {
-                                                // TODO Auto-generated catch block
-                                                e.printStackTrace();
-                                            } catch (IOException e) {
-                                                // TODO Auto-generated catch block
-                                                e.printStackTrace();
-                                            } catch (WeiboException e) {
-                                                // TODO Auto-generated catch block
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                        
-                                    }).start();
-
+                                    addComment(comment, false);
                                 }
                             }
                         })
@@ -431,14 +349,13 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                             }
                         }).create().show();
     }
-    
-    
+
     private void doRePost() {
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.write_review, null);
         final EditText commentText;
-        commentText = (EditText)textEntryView.findViewById(R.id.comment_box);
-        
+        commentText = (EditText) textEntryView.findViewById(R.id.comment_box);
+
         new AlertDialog.Builder(StatusDetailActivity.this)
                 .setTitle(R.string.repost)
                 .setView(textEntryView)
@@ -446,30 +363,14 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                     int whichButton) {
-                                final String comment = commentText.getText().toString(); // TODO: neet to URLencode
-                                final int is_comment = (comment.trim().length() > 0 ? 1 : 0);
-                                
-                                new Thread(new Runnable() {
+                                final String comment = commentText.getText().toString(); // TODO:
+                                                                                         // neet
+                                                                                         // to
+                                                                                         // URLencode
+                                final boolean hasComment = (comment.trim().length() > 0 ? true
+                                        : false);
 
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            rePost(mWeibo, mStatus.idstr, comment, is_comment);
-                                        } catch (MalformedURLException e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        } catch (IOException e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        } catch (WeiboException e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-
-                                        }
-                                    }
-
-                                }).start();
-
+                                addComment(comment, hasComment);
                             }
 
                         })
@@ -515,4 +416,3 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         });
     }
 }
-

@@ -4,6 +4,7 @@
     <color name="mblog_top_info">#ffffffff</color>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
+    <color name="text_num_gray">#333</color>
     
     <color name="page_error_background">@color/white</color>
     <color name="page_error_text_color">@color/black</color>

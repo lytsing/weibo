@@ -53,12 +53,22 @@
     <string name="pick_photo">Choose photo from Gallery</string> 
     <string name="comment">Comment</string>
     <string name="type_to_compose_text_enter_to_send">Quick comment</string>
+    <string name="send">Send</string>
 
     <!-- status_list_footer.xml -->
     <string name="network_error_list_footer">No connection</string>
     <string name="retry">Retry</string>
 
     <string name="look_largepic">Large Image</string>
+
+	<string name="attention">注意</string>
+    <string name="delete_all">是否要删除这条微博？</string>
+    <string name="ok">是</string>
+    <string name="cancel">否</string>
+    <string name="close">关闭</string>
+    <string name="send_sucess">分享成功！</string>
+    <string name="send_failed">分享失败！</string>
+    <string name="del_pic">是否删除图片？</string>
 
 </resources>
 

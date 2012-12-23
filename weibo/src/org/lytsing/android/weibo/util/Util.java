@@ -37,7 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.weibo.net.WeiboException;
+import com.weibo.sdk.android.WeiboException;
 
 public class Util {
 	

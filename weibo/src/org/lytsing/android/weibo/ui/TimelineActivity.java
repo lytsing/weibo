@@ -19,9 +19,7 @@ package org.lytsing.android.weibo.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -33,14 +31,16 @@ import com.google.gson.Gson;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.Action;
 import com.markupartist.android.widget.ActionBar.IntentAction;
-import com.weibo.net.AccessToken;
-import com.weibo.net.DialogError;
-import com.weibo.net.Weibo;
-import com.weibo.net.WeiboDialogListener;
-import com.weibo.net.WeiboException;
-import com.weibo.net.WeiboParameters;
+import com.weibo.sdk.android.Oauth2AccessToken;
+import com.weibo.sdk.android.WeiboAuthListener;
+import com.weibo.sdk.android.WeiboDialogError;
+import com.weibo.sdk.android.WeiboException;
+import com.weibo.sdk.android.api.StatusesAPI;
+import com.weibo.sdk.android.api.WeiboAPI.FEATURE;
+import com.weibo.sdk.android.net.RequestListener;
+import com.weibo.sdk.android.sso.SsoHandler;
 
-import org.lytsing.android.weibo.Configuration;
+import org.lytsing.android.weibo.AccessTokenKeeper;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.StatusItemAdapter;
@@ -51,24 +51,25 @@ import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class TimelineActivity extends BaseActivity {
 
     private StatusItemAdapter mAdapter = null;
 
     private PullAndLoadListView mListView = null;
-    
-    private GetStatusTask mGetStatusTask = null;
-    
+
     protected long mSinceId = 0;
 
     protected long mMaxId = 0;
-    
+
     private ActionBar mActionBar;
-    
+
     private AQuery aq;
-    
+
+    private SsoHandler mSsoHandler;
+
+    public static Oauth2AccessToken accessToken;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,65 +77,59 @@ public class TimelineActivity extends BaseActivity {
         if (hasAccessToken()) {
             initView();
         } else {
-            mWeibo.authorize(TimelineActivity.this, new AuthDialogListener());
+            mSsoHandler = new SsoHandler(this, mWeibo);
+            mSsoHandler.authorize(new AuthDialogListener());
         }
     }
 
     private boolean hasAccessToken() {
         SharedPreferences prefs = Preferences.get(this);
-
         String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
-        String expires_in = prefs.getString(Preferences.EXPIRES_IN, null);
+        String expires_in = String.valueOf(prefs.getLong(Preferences.EXPIRES_IN, 0));
 
-        return (token != null && expires_in != null);
+        if (token != null && expires_in != null) {
+            accessToken = new Oauth2AccessToken(token, expires_in);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private Intent createComposeIntent() {
-        
-        String accessToken = mWeibo.getAccessToken().getToken();
-        String tokenSecret = mWeibo.getAccessToken().getSecret();
-        
-        if (TextUtils.isEmpty(accessToken)) {
-            Log.e("token can not be null!");
-        } else if (TextUtils.isEmpty(tokenSecret)) {
-            Log.e("secret can not be null!");
-        }
-  
         Intent intent = new Intent(this, ComposeActivity.class);
-        
         return intent;
     }
-    
+
     public static Intent createIntent(Context context) {
-        Intent i = new Intent(context, TimelineActivity.class);
-        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        
-        return i;
+        Intent intent = new Intent(context, TimelineActivity.class);
+        // i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        return intent;
     }
 
     private void initView() {
         setContentView(R.layout.timeline);
-        
+
         aq = new AQuery(this);
-        
+
         mActionBar = (ActionBar) findViewById(R.id.actionbar);
         mActionBar.setHomeAction(new IntentAction(this, createIntent(this), R.drawable.logo_h));
 
-        final Action composeAction = new IntentAction(this, createComposeIntent(), R.drawable.ic_action_compose);
+        final Action composeAction = new IntentAction(this, createComposeIntent(),
+                R.drawable.ic_action_compose);
         mActionBar.addAction(composeAction);
-        
+
         mActionBar.addAction(new Action() {
             @Override
             public void performAction(View view) {
-                new RefreshStatusTask().execute(mSinceId);
+                refreshStatus(mSinceId);
             }
-            
+
             @Override
             public int getDrawable() {
                 return R.drawable.ic_action_refresh;
             }
         });
-    
 
         mListView = ((PullAndLoadListView) findViewById(R.id.msg_list_item));
 
@@ -143,25 +138,23 @@ public class TimelineActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 // Do work to refresh the list here.
-                new RefreshStatusTask().execute(mSinceId);
+                refreshStatus(mSinceId);
             }
         });
-        
+
         mListView.setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
 
             public void onLoadMore() {
-                new LoadMoreDataTask().execute(mMaxId);
+                loadMoreData(mMaxId);
             }
         });
-        
-        
+
         mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
-        
+
         mAdapter = new StatusItemAdapter(this);
- 
-        mGetStatusTask = new GetStatusTask();
-        mGetStatusTask.execute();
-                         
+
+        getFriendsTimeline(0, 0);
+
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -186,284 +179,240 @@ public class TimelineActivity extends BaseActivity {
             }
         });
     }
-    
+
     private void showLoadingIndicator() {
         aq.id(R.id.placeholder_loading).visible();
     }
-    
-    private void hideLoadingIndicator() {    
+
+    private void hideLoadingIndicator() {
         aq.id(R.id.placeholder_loading).gone();
     }
-    
+
     private String getLastSyncTime(String pre) {
         SharedPreferences prefs = Preferences.get(this);
         String time = prefs.getString(pre, "");
         return time;
     }
-    
+
     private void setLastSyncTime(String time) {
         SharedPreferences.Editor editor = Preferences.get(this).edit();
         editor.putString(Preferences.PREF_LAST_SYNC_TIME, time);
         editor.commit();
     }
-    
-    private class RefreshStatusTask extends AsyncTask<Long, Void, String> {
 
-        private int refreshCount;
+    private void refreshStatus(long sinceId) {
+        mActionBar.setProgressBarVisibility(View.VISIBLE);
 
-        @Override
-        protected void onPreExecute() {
-            mActionBar.setProgressBarVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            
-            if ("OK".equals(result)) {
-                mActionBar.setProgressBarVisibility(View.GONE);
-                mAdapter.notifyDataSetChanged();
-                // Call onRefreshComplete when the list has been refreshed.
-                mListView.onRefreshComplete();
-                mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
-
-                setLastSyncTime(Util.getNowLocaleTime());
-            } else {
-                displayToast("Error:" + result);
-            }
-            
-            if (refreshCount > 0) {
-                displayToast(String.format(getResources().getString(
-                        R.string.new_blog_toast),refreshCount));
-            } else {
-                displayToast(R.string.no_new_blog_toast);
-            }
-        }
-
-        @Override
-        protected String doInBackground(Long... params) {
-
-            // check if task was cancelled during long api call
-            if (isCancelled()) {
-                return null;
-            }
-
-            long sinceId = params[0];
-
-            String error = "OK";
-            String str = null;
-            try {
-                str = getHomeTimeline(mWeibo, sinceId, 0);
-                //Util.writeUpdateInfo(str);
-                Log.d("str lenght: " + str.length());
-            } catch (MalformedURLException e) {
-                error = e.getMessage();
-                Log.e("MalformedURLException", e);
-            } catch (IOException e) {
-                error = e.getMessage();
-                Log.e("IOException", e);
-            } catch (WeiboException e) {
-                Log.e("WeiboException:" + e.getStatusCode(), e);
-                error = e.getMessage();
-            }
-
-            if (str == null) {
-                return error;
-            }
-            
-            Gson gson = new Gson();   
-            WeiboObject response = gson.fromJson(str, WeiboObject.class);
-            
-            refreshCount = response.statuses.size();
-            Log.d("newsMsgLists length == " + refreshCount);
-            if (refreshCount > 0) {
-                mSinceId = response.statuses.get(0).id;
-                mAdapter.addNewestStatuses(response.statuses);
-            }
-
-            return error;
-        }
-    }
-
-    private String getHomeTimeline(Weibo weibo, long sinceId, long maxId) throws MalformedURLException,
-            IOException, WeiboException {
-        String url = Weibo.SERVER + "statuses/home_timeline.json";
-        WeiboParameters bundle = new WeiboParameters();
-        bundle.add("source", Weibo.getAppKey());
-        bundle.add("max_id", String.valueOf(maxId));
-        bundle.add("since_id", String.valueOf(sinceId));
-        String rlt = weibo.request(this, url, bundle, "GET", weibo.getAccessToken());
-        return rlt;
-    }
-
-    private String loadStatusList(long sinceId, long maxId) {
-
-        String error = "OK";
-        String str = null;
-        try {
-            str = getHomeTimeline(mWeibo, sinceId, maxId);
-            //Util.writeUpdateInfo(str);
-            Log.d("str lenght: " + str.length());
-        } catch (MalformedURLException e) {
-            error = e.getMessage();
-            Log.e("MalformedURLException", e);
-        } catch (IOException e) {
-            error = e.getMessage();
-            Log.e("IOException", e);
-        } catch (WeiboException e) {
-            Log.e("WeiboException:" + e.getStatusCode(), e);
-            error = e.getMessage();
-            
-            if ("expired_token".equals(error)) {
-                // delete token && expires_in
-                SharedPreferences.Editor editor = Preferences.get(TimelineActivity.this).edit();
-                editor.remove(Preferences.ACCESS_TOKEN);
-                editor.remove(Preferences.EXPIRES_IN);
-                editor.commit();
-            }
-        }
-
-        if (str == null) {
-            return error;
-        }
-        
-        Gson gson = new Gson();   
-        WeiboObject response = gson.fromJson(str, WeiboObject.class);
-        
-        for (Statuses status : response.statuses) {
-            mAdapter.addStatuses(status);
-            
-            if (sinceId == 0) {
-                mMaxId = status.id -1;
-            }
-        }
-        
-        if (maxId == 0 && response.statuses.size() > 0) {
-            mSinceId = response.statuses.get(0).id;
-        }
-        
-        return error;
-    }
-    
-    private class GetStatusTask extends AsyncTask<Void, Void, String> {
-        
-        @Override
-        protected void onPreExecute () {
-            showLoadingIndicator();
-        }
-        
-        @Override
-        protected String doInBackground(Void... params) {
-            if (isCancelled()) {
-                return null;
-            }
-
-            String error = loadStatusList(0, 0);
-            return error;
-        }
-        
-        @Override
-        protected void onPostExecute(String result) {
-
-            hideLoadingIndicator();
-
-            if ("OK".equals(result)) {
-                showContents();
-                mAdapter.notifyDataSetChanged();
-                setLastSyncTime(Util.getNowLocaleTime());
-            } else if ("expired_token".equals(result)) {
-                displayToast("Error:" + result);
-                mWeibo.authorize(TimelineActivity.this, new AuthDialogListener());
-            } else {
-                aq.id(R.id.placeholder_error).visible();
-                aq.id(R.id.error_msg).text(result);
-                aq.id(R.id.retry_button).clicked(new OnClickListener() {
+        StatusesAPI statusAPI = new StatusesAPI(accessToken);
+        statusAPI.friendsTimeline(sinceId, 0, 20, 1, false, FEATURE.ALL, false,
+                new RequestListener() {
 
                     @Override
-                    public void onClick(View v) {
-                        // check if any previous task is running, if so then cancel it
-                        // it can be cancelled if it is not in FINISHED state
-                        if (mGetStatusTask != null
-                                && mGetStatusTask.getStatus() != AsyncTask.Status.FINISHED) {
-                            mGetStatusTask.cancel(true);
-                        } 
+                    public void onComplete(String result) {
+                        Gson gson = new Gson();
+                        WeiboObject response = gson.fromJson(result, WeiboObject.class);
 
-                        // every time create new object, as AsynTask can be executed only once 
-                        // (an exception will be thrown if a second execution is attempted.)
-                        mGetStatusTask = new GetStatusTask();
-                        mGetStatusTask.execute();
+                        final int refreshCount = response.statuses.size();
+                        Log.d("newsMsgLists length == " + refreshCount);
+                        if (refreshCount > 0) {
+                            mSinceId = response.statuses.get(0).id;
+                            mAdapter.addNewestStatuses(response.statuses);
+                        }
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                mActionBar.setProgressBarVisibility(View.GONE);
+                                mAdapter.notifyDataSetChanged();
+                                // Call onRefreshComplete when the list has been
+                                // refreshed.
+                                mListView.onRefreshComplete();
+                                mListView
+                                        .setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
+
+                                setLastSyncTime(Util.getNowLocaleTime());
+
+                                if (refreshCount > 0) {
+                                    displayToast(String.format(getResources().getString(
+                                            R.string.new_blog_toast), refreshCount));
+                                } else {
+                                    displayToast(R.string.no_new_blog_toast);
+                                }
+                            }
+                        });
                     }
+
+                    @Override
+                    public void onError(final WeiboException e) {
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                displayToast("Error:" + e.getMessage());
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onIOException(IOException arg0) {
+                        // TODO Auto-generated method stub
+
+                    }
+
                 });
-            }
-        }
     }
-    
-    private class LoadMoreDataTask extends AsyncTask<Long, Void, String> {
 
-        @Override
-        protected String doInBackground(Long... params) {
-            if (isCancelled()) {
-                return null;
-            }
+    private void getFriendsTimeline(final long sinceId, final long maxId) {
 
-            long maxId = params[0];
-            String error = loadStatusList(0, maxId);
-            return error;
-        }
+        showLoadingIndicator();
 
-        @Override
-        protected void onPostExecute(String result) {
-            if ("OK".equals(result)) {
-                setLastSyncTime(Util.getNowLocaleTime());
-            } else {
-                displayToast("Error:" + result);
-            }
+        StatusesAPI statusAPI = new StatusesAPI(accessToken);
+        statusAPI.friendsTimeline(sinceId, maxId, 20, 1, false, FEATURE.ALL, false,
+                new RequestListener() {
 
-            mAdapter.notifyDataSetChanged();
-            // Call onLoadMoreComplete when the LoadMore task, has finished
-            mListView.onLoadMoreComplete();
+                    @Override
+                    public void onComplete(String result) {
 
-            super.onPostExecute(result);
-        }
+                        Gson gson = new Gson();
+                        WeiboObject response = gson.fromJson(result, WeiboObject.class);
 
-        @Override
-        protected void onCancelled() {
-            // Notify the loading more operation has finished
-            mListView.onLoadMoreComplete();
-        }
+                        for (Statuses status : response.statuses) {
+                            mAdapter.addStatuses(status);
+
+                            if (sinceId == 0) {
+                                mMaxId = status.id - 1;
+                            }
+                        }
+
+                        if (maxId == 0 && response.statuses.size() > 0) {
+                            mSinceId = response.statuses.get(0).id;
+                        }
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                hideLoadingIndicator();
+
+                                showContents();
+                                mAdapter.notifyDataSetChanged();
+                                setLastSyncTime(Util.getNowLocaleTime());
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(final WeiboException e) {
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                aq.id(R.id.placeholder_error).visible();
+                                aq.id(R.id.error_msg).text(e.getMessage());
+                                aq.id(R.id.retry_button).clicked(new OnClickListener() {
+
+                                    @Override
+                                    public void onClick(View v) {
+                                        getFriendsTimeline(sinceId, maxId);
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onIOException(IOException arg0) {
+
+                    }
+
+                });
+
+    }
+
+    private void loadMoreData(final long maxId) {
+        StatusesAPI statusAPI = new StatusesAPI(accessToken);
+        statusAPI.friendsTimeline(0, maxId, 20, 1, false, FEATURE.ALL, false,
+                new RequestListener() {
+
+                    @Override
+                    public void onComplete(String result) {
+
+                        Gson gson = new Gson();
+                        WeiboObject response = gson.fromJson(result, WeiboObject.class);
+
+                        for (Statuses status : response.statuses) {
+                            mAdapter.addStatuses(status);
+                        }
+
+                        if (maxId == 0 && response.statuses.size() > 0) {
+                            mSinceId = response.statuses.get(0).id;
+                        }
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                setLastSyncTime(Util.getNowLocaleTime());
+                                mAdapter.notifyDataSetChanged();
+                                // Call onLoadMoreComplete when the LoadMore
+                                // task, has finished
+                                mListView.onLoadMoreComplete();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(final WeiboException e) {
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                displayToast("Error:" + e.getMessage());
+                            }
+
+                        });
+                    }
+
+                    @Override
+                    public void onIOException(IOException arg0) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                });
+
     }
 
     private void showContents() {
         aq.id(R.id.timelist_list).visible();
-        
+
         // FIXME: put it here, else will pop up "Tap to Refresh"
         mListView.setAdapter(mAdapter);
     }
-    
-    class AuthDialogListener implements WeiboDialogListener {
+
+    class AuthDialogListener implements WeiboAuthListener {
 
         @Override
         public void onComplete(Bundle values) {
             String token = values.getString(Preferences.ACCESS_TOKEN);
             String expires_in = values.getString(Preferences.EXPIRES_IN);
 
-            AccessToken accessToken = new AccessToken(token, Configuration.CONSUMER_SECRET);
-            accessToken.setExpiresIn(expires_in);
-            Weibo.getInstance().setAccessToken(accessToken);
-            
-            // Save token && expires_in
-            SharedPreferences.Editor editor = Preferences.get(TimelineActivity.this).edit();
-            editor.putString(Preferences.ACCESS_TOKEN, token);
-            editor.putString(Preferences.EXPIRES_IN, expires_in);
-            editor.commit();
-            
-            Intent intent = new Intent(TimelineActivity.this, TimelineActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            accessToken = new Oauth2AccessToken(token, expires_in);
+            if (accessToken.isSessionValid()) {
+
+                AccessTokenKeeper.keepAccessToken(TimelineActivity.this,
+                        accessToken);
+
+                Intent intent = new Intent(TimelineActivity.this, TimelineActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
         }
 
         @Override
-        public void onError(DialogError e) {
+        public void onError(WeiboDialogError e) {
             displayToast("Auth error : " + e.getMessage());
         }
 
@@ -477,5 +426,16 @@ public class TimelineActivity extends BaseActivity {
             displayToast("Auth exception : " + e.getMessage());
         }
     }
-}
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /**
+         * 下面两个注释掉的代码，仅当sdk支持sso时有效，
+         */
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+    }
+}

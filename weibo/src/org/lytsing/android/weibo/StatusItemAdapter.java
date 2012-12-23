@@ -27,7 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
-import com.weibo.net.WeiboException;
+import com.weibo.sdk.android.WeiboException;
 
 import org.lytsing.android.weibo.model.Statuses;
 import org.lytsing.android.weibo.util.DateTimeUtils;

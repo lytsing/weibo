@@ -17,37 +17,26 @@
 
 package org.lytsing.android.weibo;
 
-import org.lytsing.android.weibo.util.Preferences;
-
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
-import com.weibo.net.AccessToken;
-import com.weibo.net.Oauth2AccessTokenHeader;
-import com.weibo.net.Utility;
-import com.weibo.net.Weibo;
+import com.weibo.sdk.android.Weibo;
 
 public class WeiboApplication extends Application {
 
-
-    private Context mContext;
-
     private static WeiboApplication sWeiboApplication;
 
-    private static Weibo sWeibo = Weibo.getInstance();
+    private static Weibo sWeibo;
+    
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         sWeiboApplication = this;
-        mContext = this;
-
-        initWeibo();
-
+        sWeibo = Weibo.getInstance(Configuration.CONSUMER_KEY, Configuration.REDIRECT_CALLBACK_URL);
+        
         // set the max number of concurrent network connections, default is 4
         AjaxCallback.setNetworkLimit(8);
 
@@ -78,26 +67,6 @@ public class WeiboApplication extends Application {
 
     public static WeiboApplication getWeiboApplication() {
         return sWeiboApplication;
-    }
-
-    private void initWeibo() {
-
-        sWeibo.setupConsumerConfig(Configuration.CONSUMER_KEY, Configuration.CONSUMER_SECRET);
-        sWeibo.setRedirectUrl(Configuration.REDIRECT_CALLBACK_URL);
-
-        SharedPreferences prefs = Preferences.get(mContext);
-
-        String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
-        String expires_in = prefs.getString(Preferences.EXPIRES_IN, null);
-
-        if (token != null && expires_in != null) {
-            AccessToken accessToken = new AccessToken(token,
-                    Configuration.CONSUMER_SECRET);
-            accessToken.setExpiresIn(expires_in);
-            Utility.setAuthorization(new Oauth2AccessTokenHeader());
-            sWeibo.setAccessToken(accessToken);
-            Weibo.setSERVER("https://api.weibo.com/2/");
-        }
     }
 
     public Weibo getWeibo() {

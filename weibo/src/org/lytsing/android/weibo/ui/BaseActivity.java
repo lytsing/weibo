@@ -16,17 +16,17 @@
 
 package org.lytsing.android.weibo.ui;
 
-import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.WeiboApplication;
-
-import com.weibo.net.Weibo;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.weibo.sdk.android.Weibo;
+
+import org.lytsing.android.weibo.R;
+import org.lytsing.android.weibo.WeiboApplication;
 
 
 /**

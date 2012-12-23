@@ -33,7 +33,7 @@ public final class Preferences {
     
 	
     public static SharedPreferences get(Context context) {
-        return context.getSharedPreferences(PREFERENCES_NAME, 0);
+        return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);
     }
 }
 
