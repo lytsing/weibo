@@ -20,7 +20,5 @@ public class Configuration {
     
     public static final String CONSUMER_KEY = "1854301511";
     
-    public static final String CONSUMER_SECRET = "13d97d60088c131a0e66c85c433a9f29";
-    
     public static final String REDIRECT_CALLBACK_URL = "http://www.sina.com";
 }

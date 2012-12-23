@@ -36,6 +36,7 @@ import com.commonsware.cwac.merge.MergeAdapter;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.AbstractAction;
 import com.markupartist.android.widget.ActionBar.IntentAction;
+import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.CommentsAPI;
 import com.weibo.sdk.android.api.FavoritesAPI;
@@ -69,8 +70,11 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     private CommentsAdapter mCommentsAdapter;
 
     private AQuery aq = null;
+    
+    private Oauth2AccessToken accessToken = getWeiboApplication().getOauth2AccessToken();
 
-    private CommentsAPI api = new CommentsAPI(TimelineActivity.accessToken);
+
+    private CommentsAPI api = new CommentsAPI(accessToken);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -252,13 +256,13 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                     }
 
                     @Override
-                    public void onError(WeiboException arg0) {
+                    public void onError(WeiboException e) {
                         // TODO Auto-generated method stub
 
                     }
 
                     @Override
-                    public void onIOException(IOException arg0) {
+                    public void onIOException(IOException e) {
                         // TODO Auto-generated method stub
 
                     }
@@ -268,23 +272,23 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     private void addFavorites(long id) {
 
-        FavoritesAPI api = new FavoritesAPI(TimelineActivity.accessToken);
+        FavoritesAPI api = new FavoritesAPI(accessToken);
         api.create(id, new RequestListener() {
 
             @Override
-            public void onComplete(String arg0) {
+            public void onComplete(String result) {
                 // TODO Auto-generated method stub
 
             }
 
             @Override
-            public void onError(WeiboException arg0) {
+            public void onError(WeiboException e) {
                 // TODO Auto-generated method stub
 
             }
 
             @Override
-            public void onIOException(IOException arg0) {
+            public void onIOException(IOException e) {
                 // TODO Auto-generated method stub
 
             }

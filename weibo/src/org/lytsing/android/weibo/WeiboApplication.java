@@ -18,10 +18,14 @@
 package org.lytsing.android.weibo;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
+import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
+
+import org.lytsing.android.weibo.util.Preferences;
 
 public class WeiboApplication extends Application {
 
@@ -29,13 +33,22 @@ public class WeiboApplication extends Application {
 
     private static Weibo sWeibo;
     
-
+    private static Oauth2AccessToken sOauth2AccessToken;
+    
     @Override
     public void onCreate() {
         super.onCreate();
 
         sWeiboApplication = this;
         sWeibo = Weibo.getInstance(Configuration.CONSUMER_KEY, Configuration.REDIRECT_CALLBACK_URL);
+        
+        SharedPreferences prefs = Preferences.get(this);
+        String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
+        String expires_in = String.valueOf(prefs.getLong(Preferences.EXPIRES_IN, 0));
+
+        if (token != null && expires_in != null) {
+            sOauth2AccessToken = new Oauth2AccessToken(token, expires_in);
+        }
         
         // set the max number of concurrent network connections, default is 4
         AjaxCallback.setNetworkLimit(8);
@@ -71,6 +84,10 @@ public class WeiboApplication extends Application {
 
     public Weibo getWeibo() {
         return sWeibo;
+    }
+    
+    public Oauth2AccessToken getOauth2AccessToken() {
+        return sOauth2AccessToken;
     }
 }
 

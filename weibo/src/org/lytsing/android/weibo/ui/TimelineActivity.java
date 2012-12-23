@@ -68,13 +68,14 @@ public class TimelineActivity extends BaseActivity {
 
     private SsoHandler mSsoHandler;
 
-    public static Oauth2AccessToken accessToken;
+    private Oauth2AccessToken accessToken;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (hasAccessToken()) {
+            accessToken = getWeiboApplication().getOauth2AccessToken();
             initView();
         } else {
             mSsoHandler = new SsoHandler(this, mWeibo);
@@ -87,12 +88,7 @@ public class TimelineActivity extends BaseActivity {
         String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
         String expires_in = String.valueOf(prefs.getLong(Preferences.EXPIRES_IN, 0));
 
-        if (token != null && expires_in != null) {
-            accessToken = new Oauth2AccessToken(token, expires_in);
-            return true;
-        } else {
-            return false;
-        }
+        return (token != null && expires_in != null);
     }
 
     private Intent createComposeIntent() {
@@ -255,7 +251,7 @@ public class TimelineActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onIOException(IOException arg0) {
+                    public void onIOException(IOException e) {
                         // TODO Auto-generated method stub
 
                     }
@@ -294,6 +290,7 @@ public class TimelineActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 hideLoadingIndicator();
+                                aq.id(R.id.placeholder_error).gone();
 
                                 showContents();
                                 mAdapter.notifyDataSetChanged();
@@ -322,7 +319,7 @@ public class TimelineActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onIOException(IOException arg0) {
+                    public void onIOException(IOException e) {
 
                     }
 
@@ -376,13 +373,11 @@ public class TimelineActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onIOException(IOException arg0) {
+                    public void onIOException(IOException e) {
                         // TODO Auto-generated method stub
 
                     }
-
                 });
-
     }
 
     private void showContents() {
