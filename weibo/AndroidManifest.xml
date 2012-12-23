@@ -22,7 +22,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity
-            android:name=".ui.TimelineActivity"
+            android:name=".ui.AuthenticatedActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
@@ -31,10 +31,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.TimelineActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
-                <data
-                    android:host="OAuthActivity"
-                    android:scheme="weibo4andriod" />
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <activity

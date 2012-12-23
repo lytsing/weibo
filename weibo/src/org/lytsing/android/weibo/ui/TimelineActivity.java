@@ -32,15 +32,11 @@ import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.Action;
 import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.weibo.sdk.android.Oauth2AccessToken;
-import com.weibo.sdk.android.WeiboAuthListener;
-import com.weibo.sdk.android.WeiboDialogError;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.api.WeiboAPI.FEATURE;
 import com.weibo.sdk.android.net.RequestListener;
-import com.weibo.sdk.android.sso.SsoHandler;
 
-import org.lytsing.android.weibo.AccessTokenKeeper;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.StatusItemAdapter;
@@ -66,29 +62,13 @@ public class TimelineActivity extends BaseActivity {
 
     private AQuery aq;
 
-    private SsoHandler mSsoHandler;
-
     private Oauth2AccessToken accessToken;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (hasAccessToken()) {
-            accessToken = getWeiboApplication().getOauth2AccessToken();
-            initView();
-        } else {
-            mSsoHandler = new SsoHandler(this, mWeibo);
-            mSsoHandler.authorize(new AuthDialogListener());
-        }
-    }
-
-    private boolean hasAccessToken() {
-        SharedPreferences prefs = Preferences.get(this);
-        String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
-        String expires_in = String.valueOf(prefs.getLong(Preferences.EXPIRES_IN, 0));
-
-        return (token != null && expires_in != null);
+        initView();
+        accessToken = getWeiboApplication().getOauth2AccessToken();
     }
 
     private Intent createComposeIntent() {
@@ -385,52 +365,5 @@ public class TimelineActivity extends BaseActivity {
 
         // FIXME: put it here, else will pop up "Tap to Refresh"
         mListView.setAdapter(mAdapter);
-    }
-
-    class AuthDialogListener implements WeiboAuthListener {
-
-        @Override
-        public void onComplete(Bundle values) {
-            String token = values.getString(Preferences.ACCESS_TOKEN);
-            String expires_in = values.getString(Preferences.EXPIRES_IN);
-
-            accessToken = new Oauth2AccessToken(token, expires_in);
-            if (accessToken.isSessionValid()) {
-
-                AccessTokenKeeper.keepAccessToken(TimelineActivity.this,
-                        accessToken);
-
-                Intent intent = new Intent(TimelineActivity.this, TimelineActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        }
-
-        @Override
-        public void onError(WeiboDialogError e) {
-            displayToast("Auth error : " + e.getMessage());
-        }
-
-        @Override
-        public void onCancel() {
-            displayToast("Auth cancel");
-        }
-
-        @Override
-        public void onWeiboException(WeiboException e) {
-            displayToast("Auth exception : " + e.getMessage());
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        /**
-         * 下面两个注释掉的代码，仅当sdk支持sso时有效，
-         */
-        if (mSsoHandler != null) {
-            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
     }
 }

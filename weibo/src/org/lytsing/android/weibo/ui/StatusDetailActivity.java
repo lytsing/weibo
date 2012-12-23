@@ -71,10 +71,9 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     private AQuery aq = null;
     
-    private Oauth2AccessToken accessToken = getWeiboApplication().getOauth2AccessToken();
+    private Oauth2AccessToken accessToken;
 
-
-    private CommentsAPI api = new CommentsAPI(accessToken);
+    private CommentsAPI api;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,8 +84,11 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
+        
+        accessToken = getWeiboApplication().getOauth2AccessToken();
 
         mActionBar = (ActionBar) findViewById(R.id.actionbar);
+        api = new CommentsAPI(accessToken);;
 
         mActionBar.setHomeAction(new IntentAction(this, TimelineActivity.createIntent(this),
                 R.drawable.ic_title_home_default));
