@@ -163,6 +163,14 @@ public class TimelineActivity extends BaseActivity {
     private void hideLoadingIndicator() {
         aq.id(R.id.placeholder_loading).gone();
     }
+    
+    private void showErrorIndicator() {
+        aq.id(R.id.placeholder_error).visible();
+    }
+    
+    private void hideErrorIndicator() {
+        aq.id(R.id.placeholder_error).gone();
+    }
 
     private String getLastSyncTime(String pre) {
         SharedPreferences prefs = Preferences.get(this);
@@ -241,6 +249,7 @@ public class TimelineActivity extends BaseActivity {
 
     private void getFriendsTimeline(final long sinceId, final long maxId) {
 
+        hideErrorIndicator();
         showLoadingIndicator();
 
         StatusesAPI statusAPI = new StatusesAPI(accessToken);
@@ -285,7 +294,7 @@ public class TimelineActivity extends BaseActivity {
 
                             @Override
                             public void run() {
-                                aq.id(R.id.placeholder_error).visible();
+                                showErrorIndicator();
                                 aq.id(R.id.error_msg).text(e.getMessage());
                                 aq.id(R.id.retry_button).clicked(new OnClickListener() {
 
@@ -320,6 +329,7 @@ public class TimelineActivity extends BaseActivity {
 
                         for (Statuses status : response.statuses) {
                             mAdapter.addStatuses(status);
+                            mMaxId = status.id -1;
                         }
 
                         if (maxId == 0 && response.statuses.size() > 0) {

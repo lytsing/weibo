@@ -56,7 +56,8 @@ public class AuthenticatedActivity extends BaseActivity {
 
     private void enterTimeline() {
         Intent intent = new Intent(AuthenticatedActivity.this, TimelineActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

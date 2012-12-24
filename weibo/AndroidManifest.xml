@@ -35,7 +35,7 @@
         <activity
             android:name=".ui.TimelineActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
