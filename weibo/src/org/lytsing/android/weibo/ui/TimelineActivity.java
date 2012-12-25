@@ -68,7 +68,6 @@ public class TimelineActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         initView();
-        accessToken = getWeiboApplication().getOauth2AccessToken();
     }
 
     private Intent createComposeIntent() {
@@ -86,6 +85,7 @@ public class TimelineActivity extends BaseActivity {
     private void initView() {
         setContentView(R.layout.timeline);
 
+        accessToken = getWeiboApplication().getOauth2AccessToken();
         aq = new AQuery(this);
 
         mActionBar = (ActionBar) findViewById(R.id.actionbar);
