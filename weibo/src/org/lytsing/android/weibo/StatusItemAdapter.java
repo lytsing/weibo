@@ -125,6 +125,18 @@ public class StatusItemAdapter extends BaseAdapter {
         */
         AQuery aq = new AQuery(convertView);
         
+        //Enable hardware acceleration if the device has API 11 or above        
+        aq.hardwareAccelerated11();
+
+        Bitmap placeholder = aq.getCachedImage(R.drawable.portrait_image_empty);
+
+        if (aq.shouldDelay(position, convertView, parent, statuses.user.profile_image_url)) {
+            aq.id(holder.userImage).image(placeholder, 1.0f);
+        } else {
+            aq.id(holder.userImage).image(statuses.user.profile_image_url, true, true, 0, 0,
+                    placeholder, AQuery.FADE_IN);
+        }
+        
         holder.userName.setText(statuses.user.name);
 
         if (statuses.geo != null) {
@@ -175,8 +187,8 @@ public class StatusItemAdapter extends BaseAdapter {
             if (aq.shouldDelay(position, convertView, parent, statuses.thumbnail_pic)) {
                 aq.id(holder.thumbnailPic).image(loadingImg, 1.0f).visible();
             } else {
-                aq.id(holder.thumbnailPic).image(statuses.thumbnail_pic, true, true, 0, 0, loadingImg,
-                        0, 1.0f).visible();
+                aq.id(holder.thumbnailPic).image(statuses.thumbnail_pic, false, true, 0, 0, loadingImg,
+                        AQuery.FADE_IN).visible();
             }
             
             aq.id(holder.thumbnailPic).clicked(new View.OnClickListener() {
@@ -193,14 +205,6 @@ public class StatusItemAdapter extends BaseAdapter {
             }) ;
         }
 
-        Bitmap placeholder = aq.getCachedImage(R.drawable.portrait_image_empty);
-
-        if (aq.shouldDelay(position, convertView, parent, statuses.user.profile_image_url)) {
-            aq.id(holder.userImage).image(placeholder, 1.0f);
-        } else {
-            aq.id(holder.userImage).image(statuses.user.profile_image_url, true, true, 0, 0,
-                    placeholder, AQuery.FADE_IN);
-        }
         
         if (statuses.retweeted_status != null) {
             holder.subLayout.setVisibility(View.VISIBLE);

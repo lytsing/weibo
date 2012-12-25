@@ -46,7 +46,7 @@ public class WeiboApplication extends Application {
 
         // set the max number of icons (image width <= 50) to be cached in
         // memory, default is 20
-        BitmapAjaxCallback.setIconCacheLimit(20);
+        BitmapAjaxCallback.setIconCacheLimit(40);
 
         // set the max number of images (image width > 50) to be cached in
         // memory, default is 20
