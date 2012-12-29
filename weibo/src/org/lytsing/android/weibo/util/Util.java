@@ -16,6 +16,20 @@
 
 package org.lytsing.android.weibo.util;
 
+import com.weibo.sdk.android.WeiboException;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Environment;
+import android.text.Spannable;
+import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,18 +40,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-
-import android.content.Context;
-import android.graphics.Color;
-import android.os.Environment;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.weibo.sdk.android.WeiboException;
 
 public class Util {
 	
@@ -197,6 +199,42 @@ public class Util {
             Log.e("writeUpdateInfo()" + ex);
             return false;
         }   
+    }
+    
+    public static void showToast(final Activity activity, final String content) {
+        activity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast toast = Toast.makeText(activity, content, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
+
+    public static void showToast(final Activity activity, final int resId) {
+        activity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast toast = Toast.makeText(activity, activity.getString(resId),
+                        Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+    }
+    
+    protected static void setTextViewContent(final Activity activity, final TextView textView,
+            final String content) {
+        activity.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                if (textView != null) {
+                    textView.setText(content);
+                }
+            }
+        });
     }
 }
 

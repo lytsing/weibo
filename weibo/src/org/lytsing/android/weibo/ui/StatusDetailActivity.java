@@ -36,7 +36,6 @@ import com.commonsware.cwac.merge.MergeAdapter;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.AbstractAction;
 import com.markupartist.android.widget.ActionBar.IntentAction;
-import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.CommentsAPI;
 import com.weibo.sdk.android.api.FavoritesAPI;
@@ -71,7 +70,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     private AQuery aq = null;
     
-    private Oauth2AccessToken accessToken;
 
     private CommentsAPI api;
 
@@ -85,10 +83,8 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
         StrictMode.setThreadPolicy(policy);
         
-        accessToken = getWeiboApplication().getOauth2AccessToken();
-
         mActionBar = (ActionBar) findViewById(R.id.actionbar);
-        api = new CommentsAPI(accessToken);;
+        api = new CommentsAPI(mAccessToken);;
 
         mActionBar.setHomeAction(new IntentAction(this, TimelineActivity.createIntent(this),
                 R.drawable.ic_title_home_default));
@@ -274,7 +270,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     private void addFavorites(long id) {
 
-        FavoritesAPI api = new FavoritesAPI(accessToken);
+        FavoritesAPI api = new FavoritesAPI(mAccessToken);
         api.create(id, new RequestListener() {
 
             @Override

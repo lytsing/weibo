@@ -230,13 +230,7 @@ public class TimelineActivity extends BaseActivity {
 
                     @Override
                     public void onError(final WeiboException e) {
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                displayToast("Error:" + e.getMessage());
-                            }
-                        });
+                        Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
                     }
 
                     @Override
@@ -353,14 +347,7 @@ public class TimelineActivity extends BaseActivity {
 
                     @Override
                     public void onError(final WeiboException e) {
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                displayToast("Error:" + e.getMessage());
-                            }
-
-                        });
+                        Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
                     }
 
                     @Override

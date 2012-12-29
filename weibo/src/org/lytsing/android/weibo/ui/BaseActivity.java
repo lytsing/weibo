@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
 
 import org.lytsing.android.weibo.R;
@@ -39,6 +40,9 @@ public abstract class BaseActivity extends Activity {
     protected WeiboApplication mApplication;
 
     protected Weibo mWeibo;
+    
+    protected Oauth2AccessToken mAccessToken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public abstract class BaseActivity extends Activity {
 
         mApplication = (WeiboApplication)getApplication();
         mWeibo = mApplication.getWeibo();
+        mAccessToken = mApplication.getOauth2AccessToken();
     }
 
 

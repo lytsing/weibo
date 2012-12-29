@@ -45,6 +45,7 @@
 
     <string name="locating">Get location data....</string>
     <string name="say_something">Say something\u2026</string>
+    <string name="sending">Sending\u2026</string> 
 
     <!-- StatusDetailActivity.java -->
     <string name="title_mblog_content">Weibo Content</string>
