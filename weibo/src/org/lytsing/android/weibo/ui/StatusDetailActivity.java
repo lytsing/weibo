@@ -70,7 +70,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     private AQuery aq = null;
     
-
     private CommentsAPI api;
 
     @Override
@@ -128,13 +127,13 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
             }
 
             @Override
-            public void onError(WeiboException arg0) {
+            public void onError(WeiboException e) {
                 // TODO Auto-generated method stub
 
             }
 
             @Override
-            public void onIOException(IOException arg0) {
+            public void onIOException(IOException e) {
                 // TODO Auto-generated method stub
 
             }
@@ -241,6 +240,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                                     @Override
                                     public void run() {
                                         mActionBar.setProgressBarVisibility(View.GONE);
+                                        mCommentsAdapter.notifyDataSetChanged();
                                     }
                                 });
                             }
@@ -387,34 +387,16 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     @Override
     public void onComplete(String response) {
-        runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                displayToast(R.string.comment_sucess);
-            }
-        });
+        Util.showToast(this, R.string.comment_sucess);
     }
 
     @Override
     public void onIOException(final IOException e) {
-        runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                displayToast(e.getMessage());
-            }
-        });
+        Util.showToast(this, e.getMessage());
     }
 
     @Override
     public void onError(final WeiboException e) {
-        runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                displayToast(e.getMessage());
-            }
-        });
+        Util.showToast(this, e.getMessage());
     }
 }

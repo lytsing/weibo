@@ -16,18 +16,17 @@
 
 package org.lytsing.android.weibo;
 
+import com.androidquery.AQuery;
+
+import org.lytsing.android.weibo.model.Comment;
+import org.lytsing.android.weibo.util.Util;
+
 import android.content.Context;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.androidquery.AQuery;
-
-import org.lytsing.android.weibo.model.Comment;
-import org.lytsing.android.weibo.util.Util;
 
 import java.util.ArrayList;
 
@@ -37,15 +36,12 @@ public class CommentsAdapter extends BaseAdapter {
     
     private Context mContext;
     
-    protected Handler mHandler;
-    
     /**
      * 
      * @param context
      */
     public CommentsAdapter(Context context) {
         mComments = new ArrayList<Comment>();
-        mHandler = new Handler();
         mContext = context;
     }
 
@@ -97,12 +93,6 @@ public class CommentsAdapter extends BaseAdapter {
     
     public void addComment(Comment comment) {
         mComments.add(comment);
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                notifyDataSetChanged();
-            }
-        });
     }
 }
 
