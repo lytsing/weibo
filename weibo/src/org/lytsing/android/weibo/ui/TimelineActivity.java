@@ -16,22 +16,12 @@
 
 package org.lytsing.android.weibo.ui;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.Action;
 import com.markupartist.android.widget.ActionBar.IntentAction;
-import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.api.WeiboAPI.FEATURE;
@@ -45,6 +35,15 @@ import org.lytsing.android.weibo.model.WeiboObject;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.IOException;
 
@@ -61,8 +60,6 @@ public class TimelineActivity extends BaseActivity {
     private ActionBar mActionBar;
 
     private AQuery aq;
-
-    private Oauth2AccessToken mAccessToken;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +83,6 @@ public class TimelineActivity extends BaseActivity {
     private void initView() {
         setContentView(R.layout.timeline);
 
-        mAccessToken = getWeiboApplication().getOauth2AccessToken();
         aq = new AQuery(this);
 
         mActionBar = (ActionBar) findViewById(R.id.actionbar);

@@ -23,7 +23,6 @@ import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.AbstractAction;
 import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.weibo.sdk.android.WeiboException;
-import com.weibo.sdk.android.api.PlaceAPI;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.net.RequestListener;
 
@@ -333,7 +332,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             mLatitude = String.valueOf(loc.getLatitude());
             mLongitude = String.valueOf(loc.getLongitude());
             
-            PlaceAPI api = new PlaceAPI(mAccessToken);
+            //PlaceAPI api = new PlaceAPI(mAccessToken);
             //api.nearbyPois(mLatitude, mLongitude, range, q, category, count, page, offset, listener);
             
             mIsLocation = true;
