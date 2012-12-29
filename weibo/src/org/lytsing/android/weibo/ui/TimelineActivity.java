@@ -62,7 +62,8 @@ public class TimelineActivity extends BaseActivity {
 
     private AQuery aq;
 
-    private Oauth2AccessToken accessToken;
+    private Oauth2AccessToken mAccessToken;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +86,7 @@ public class TimelineActivity extends BaseActivity {
     private void initView() {
         setContentView(R.layout.timeline);
 
-        accessToken = getWeiboApplication().getOauth2AccessToken();
+        mAccessToken = getWeiboApplication().getOauth2AccessToken();
         aq = new AQuery(this);
 
         mActionBar = (ActionBar) findViewById(R.id.actionbar);
@@ -187,7 +188,7 @@ public class TimelineActivity extends BaseActivity {
     private void refreshStatus(long sinceId) {
         mActionBar.setProgressBarVisibility(View.VISIBLE);
 
-        StatusesAPI statusAPI = new StatusesAPI(accessToken);
+        StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
         statusAPI.friendsTimeline(sinceId, 0, 20, 1, false, FEATURE.ALL, false,
                 new RequestListener() {
 
@@ -252,7 +253,7 @@ public class TimelineActivity extends BaseActivity {
         hideErrorIndicator();
         showLoadingIndicator();
 
-        StatusesAPI statusAPI = new StatusesAPI(accessToken);
+        StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
         statusAPI.friendsTimeline(sinceId, maxId, 20, 1, false, FEATURE.ALL, false,
                 new RequestListener() {
 
@@ -317,7 +318,7 @@ public class TimelineActivity extends BaseActivity {
     }
 
     private void loadMoreData(final long maxId) {
-        StatusesAPI statusAPI = new StatusesAPI(accessToken);
+        StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
         statusAPI.friendsTimeline(0, maxId, 20, 1, false, FEATURE.ALL, false,
                 new RequestListener() {
 
