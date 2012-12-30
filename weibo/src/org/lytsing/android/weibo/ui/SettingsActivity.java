@@ -77,7 +77,7 @@ public class SettingsActivity extends PreferenceActivity {
             // Log.e("Get Version Code error!", e);
         }
         
-        buildVersion.setSummary("版本 : " + versionName);
+        buildVersion.setSummary(versionName);
     }
 }
 

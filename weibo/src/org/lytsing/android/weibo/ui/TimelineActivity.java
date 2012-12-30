@@ -148,7 +148,6 @@ public class TimelineActivity extends BaseActivity {
                             StatusDetailActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.fading_in, R.anim.fading_out);
                 }
             }
         });

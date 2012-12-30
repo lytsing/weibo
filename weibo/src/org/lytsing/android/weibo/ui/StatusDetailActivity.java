@@ -21,7 +21,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -77,10 +76,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail);
-
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
-        StrictMode.setThreadPolicy(policy);
         
         mActionBar = (ActionBar) findViewById(R.id.actionbar);
         api = new CommentsAPI(mAccessToken);;
