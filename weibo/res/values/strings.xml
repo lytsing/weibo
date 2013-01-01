@@ -27,6 +27,9 @@
     <string name="os_licenses_label">Open source licenses</string>
     <string name="os_licenses_summary">License details for open source software</string>
     <string name="settings_build_version">Build version</string>
+    <string name="source_code_title">Source code</string>
+    <string name="source_code_summary">https://github.com/lytsing/weibo</string>
+    
 
     <!-- listview.xml -->
     <string name="mblog_fake_tip">此微博为不实信息。</string>
@@ -49,12 +52,12 @@
 
     <!-- StatusDetailActivity.java -->
     <string name="title_mblog_content">Weibo Content</string>
-
     <string name="take_photo">Take photo</string>
     <string name="pick_photo">Choose photo from Gallery</string> 
     <string name="comment">Comment</string>
     <string name="type_to_compose_text_enter_to_send">Quick comment</string>
     <string name="send">Send</string>
+    <string name="nocomments">No comments</string>
 
     <!-- status_list_footer.xml -->
     <string name="network_error_list_footer">No connection</string>

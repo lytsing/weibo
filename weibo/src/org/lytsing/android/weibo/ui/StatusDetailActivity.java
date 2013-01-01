@@ -235,7 +235,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                                     @Override
                                     public void run() {
                                         mActionBar.setProgressBarVisibility(View.GONE);
-                                        mCommentsAdapter.notifyDataSetChanged();
+                                        mCommentsAdapter.refresh();
                                     }
                                 });
                             }

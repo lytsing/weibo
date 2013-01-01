@@ -18,6 +18,14 @@
         <Preference
             android:key="build-version"
             android:title="@string/settings_build_version" />
+        <PreferenceScreen
+            android:summary="@string/source_code_summary"
+            android:title="@string/source_code_title" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/lytsing/weibo" />
+        </PreferenceScreen>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

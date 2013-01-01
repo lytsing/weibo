@@ -36,6 +36,10 @@ public class CommentsAdapter extends BaseAdapter {
     
     private Context mContext;
     
+    private TextView mNoComments;
+    
+    private int mCount = 0;
+    
     /**
      * 
      * @param context
@@ -43,6 +47,7 @@ public class CommentsAdapter extends BaseAdapter {
     public CommentsAdapter(Context context) {
         mComments = new ArrayList<Comment>();
         mContext = context;
+        mNoComments = (TextView) Util.inflateView(R.layout.status_info_simple_1_medium, context);
     }
 
     /**
@@ -50,7 +55,11 @@ public class CommentsAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return mComments.size();
+        if (mComments.size() > 0) {
+            mCount = mComments.size();
+        }
+        
+        return mCount;
     }
 
     @Override
@@ -62,6 +71,10 @@ public class CommentsAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+    
+    private boolean hasComments() {
+        return mComments.size() > 0;
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -70,6 +83,10 @@ public class CommentsAdapter extends BaseAdapter {
             commentsView = convertView;
         } else {
             commentsView = Util.inflateView(R.layout.comment_list_item, mContext, null);
+        }
+        
+        if (!hasComments()) {
+            return mNoComments;
         }
         
         Comment comment = mComments.get(position);
@@ -93,6 +110,16 @@ public class CommentsAdapter extends BaseAdapter {
     
     public void addComment(Comment comment) {
         mComments.add(comment);
+    }
+    
+    public void refresh() {
+        if (!hasComments()) {
+            mNoComments.setText(R.string.nocomments);
+            mNoComments.setEnabled(false);
+            mCount = 1;
+        }
+        
+        notifyDataSetChanged();
     }
 }
 
