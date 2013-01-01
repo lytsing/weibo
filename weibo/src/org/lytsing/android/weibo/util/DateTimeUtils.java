@@ -1,12 +1,12 @@
 package org.lytsing.android.weibo.util;
 
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
+import android.content.Context;
+import android.text.format.DateUtils;
 
 import org.lytsing.android.weibo.R;
 
-import android.content.Context;
-import android.text.format.DateUtils;
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
 
 /**
  *  Helper class, extending the standard DateUtils of Android. 

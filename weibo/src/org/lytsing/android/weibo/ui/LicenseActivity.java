@@ -16,11 +16,11 @@
 
 package org.lytsing.android.weibo.ui;
 
-import org.lytsing.android.weibo.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import org.lytsing.android.weibo.R;
 
 public class LicenseActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {

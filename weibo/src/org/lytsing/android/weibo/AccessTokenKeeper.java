@@ -16,13 +16,13 @@
 
 package org.lytsing.android.weibo;
 
-import com.weibo.sdk.android.Oauth2AccessToken;
-
-import org.lytsing.android.weibo.util.Preferences;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.weibo.sdk.android.Oauth2AccessToken;
+
+import org.lytsing.android.weibo.util.Preferences;
 /**
  * 该类用于保存Oauth2AccessToken到sharepreference，并提供读取功能
  * @author xiaowei6@staff.sina.com.cn

@@ -18,6 +18,7 @@
 package org.lytsing.android.weibo;
 
 import android.app.Application;
+
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.weibo.sdk.android.Oauth2AccessToken;

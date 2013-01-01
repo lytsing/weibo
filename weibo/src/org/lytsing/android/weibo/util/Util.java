@@ -16,8 +16,6 @@
 
 package org.lytsing.android.weibo.util;
 
-import com.weibo.sdk.android.WeiboException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -29,6 +27,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.weibo.sdk.android.WeiboException;
 
 import java.io.File;
 import java.io.FileOutputStream;

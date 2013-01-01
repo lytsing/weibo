@@ -1,12 +1,12 @@
 package org.lytsing.android.weibo.util;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.widget.TextView;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TextUtil {
 	

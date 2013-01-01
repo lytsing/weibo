@@ -16,21 +16,6 @@
 
 package org.lytsing.android.weibo.ui;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.LocationAjaxCallback;
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.AbstractAction;
-import com.markupartist.android.widget.ActionBar.IntentAction;
-import com.weibo.sdk.android.WeiboException;
-import com.weibo.sdk.android.api.StatusesAPI;
-import com.weibo.sdk.android.net.RequestListener;
-
-import org.lytsing.android.weibo.GridViewFaceAdapter;
-import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.util.AlertUtil;
-import org.lytsing.android.weibo.util.Util;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,6 +46,21 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.LocationAjaxCallback;
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.AbstractAction;
+import com.markupartist.android.widget.ActionBar.IntentAction;
+import com.weibo.sdk.android.WeiboException;
+import com.weibo.sdk.android.api.StatusesAPI;
+import com.weibo.sdk.android.net.RequestListener;
+
+import org.lytsing.android.weibo.GridViewFaceAdapter;
+import org.lytsing.android.weibo.R;
+import org.lytsing.android.weibo.util.AlertUtil;
+import org.lytsing.android.weibo.util.Util;
 
 import java.io.File;
 import java.io.IOException;

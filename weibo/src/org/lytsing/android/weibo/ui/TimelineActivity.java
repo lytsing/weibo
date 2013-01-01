@@ -16,6 +16,15 @@
 
 package org.lytsing.android.weibo.ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
@@ -35,15 +44,6 @@ import org.lytsing.android.weibo.model.WeiboObject;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.IOException;
 
