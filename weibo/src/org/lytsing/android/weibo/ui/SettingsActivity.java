@@ -16,7 +16,7 @@
 
 package org.lytsing.android.weibo.ui;
 
-
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -24,7 +24,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.text.format.Formatter;
 
@@ -35,86 +35,106 @@ import org.lytsing.android.weibo.util.AlertUtil;
 
 import java.io.File;
 
-public class SettingsActivity extends PreferenceActivity {
-	
-	@Override
+public class SettingsActivity extends Activity {
+    
+    private static SettingsActivity mSettingsActivity;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        addPreferencesFromResource(R.xml.settings);
-    }
-    
-    protected void onResume() {
-        super.onResume();
-        
-        PreferenceScreen preferenceScreen = getPreferenceScreen();
-        configureAboutSection(preferenceScreen);
-        new ComputingCacheTask().execute();
-    }
-    
-    @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-            Preference preference) {
-        
-        if ("os-licenses".equals(preference.getKey())) {
-            startActivity(WebViewDialog.getIntent(this, R.string.os_licenses_label,
-                    "file:///android_asset/licenses.html"));
-        } else if ("clear-cache".equals(preference.getKey())) {
-            DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    image_clear_disk();
-                }
-            };
 
-            AlertUtil.showAlert(this, R.string.attention, R.string.clear_cache_summary,
-                    getString(R.string.ok), listener,
-                    getString(R.string.cancel), null);
-        }
-        return true;
-    }
-    
-    private void image_clear_disk() {
-        AQUtility.cleanCacheAsync(this, 0, 0);
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction().replace(android.R.id.content,
+                new SettingsFragment()).commit();
+        
+        mSettingsActivity = this;
     }
 
-    private void configureAboutSection(PreferenceScreen preferenceScreen) {
-        Preference buildVersion = preferenceScreen.findPreference("build-version");
-        
-        String versionName = "";
-        PackageManager pm = getPackageManager();
-
-        try {
-            PackageInfo pi = pm.getPackageInfo(getPackageName(), 0);
-            versionName = pi.versionName;
-        } catch (NameNotFoundException e) {
-            // Log.e("Get Version Code error!", e);
-        }
-        
-        buildVersion.setSummary(versionName);
-    }
-    
-    private class ComputingCacheTask extends AsyncTask<Void, Void, Long> {
+    public static class SettingsFragment extends PreferenceFragment {
 
         @Override
-        protected Long doInBackground(Void... params) {
-            File cacheDir = AQUtility.getCacheDir(SettingsActivity.this);
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
 
-            long size = 0;
+            // Load the preferences from an XML resource
+            addPreferencesFromResource(R.xml.settings);
+        }
 
-            File[] files = cacheDir.listFiles();
-            for (File f : files) {
-                size = size + f.length();
+        @Override
+        public void onResume() {
+            super.onResume();
+
+            PreferenceScreen preferenceScreen = getPreferenceScreen();
+            configureAboutSection(preferenceScreen);
+            new ComputingCacheTask().execute();
+        }
+
+        @Override
+        public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
+                Preference preference) {
+
+            if ("os-licenses".equals(preference.getKey())) {
+                startActivity(WebViewDialog.getIntent(mSettingsActivity,
+                        R.string.os_licenses_label,
+                        "file:///android_asset/licenses.html"));
+            } else if ("clear-cache".equals(preference.getKey())) {
+                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        image_clear_disk();
+                    }
+                };
+
+                AlertUtil.showAlert(mSettingsActivity, R.string.attention,
+                        R.string.clear_cache_summary,
+                        getString(R.string.ok), listener,
+                        getString(R.string.cancel), null);
             }
-            return size;
+            return true;
         }
 
-        protected void onPostExecute(Long result) {
-            Preference clearCache = getPreferenceScreen().findPreference("clear-cache");
-
-            String cacheSize = Formatter.formatFileSize(SettingsActivity.this, result);
-
-            clearCache.setSummary("Cache size: " + cacheSize);
+        private void image_clear_disk() {
+            AQUtility.cleanCacheAsync(mSettingsActivity, 0, 0);
         }
 
+        private void configureAboutSection(PreferenceScreen preferenceScreen) {
+            Preference buildVersion = preferenceScreen.findPreference("build-version");
+
+            String versionName = "";
+            PackageManager pm = mSettingsActivity.getPackageManager();
+
+            try {
+                PackageInfo pi = pm.getPackageInfo(mSettingsActivity.getPackageName(), 0);
+                versionName = pi.versionName;
+            } catch (NameNotFoundException e) {
+                // Log.e("Get Version Code error!", e);
+            }
+
+            buildVersion.setSummary(versionName);
+        }
+
+        private class ComputingCacheTask extends AsyncTask<Void, Void, Long> {
+
+            @Override
+            protected Long doInBackground(Void... params) {
+                File cacheDir = AQUtility.getCacheDir(mSettingsActivity);
+
+                long size = 0;
+
+                File[] files = cacheDir.listFiles();
+                for (File f : files) {
+                    size = size + f.length();
+                }
+                return size;
+            }
+
+            protected void onPostExecute(Long result) {
+                Preference clearCache = getPreferenceScreen().findPreference("clear-cache");
+
+                String cacheSize = Formatter.formatFileSize(mSettingsActivity, result);
+
+                clearCache.setSummary("Cache size: " + cacheSize);
+            }
+
+        }
     }
 }
