@@ -17,23 +17,28 @@
 package org.lytsing.android.weibo.ui;
 
 
-import org.lytsing.android.weibo.R;
-
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.text.format.Formatter;
 
 import com.androidquery.util.AQUtility;
+
+import org.lytsing.android.weibo.R;
+import org.lytsing.android.weibo.util.AlertUtil;
+
+import java.io.File;
 
 public class SettingsActivity extends PreferenceActivity {
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
-        
         super.onCreate(savedInstanceState);
         
         addPreferencesFromResource(R.xml.settings);
@@ -44,8 +49,8 @@ public class SettingsActivity extends PreferenceActivity {
         
         PreferenceScreen preferenceScreen = getPreferenceScreen();
         configureAboutSection(preferenceScreen);
+        new ComputingCacheTask().execute();
     }
-    
     
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
@@ -55,15 +60,23 @@ public class SettingsActivity extends PreferenceActivity {
             startActivity(WebViewDialog.getIntent(this, R.string.os_licenses_label,
                     "file:///android_asset/licenses.html"));
         } else if ("clear-cache".equals(preference.getKey())) {
-            image_clear_disk();
+            DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    image_clear_disk();
+                }
+            };
+
+            AlertUtil.showAlert(this, R.string.attention, R.string.clear_cache_summary,
+                    getString(R.string.ok), listener,
+                    getString(R.string.cancel), null);
         }
         return true;
     }
     
-    private void image_clear_disk(){
+    private void image_clear_disk() {
         AQUtility.cleanCacheAsync(this, 0, 0);
     }
-    
+
     private void configureAboutSection(PreferenceScreen preferenceScreen) {
         Preference buildVersion = preferenceScreen.findPreference("build-version");
         
@@ -79,5 +92,29 @@ public class SettingsActivity extends PreferenceActivity {
         
         buildVersion.setSummary(versionName);
     }
-}
+    
+    private class ComputingCacheTask extends AsyncTask<Void, Void, Long> {
 
+        @Override
+        protected Long doInBackground(Void... params) {
+            File cacheDir = AQUtility.getCacheDir(SettingsActivity.this);
+
+            long size = 0;
+
+            File[] files = cacheDir.listFiles();
+            for (File f : files) {
+                size = size + f.length();
+            }
+            return size;
+        }
+
+        protected void onPostExecute(Long result) {
+            Preference clearCache = getPreferenceScreen().findPreference("clear-cache");
+
+            String cacheSize = Formatter.formatFileSize(SettingsActivity.this, result);
+
+            clearCache.setSummary("Cache size: " + cacheSize);
+        }
+
+    }
+}
