@@ -34,6 +34,7 @@
             android:cropToPadding="true"
             android:gravity="left"
             android:scaleType="centerCrop"
+            android:contentDescription="@string/image_empty"
             android:src="@drawable/portrait_image_empty" />
 
         <ImageView
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
+            android:contentDescription="@string/image_empty"
             android:src="@drawable/account_spinner_icon" />
     </FrameLayout>
 

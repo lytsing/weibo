@@ -75,6 +75,8 @@
     <string name="del_pic">是否删除图片？</string>
 
     <string name="computing_size">Computing\u2026</string>
+    
+    <string name="image_empty">""</string>
 
 </resources>
 

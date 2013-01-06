@@ -292,6 +292,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="2.0dip"
 		android:layout_marginRight="5.0dip"
+		android:contentDescription="@string/app_name"
 		android:src="@drawable/triangle" />
 </LinearLayout>
 

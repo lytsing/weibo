@@ -64,8 +64,20 @@ public class TimelineActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (hasAccessToken()) {
+            initView();
+        } else {
+            Intent intent = new Intent(this, AuthenticatedActivity.class);
+            startActivity(intent);
+        }
+    }
+    
+    private boolean hasAccessToken() {
+        SharedPreferences prefs = Preferences.get(this);
+        String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
+        String expires_in = String.valueOf(prefs.getLong(Preferences.EXPIRES_IN, 0));
 
-        initView();
+        return (token != null && expires_in != null);
     }
 
     private Intent createComposeIntent() {
@@ -250,6 +262,7 @@ public class TimelineActivity extends BaseActivity {
                     @Override
                     public void onComplete(String result) {
 
+                        //Util.writeUpdateInfo(result);
                         Gson gson = new Gson();
                         WeiboObject response = gson.fromJson(result, WeiboObject.class);
 

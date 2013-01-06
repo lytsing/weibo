@@ -17,7 +17,6 @@
 package org.lytsing.android.weibo.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.weibo.sdk.android.Oauth2AccessToken;
@@ -38,20 +37,8 @@ public class AuthenticatedActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (hasAccessToken()) {
-            enterTimeline();
-        } else {
-            mSsoHandler = new SsoHandler(this, mWeibo);
-            mSsoHandler.authorize(new AuthDialogListener());
-        }
-    }
-
-    private boolean hasAccessToken() {
-        SharedPreferences prefs = Preferences.get(this);
-        String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
-        String expires_in = String.valueOf(prefs.getLong(Preferences.EXPIRES_IN, 0));
-
-        return (token != null && expires_in != null);
+        mSsoHandler = new SsoHandler(this, mWeibo);
+        mSsoHandler.authorize(new AuthDialogListener());
     }
 
     private void enterTimeline() {

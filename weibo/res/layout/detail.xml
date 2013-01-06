@@ -17,62 +17,7 @@
         android:layout_height="0dip"
         android:layout_weight="1.0" >
     </ListView>
-
-    <LinearLayout
-        android:id="@+id/info_buttons_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="52.0dip"
-        android:background="@drawable/bottombar_portrait_565"
-        android:orientation="horizontal"
-        android:paddingLeft="2.0dip"
-        android:paddingRight="2.0dip"
-        android:paddingTop="4.0dip"
-        android:visibility="gone" >
-
-        <View
-            android:id="@+id/buttons_spacer_left"
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:visibility="gone" >
-        </View>
-
-        <Button
-            android:id="@+id/launchbutton"
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="2.0"
-            android:text="@string/add_comment" >
-        </Button>
-
-        <Button
-            android:id="@+id/updatebutton"
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="2.0"
-            android:text="@string/repost" >
-        </Button>
-
-        <Button
-            android:id="@+id/buybutton"
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="2.0"
-            android:text="@string/favorites" >
-        </Button>
-
-        <View
-            android:id="@+id/buttons_spacer_right"
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:visibility="gone" >
-        </View>
-    </LinearLayout>
-
+    
     <!-- Divider -->
     <View android:background="#eeeeee"
         android:layout_width="match_parent"
