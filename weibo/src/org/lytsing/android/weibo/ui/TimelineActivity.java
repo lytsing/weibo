@@ -356,7 +356,15 @@ public class TimelineActivity extends BaseActivity {
 
                     @Override
                     public void onError(final WeiboException e) {
-                        Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
+
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                displayToast("Error:" + e.getMessage());
+                                mListView.onLoadMoreComplete();
+                            }
+                        });
                     }
 
                     @Override

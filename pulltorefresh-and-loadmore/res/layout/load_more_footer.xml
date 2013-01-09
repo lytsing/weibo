@@ -9,10 +9,9 @@
 	>
 	<ProgressBar
 		android:id="@+id/load_more_progressBar"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_width="28.0dip"
+		android:layout_height="28.0dip"
 		android:indeterminate="true"
-		style="?android:attr/progressBarStyleSmall"
 		>
 	</ProgressBar>
 	<TextView
