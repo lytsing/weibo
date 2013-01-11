@@ -10,7 +10,8 @@
             android:summary="@string/computing_size"
             android:title="@string/clear_cache_title" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/settings_about_header" >
+	<PreferenceCategory
+		android:title="@string/settings_about_header" >
         <Preference
             android:key="os-licenses"
             android:summary="@string/os_licenses_summary"

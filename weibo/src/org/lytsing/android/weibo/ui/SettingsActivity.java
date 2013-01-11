@@ -32,6 +32,7 @@ import com.androidquery.util.AQUtility;
 
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.util.AlertUtil;
+import org.lytsing.android.weibo.util.Log;
 
 import java.io.File;
 
@@ -106,7 +107,7 @@ public class SettingsActivity extends Activity {
                 PackageInfo pi = pm.getPackageInfo(mSettingsActivity.getPackageName(), 0);
                 versionName = pi.versionName;
             } catch (NameNotFoundException e) {
-                // Log.e("Get Version Code error!", e);
+                Log.e("Get Version Code error!", e);
             }
 
             buildVersion.setSummary(versionName);
@@ -129,9 +130,7 @@ public class SettingsActivity extends Activity {
 
             protected void onPostExecute(Long result) {
                 Preference clearCache = getPreferenceScreen().findPreference("clear-cache");
-
                 String cacheSize = Formatter.formatFileSize(mSettingsActivity, result);
-
                 clearCache.setSummary("Cache size: " + cacheSize);
             }
 

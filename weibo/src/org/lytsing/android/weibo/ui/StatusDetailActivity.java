@@ -270,8 +270,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
             @Override
             public void onComplete(String result) {
-                // TODO Auto-generated method stub
-
+                Util.showToast(StatusDetailActivity.this, R.string.favorites);
             }
 
             @Override
@@ -360,16 +359,12 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                     int whichButton) {
-                                final String comment = commentText.getText().toString(); // TODO:
-                                                                                         // neet
-                                                                                         // to
-                                                                                         // URLencode
-                                final boolean hasComment = (comment.trim().length() > 0 ? true
+                                final String comment = commentText.getText().toString();
+                                final boolean comment_ori = (comment.trim().length() > 0 ? true
                                         : false);
 
-                                addComment(comment, hasComment);
+                                addComment(comment, comment_ori);
                             }
-
                         })
                 .setNegativeButton(android.R.string.cancel,
                         new DialogInterface.OnClickListener() {

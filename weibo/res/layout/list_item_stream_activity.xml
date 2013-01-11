@@ -126,11 +126,11 @@
                         <ImageView
                             android:id="@+id/stream_media_1_1"
                             android:background="@color/default_stream_image_background"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:scaleType="centerCrop"
                             android:paddingBottom="7dp"
+                            android:paddingRight="5dp"
                             android:visibility="gone" />
                         <ImageView
                             android:id="@+id/stream_media_overlay_1_1"

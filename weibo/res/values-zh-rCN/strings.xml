@@ -34,6 +34,7 @@
     <string name="add_comment"> 添加评论</string>
     <string name="repost"> 转发</string>
     <string name="favorites">收藏</string>
+    <string name="favorites_sucess">收藏成功!</string>
     <string name="comment_sucess">评论成功!</string>
 
     <string name="locating">获取位置数据\u2026</string>

@@ -42,6 +42,7 @@
     <string name="add_comment">Add comment </string>
     <string name="repost">Repost</string>
     <string name="favorites">Favorites</string>
+    <string name="favorites_sucess">Favorites sucessful!</string>
     
 
     <string name="comment_sucess">Comment sucessful!</string>
@@ -65,13 +66,13 @@
 
     <string name="look_largepic">Large Image</string>
 
-	<string name="attention">注意</string>
+	<string name="attention">Attention</string>
     <string name="delete_all">是否要删除这条微博？</string>
-    <string name="ok">是</string>
-    <string name="cancel">否</string>
-    <string name="close">关闭</string>
-    <string name="send_sucess">分享成功！</string>
-    <string name="send_failed">分享失败！</string>
+    <string name="ok">Yes</string>
+    <string name="cancel">No</string>
+    <string name="close">Cloase</string>
+    <string name="send_sucess">Post sucessful！</string>
+    <string name="send_failed">Post failed！</string>
     <string name="del_pic">是否删除图片？</string>
 
     <string name="computing_size">Computing\u2026</string>

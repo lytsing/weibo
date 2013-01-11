@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 cd ../pulltorefresh-and-loadmore/
 android update project -p . -t android-8
 cd -
