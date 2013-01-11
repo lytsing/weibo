@@ -218,11 +218,10 @@ public class TimelineActivity extends BaseActivity {
                             public void run() {
                                 mActionBar.setProgressBarVisibility(View.GONE);
                                 mAdapter.notifyDataSetChanged();
-                                // Call onRefreshComplete when the list has been
-                                // refreshed.
+                                // Call onRefreshComplete when the list has been refreshed.
                                 mListView.onRefreshComplete();
-                                mListView
-                                        .setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
+                                mListView.setLastUpdated(getLastSyncTime(
+                                        Preferences.PREF_LAST_SYNC_TIME));
 
                                 setLastSyncTime(Util.getNowLocaleTime());
 
@@ -362,16 +361,26 @@ public class TimelineActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 displayToast("Error:" + e.getMessage());
+                                // Notify the loading more operation has finished
+                                // TODO: remove the OnLoadMoreListener of the listview as
+                                // there has error or no more items to load.
                                 mListView.onLoadMoreComplete();
                             }
                         });
                     }
 
                     @Override
-                    public void onIOException(IOException e) {
-                        // TODO Auto-generated method stub
+                    public void onIOException(final IOException e) {
+                        runOnUiThread(new Runnable() {
 
+                            @Override
+                            public void run() {
+                                displayToast("Error:" + e.getMessage());
+                                mListView.onLoadMoreComplete();
+                            }
+                        });
                     }
+
                 });
     }
 
