@@ -31,7 +31,7 @@ import org.lytsing.android.weibo.util.Preferences;
 public class AuthenticatedActivity extends BaseActivity {
     private SsoHandler mSsoHandler;
 
-    private Oauth2AccessToken accessToken;
+    private Oauth2AccessToken mAccessToken;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,11 +55,11 @@ public class AuthenticatedActivity extends BaseActivity {
             String token = values.getString(Preferences.ACCESS_TOKEN);
             String expires_in = values.getString(Preferences.EXPIRES_IN);
 
-            accessToken = new Oauth2AccessToken(token, expires_in);
-            if (accessToken.isSessionValid()) {
+            mAccessToken = new Oauth2AccessToken(token, expires_in);
+            if (mAccessToken.isSessionValid()) {
 
                 AccessTokenKeeper.keepAccessToken(AuthenticatedActivity.this,
-                        accessToken);
+                        mAccessToken);
 
                 enterTimeline();
             }
@@ -85,11 +85,9 @@ public class AuthenticatedActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        /**
-         * 下面两个注释掉的代码，仅当sdk支持sso时有效，
-         */
         if (mSsoHandler != null) {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
     }
 }
+

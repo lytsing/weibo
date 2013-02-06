@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.lytsing.android.weibo.model;
 
 import java.io.Serializable;
@@ -110,3 +109,4 @@ public class User implements Serializable {
     /** 用户的互粉数 */
     public int bi_followers_count;
 }
+

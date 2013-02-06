@@ -44,3 +44,4 @@ public class WebViewDialog extends FragmentActivity {
         webView.loadUrl(getIntent().getStringExtra(Intent.EXTRA_STREAM));
     }
 }
+

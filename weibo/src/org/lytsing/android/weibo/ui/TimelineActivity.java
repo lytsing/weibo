@@ -64,6 +64,7 @@ public class TimelineActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (hasAccessToken()) {
             initView();
         } else {
@@ -87,8 +88,6 @@ public class TimelineActivity extends BaseActivity {
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, TimelineActivity.class);
-        // i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
         return intent;
     }
 

@@ -2,7 +2,7 @@
 
 This projects is being designed to be a light-weight, fast user experience open Weibo alternative for Android. 
 
-* Follow [Android Patterns](http://www.androidpatterns.com/uap_pattern/action-bar).
+* Follow [Android Patterns](http://www.androidpatterns.com/).
 * Use lots of Open Source.
 * No annoying ads.
 * High performance.
