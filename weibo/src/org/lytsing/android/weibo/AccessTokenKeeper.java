@@ -29,39 +29,39 @@ import org.lytsing.android.weibo.util.Preferences;
  *
  */
 public class AccessTokenKeeper {
-	/**
-	 * 保存accesstoken到SharedPreferences
-	 * @param context Activity 上下文环境
-	 * @param token Oauth2AccessToken
-	 */
-	public static void keepAccessToken(Context context, Oauth2AccessToken token) {
-		SharedPreferences pref = Preferences.get(context);
-		Editor editor = pref.edit();
-		editor.putString(Preferences.ACCESS_TOKEN, token.getToken());
-		editor.putLong(Preferences.EXPIRES_IN, token.getExpiresTime());
-		editor.commit();
-	}
-	/**
-	 * 清空sharepreference
-	 * @param context
-	 */
-	public static void clear(Context context){
-	    SharedPreferences pref = Preferences.get(context);
-	    Editor editor = pref.edit();
-	    editor.clear();
-	    editor.commit();
-	}
+    /**
+     * 保存accesstoken到SharedPreferences
+     * @param context Activity 上下文环境
+     * @param token Oauth2AccessToken
+     */
+    public static void keepAccessToken(Context context, Oauth2AccessToken token) {
+        SharedPreferences pref = Preferences.get(context);
+        Editor editor = pref.edit();
+        editor.putString(Preferences.ACCESS_TOKEN, token.getToken());
+        editor.putLong(Preferences.EXPIRES_IN, token.getExpiresTime());
+        editor.commit();
+    }
+    /**
+     * 清空sharepreference
+     * @param context
+     */
+    public static void clear(Context context){
+        SharedPreferences pref = Preferences.get(context);
+        Editor editor = pref.edit();
+        editor.clear();
+        editor.commit();
+    }
 
-	/**
-	 * 从SharedPreferences读取accessstoken
-	 * @param context
-	 * @return Oauth2AccessToken
-	 */
-	public static Oauth2AccessToken readAccessToken(Context context){
-		Oauth2AccessToken token = new Oauth2AccessToken();
-		SharedPreferences pref = Preferences.get(context);
-		token.setToken(pref.getString(Preferences.ACCESS_TOKEN, ""));
-		token.setExpiresTime(pref.getLong(Preferences.EXPIRES_IN, 0));
-		return token;
-	}
+    /**
+     * 从SharedPreferences读取accessstoken
+     * @param context
+     * @return Oauth2AccessToken
+     */
+    public static Oauth2AccessToken readAccessToken(Context context){
+        Oauth2AccessToken token = new Oauth2AccessToken();
+        SharedPreferences pref = Preferences.get(context);
+        token.setToken(pref.getString(Preferences.ACCESS_TOKEN, ""));
+        token.setExpiresTime(pref.getLong(Preferences.EXPIRES_IN, 0));
+        return token;
+    }
 }

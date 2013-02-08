@@ -43,8 +43,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/stream_user_name"
-        android:layout_toRightOf="@id/stream_user_image"
+        android:layout_below="@id/stream_user_image"
         android:orientation="vertical"
         android:padding="2dp">
         <TextView
