@@ -34,8 +34,9 @@
     <string name="add_comment"> 添加评论</string>
     <string name="repost"> 转发</string>
     <string name="favorites">收藏</string>
-    <string name="favorites_sucess">收藏成功!</string>
-    <string name="comment_sucess">评论成功!</string>
+    <string name="favorites_success">收藏成功!</string>
+    <string name="comment_success">评论成功!</string>
+    <string name="repost_success">转发成功！</string>
 
     <string name="locating">获取位置数据\u2026</string>
     <string name="say_something">说点儿什么吧\u2026</string>
@@ -63,4 +64,5 @@
     <string name="del_pic">是否删除图片？</string>
 
     <string name="computing_size">"正在计算\u2026"</string>
+	<string name="from">来自:%s</string>
 </resources>

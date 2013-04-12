@@ -40,12 +40,12 @@
 
     <!-- repost.xml -->
     <string name="add_comment">Add comment </string>
+    <string name="comment_success">Comment successful!</string>
     <string name="repost">Repost</string>
+    <string name="repost_success">Repost successful!</string>
     <string name="favorites">Favorites</string>
-    <string name="favorites_sucess">Favorites sucessful!</string>
-    
+    <string name="favorites_success">Favorites successful!</string>
 
-    <string name="comment_sucess">Comment sucessful!</string>
 
     <string name="locating">Get location data....</string>
     <string name="say_something">Say something\u2026</string>
@@ -78,6 +78,8 @@
     <string name="computing_size">Computing\u2026</string>
     
     <string name="image_empty">""</string>
+
+    <string name="from">From:%s</string>
 
 </resources>
 

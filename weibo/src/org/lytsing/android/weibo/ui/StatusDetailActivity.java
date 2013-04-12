@@ -38,6 +38,7 @@ import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.CommentsAPI;
 import com.weibo.sdk.android.api.FavoritesAPI;
+import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.api.WeiboAPI;
 import com.weibo.sdk.android.net.RequestListener;
 
@@ -115,7 +116,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
                     @Override
                     public void run() {
-                        displayToast(R.string.comment_sucess);
+                        displayToast(R.string.comment_success);
                         aq.id(R.id.embedded_text_editor).getEditText().setText("");
                     }
                 });
@@ -135,6 +136,38 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
         });
     }
+
+    private void addRepost(String content, boolean comment_ori) {
+        StatusesAPI api = new StatusesAPI(mAccessToken);
+        api.repost(mStatus.id, content, comment_ori ? WeiboAPI.COMMENTS_TYPE.ORIGAL_STATUSES
+                : WeiboAPI.COMMENTS_TYPE.CUR_STATUSES, new RequestListener() {
+
+            @Override
+            public void onComplete(String result) {
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        displayToast(R.string.repost_success);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(WeiboException e) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onIOException(IOException e) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
+    }
+
 
     private void initView() {
 
@@ -363,7 +396,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                                 final boolean comment_ori = (comment.trim().length() > 0 ? true
                                         : false);
 
-                                addComment(comment, comment_ori);
+                                addRepost(comment, comment_ori);
                             }
                         })
                 .setNegativeButton(android.R.string.cancel,
@@ -377,7 +410,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     @Override
     public void onComplete(String response) {
-        Util.showToast(this, R.string.comment_sucess);
+        Util.showToast(this, R.string.comment_success);
     }
 
     @Override

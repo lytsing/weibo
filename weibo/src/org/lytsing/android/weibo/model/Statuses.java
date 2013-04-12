@@ -79,6 +79,11 @@ public class Statuses implements Serializable {
     
     /** 评论数 */
     public int comments_count;
+
+    /** 表态数 */
+    public int attitudes_count;
+
     public int melvel;
+
     public Visible visible;
 }

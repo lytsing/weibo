@@ -16,6 +16,14 @@
 
 package org.lytsing.android.weibo;
 
+import com.androidquery.AQuery;
+import com.weibo.sdk.android.WeiboException;
+
+import org.lytsing.android.weibo.model.Statuses;
+import org.lytsing.android.weibo.util.DateTimeUtils;
+import org.lytsing.android.weibo.util.Log;
+import org.lytsing.android.weibo.util.Util;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,14 +33,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.androidquery.AQuery;
-import com.weibo.sdk.android.WeiboException;
-
-import org.lytsing.android.weibo.model.Statuses;
-import org.lytsing.android.weibo.util.DateTimeUtils;
-import org.lytsing.android.weibo.util.Log;
-import org.lytsing.android.weibo.util.Util;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,6 +80,8 @@ public class StatusItemAdapter extends BaseAdapter {
         TextView tweetRedirect;
         ImageView tweetCommentPic;
         TextView tweetComment;
+        ImageView tweetAttitudePic;
+        TextView tweetAttitude;
         TextView retweetedText;
         View subLayout;
         ImageView tweetUploadPic2;
@@ -112,6 +114,8 @@ public class StatusItemAdapter extends BaseAdapter {
             holder.tweetRedirect = (TextView) convertView.findViewById(R.id.tweet_redirect);
             holder.tweetCommentPic = (ImageView) convertView.findViewById(R.id.tweet_comment_pic);
             holder.tweetComment = (TextView) convertView.findViewById(R.id.tweet_comment);
+            holder.tweetAttitudePic = (ImageView) convertView.findViewById(R.id.tweet_attitude_pic);
+            holder.tweetAttitude = (TextView) convertView.findViewById(R.id.tweet_attitude);
             holder.subLayout = convertView.findViewById(R.id.subLayout);
             holder.retweetedText = (TextView) convertView.findViewById(R.id.tvItemSubContent);
             holder.tweetUploadPic2 = (ImageView) convertView.findViewById(R.id.tweet_upload_pic2);
@@ -162,7 +166,8 @@ public class StatusItemAdapter extends BaseAdapter {
         //Util.textHighlight(holder.content, "@",":");
         Util.textHighlight(holder.content, "http://"," ");
         
-        holder.tweetForm.setText("来自:" + Html.fromHtml(statuses.source));
+        holder.tweetForm.setText(Html.fromHtml(String.format(
+                mContext.getResources().getString(R.string.from), statuses.source)));
 
         if (statuses.reposts_count > 0) {
             aq.id(R.id.tweet_redirect_pic).visible();
@@ -175,6 +180,12 @@ public class StatusItemAdapter extends BaseAdapter {
             holder.tweetCommentPic.setVisibility(View.VISIBLE);
             holder.tweetComment.setText(String.valueOf(statuses.comments_count));
             holder.tweetComment.setVisibility(View.VISIBLE);
+        }
+
+        if (statuses.attitudes_count > 0) {
+            holder.tweetAttitudePic.setVisibility(View.VISIBLE);
+            holder.tweetAttitude.setText(String.valueOf(statuses.attitudes_count));
+            holder.tweetAttitude.setVisibility(View.VISIBLE);
         }
 
         if (statuses.thumbnail_pic != null) {

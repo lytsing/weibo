@@ -72,7 +72,7 @@ public class SettingsActivity extends Activity {
 
         @Override
         public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-                Preference preference) {
+                final Preference preference) {
 
             if ("os-licenses".equals(preference.getKey())) {
                 startActivity(WebViewDialog.getIntent(mSettingsActivity,
@@ -82,6 +82,7 @@ public class SettingsActivity extends Activity {
                 DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         image_clear_disk();
+                        preference.setSummary("Cache size: 0.00B");
                     }
                 };
 
