@@ -34,7 +34,6 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,6 +59,7 @@ import com.weibo.sdk.android.net.RequestListener;
 import org.lytsing.android.weibo.GridViewFaceAdapter;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.util.AlertUtil;
+import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
 
 import java.io.File;
@@ -276,9 +276,9 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 mLatitude = "";
                 mLongitude = "";
             } else {
+                aq.id(R.id.ly_loadlocation).visible();
                 location_ajax();
             }
-            
         }
     }
 
@@ -286,21 +286,20 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) { 
-            if(null == data){
-                Toast.makeText(ComposeActivity.this, "添加图片失败!",
-                                Toast.LENGTH_SHORT).show();
-                                        
+            if (null == data) {
+                Toast.makeText(ComposeActivity.this, "添加图片失败!", Toast.LENGTH_SHORT).show();
+
                 return;
             }
             Uri uri = data.getData();
             mPicPath = getRealPathFromURI(uri);
-            Log.d("pic url == ", mPicPath);
+            Log.d("pic url == " + mPicPath);
             
-            File file = new File(mPicPath);        
+            File file = new File(mPicPath);
 
             // load image from file, down sample to target width of 45 pixels
             aq.id(R.id.iv_insertpic).image(file, 45).visible();
-        }  
+        }
         
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -325,10 +324,10 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         this.cb = cb;
     }
     
-    public void locationCb(String url, Location loc, AjaxStatus status){
+    public void locationCb(String url, Location loc, AjaxStatus status) {
         
         if (loc != null) {
-            Log.d("Location:", loc.toString());
+            Log.d("Location:" + loc.toString());
             mLatitude = String.valueOf(loc.getLatitude());
             mLongitude = String.valueOf(loc.getLongitude());
             
@@ -340,6 +339,8 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             aq.id(R.id.ly_loadlocation).gone();
             aq.id(R.id.tv_location).visible();
             aq.id(R.id.ib_insert_location).image(R.drawable.btn_insert_location_nor_2);
+        } else {
+            Log.w("loc is null!");
         }
     }
 
@@ -353,11 +354,10 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
+        super.onDestroy();
 
         aq.dismiss();
-
-        super.onDestroy();
     }
 
     private void showIMM() {
@@ -371,23 +371,18 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     }
 
     private void hideFace() {
-        aq.id(R.id.ib_face_keyboard).image(R.drawable.btn_insert_face)
-            .tag(null);
+        aq.id(R.id.ib_face_keyboard).image(R.drawable.btn_insert_face).tag(null);
         mGridView.setVisibility(View.GONE);
     }
 
     private void showOrHideIMM() {
 
         if (aq.id(R.id.ib_face_keyboard).getTag() == null) {
-            // 隐藏软键盘
             ImageView faceOrKeyboard = (ImageView) findViewById(R.id.ib_face_keyboard);
             imm.hideSoftInputFromWindow(faceOrKeyboard.getWindowToken(), 0);
-            // 显示表情
             showFace();
         } else {
-            // 显示软键盘
             imm.showSoftInput(mEdit, 0);
-            // 隐藏表情
             hideFace();
         }
     }
