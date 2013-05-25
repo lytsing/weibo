@@ -16,6 +16,8 @@
 
 package org.lytsing.android.weibo;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.androidquery.AQuery;
 import com.weibo.sdk.android.WeiboException;
 
@@ -47,9 +49,12 @@ public class StatusItemAdapter extends BaseAdapter {
 
     private List<Statuses> mStatuses;
     
-    public StatusItemAdapter(Context context) {
+    private final ImageLoader mImageLoader;
+    
+    public StatusItemAdapter(Context context, ImageLoader imageLoader) {
         mContext = context;
         mStatuses = new ArrayList<Statuses>();
+        mImageLoader = imageLoader;
     }
 
     @Override
@@ -68,13 +73,13 @@ public class StatusItemAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView userImage;
+        NetworkImageView userImage;
         TextView userName;
         ImageView gps;
         ImageView pic;
         TextView time;
         TextView content;
-        ImageView thumbnailPic;
+        NetworkImageView thumbnailPic;
         TextView tweetForm;
         ImageView tweetRedirectPic;
         TextView tweetRedirect;
@@ -102,13 +107,13 @@ public class StatusItemAdapter extends BaseAdapter {
         //if (convertView == null) {
             convertView = Util.inflateView(R.layout.list_item_status, mContext);
             holder = new ViewHolder();
-            holder.userImage = (ImageView) convertView.findViewById(R.id.ivItemPortrait);
+            holder.userImage = (NetworkImageView) convertView.findViewById(R.id.ivItemPortrait);
             holder.userName = (TextView) convertView.findViewById(R.id.tvItemName);
             holder.gps = (ImageView) convertView.findViewById(R.id.ivItemGps);
             holder.pic = (ImageView) convertView.findViewById(R.id.ivItemPic);
             holder.time = (TextView) convertView.findViewById(R.id.tvItemDate);
             holder.content = (TextView) convertView.findViewById(R.id.tvItemContent);
-            holder.thumbnailPic = (ImageView) convertView.findViewById(R.id.tweet_upload_pic1);
+            holder.thumbnailPic = (NetworkImageView) convertView.findViewById(R.id.tweet_upload_pic1);
             holder.tweetForm = (TextView) convertView.findViewById(R.id.tweet_form);
             holder.tweetRedirectPic = (ImageView) convertView.findViewById(R.id.tweet_redirect_pic);
             holder.tweetRedirect = (TextView) convertView.findViewById(R.id.tweet_redirect);
@@ -132,6 +137,8 @@ public class StatusItemAdapter extends BaseAdapter {
         //Enable hardware acceleration if the device has API 11 or above        
         aq.hardwareAccelerated11();
 
+        // Comment it, now use volley :-)
+        /*
         Bitmap placeholder = aq.getCachedImage(R.drawable.portrait_image_empty);
 
         if (aq.shouldDelay(position, convertView, parent, statuses.user.profile_image_url)) {
@@ -140,6 +147,8 @@ public class StatusItemAdapter extends BaseAdapter {
             aq.id(holder.userImage).image(statuses.user.profile_image_url, true, true, 0, 0,
                     placeholder, AQuery.FADE_IN);
         }
+        */
+        holder.userImage.setImageUrl(statuses.user.profile_image_url, mImageLoader);
         
         holder.userName.setText(statuses.user.name);
 
@@ -194,6 +203,8 @@ public class StatusItemAdapter extends BaseAdapter {
             final String middleImageUrl = statuses.bmiddle_pic;
             final String originalPicUrl = statuses.original_pic;
             
+            // Comment it, now use volley :-)
+            /*
             Bitmap loadingImg = aq.getCachedImage(R.drawable.chat_pic_loading);
             if (aq.shouldDelay(position, convertView, parent, statuses.thumbnail_pic)) {
                 aq.id(holder.thumbnailPic).image(loadingImg, 1.0f).visible();
@@ -201,6 +212,10 @@ public class StatusItemAdapter extends BaseAdapter {
                 aq.id(holder.thumbnailPic).image(statuses.thumbnail_pic, false, true, 0, 0, loadingImg,
                         AQuery.FADE_IN).visible();
             }
+            */
+            
+            holder.thumbnailPic.setImageUrl(statuses.user.profile_image_url, mImageLoader);
+
             
             aq.id(holder.thumbnailPic).clicked(new View.OnClickListener() {
 

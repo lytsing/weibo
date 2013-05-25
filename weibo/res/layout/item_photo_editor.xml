@@ -27,7 +27,7 @@
         android:layout_width="48dip"
         android:layout_height="48dip" >
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/ivItemPortrait"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

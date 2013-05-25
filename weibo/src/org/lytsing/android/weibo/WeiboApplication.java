@@ -18,7 +18,13 @@
 package org.lytsing.android.weibo;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.support.v4.util.LruCache;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageLoader.ImageCache;
+import com.android.volley.toolbox.Volley;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.weibo.sdk.android.Oauth2AccessToken;
@@ -32,6 +38,10 @@ public class WeiboApplication extends Application {
     
     private static Oauth2AccessToken sOauth2AccessToken;
     
+    private final LruCache<String, Bitmap> mImageCache = new LruCache<String, Bitmap>(20);
+    
+    private ImageLoader mImageLoader;
+    
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,6 +50,22 @@ public class WeiboApplication extends Application {
         sWeibo = Weibo.getInstance(Configuration.CONSUMER_KEY, Configuration.REDIRECT_CALLBACK_URL);
         
         sOauth2AccessToken = AccessTokenKeeper.readAccessToken(this);
+        
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        ImageCache imageCache = new ImageCache() {
+            @Override
+            public void putBitmap(String key, Bitmap value) {
+                mImageCache.put(key, value);
+            }
+
+            @Override
+            public Bitmap getBitmap(String key) {
+                return mImageCache.get(key);
+            }
+        };
+
+        mImageLoader = new ImageLoader(queue, imageCache);
 
         
         // set the max number of concurrent network connections, default is 4
@@ -80,6 +106,10 @@ public class WeiboApplication extends Application {
     
     public Oauth2AccessToken getOauth2AccessToken() {
         return sOauth2AccessToken;
+    }
+    
+    public ImageLoader getImageLoader() {
+        return mImageLoader;
     }
 }
 
