@@ -8,7 +8,12 @@
 cd ../../pulltorefresh-and-loadmore/
 android update project -p . -t android-8
 cd -
-cd ../../actionbar/
+
+cd ../../android-menudrawer/library
+android update project -p . -t android-16
+cd -
+
+cd ../../abs
 android update project -p . -t android-16
 cd -
 

@@ -16,13 +16,14 @@
 
 package org.lytsing.android.weibo.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
 
@@ -33,7 +34,7 @@ import org.lytsing.android.weibo.WeiboApplication;
 /**
  * A base activity that handles common functionality in the app.
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends SherlockActivity {
 
     private static final int TOAST_DURATION = Toast.LENGTH_SHORT;
 
@@ -53,12 +54,9 @@ public abstract class BaseActivity extends Activity {
         mAccessToken = mApplication.getOauth2AccessToken();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.base, menu);
-
+        getSupportMenuInflater().inflate(R.menu.base, menu);
         return true;
     }
 

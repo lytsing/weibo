@@ -37,6 +37,8 @@
     <!-- TimelineActivity.java -->
     <string name="new_blog_toast">Receive %d New Weibo</string>
     <string name="no_new_blog_toast">No new weibo.</string>
+    <string name="compose">Compose</string>
+    <string name="refresh">Refresh</string>
 
     <!-- repost.xml -->
     <string name="add_comment">Add comment </string>
@@ -71,7 +73,7 @@
     <string name="ok">Yes</string>
     <string name="cancel">No</string>
     <string name="close">Cloase</string>
-    <string name="send_sucess">Post sucessful！</string>
+    <string name="send_success">Post successful！</string>
     <string name="send_failed">Post failed！</string>
     <string name="del_pic">是否删除图片？</string>
 

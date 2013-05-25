@@ -49,9 +49,6 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.AbstractAction;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.net.RequestListener;
@@ -67,9 +64,7 @@ import java.io.IOException;
 
 public class ComposeActivity extends BaseActivity implements OnClickListener,
         RequestListener {
-    
-    private ActionBar mActionBar;
-    
+        
     private EditText mEdit;
     
     private GridView mGridView;
@@ -109,15 +104,9 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     
     public void initView() {
         this.setContentView(R.layout.newblog2);
-        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
         aq = new AQuery(this);
-        
-        mActionBar = (ActionBar) findViewById(R.id.actionbar);
-        mActionBar.setHomeAction(new IntentAction(this, TimelineActivity.createIntent(this), R.drawable.ic_title_home_default));
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        
-        mActionBar.addAction(new SendAction());
 
         aq.id(R.id.ll_text_limit_unit).clicked(this);
         aq.id(R.id.ib_insert_pic).clicked(this);
@@ -186,21 +175,10 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         return intent;
     }
     
-    private class SendAction extends AbstractAction {
-        
-        public SendAction() {
-            super(R.drawable.ic_send);
-        }
-
-        @Override
-        public void performAction(View view) {
-            composeNewPost();
-        }
-    }
     
     @Override
     public void onComplete(String response) {
-        Util.showToast(this, R.string.send_sucess);
+        Util.showToast(this, R.string.send_success);
         this.finish();
     }
 

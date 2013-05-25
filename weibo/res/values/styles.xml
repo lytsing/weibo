@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <style name="Weibo" parent="Theme.Sherlock.Light">
+        <item name="actionBarStyle">@style/Weibo.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Weibo.ActionBar</item>
+    </style>
+
+    <style name="Weibo.ActionBar" parent="Widget.Sherlock.ActionBar.Solid">
+        <item name="background">@drawable/actionbar_background</item>
+        <item name="backgroundStacked">@drawable/actionbar_background</item>
+        <item name="backgroundSplit">@drawable/actionbar_background</item>
+        <item name="titleTextStyle">@style/Weibo.ActionBar.Title</item>
+
+        <item name="android:background">@drawable/actionbar_background</item>
+        <item name="android:backgroundStacked">@drawable/actionbar_background</item>
+        <item name="android:backgroundSplit">@drawable/actionbar_background</item>
+        <item name="android:titleTextStyle">@style/Weibo.ActionBar.Title</item>
+        <item name="android:indeterminateProgressStyle">@style/IndeterminateProgress</item> 
+        <item name="indeterminateProgressStyle">@style/IndeterminateProgress</item> 
+    </style>
+    
+    <style name="IndeterminateProgress" parent="@android:style/Widget.ProgressBar.Small"> 
+       <item name="android:indeterminateDrawable">@drawable/progress_small_holo</item> 
+   </style> 
+
+    <style name="Weibo.ActionBar.Title" parent="@android:TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">#fff</item>
+    </style>
 
     <style name="ButtonBarDefaultStyle" parent="@android:style/ButtonBar">
         <item name="android:paddingLeft">2.0dip</item>
         <item name="android:paddingTop">4.0dip</item>
         <item name="android:paddingRight">2.0dip</item>
     </style>
+    
     <style name="FinskyBaseDialogTheme" parent="@android:style/Theme.Holo.Light.Dialog">
         <item name="finskyButtonBarStyle">@style/ButtonBarDefaultStyle</item>
         <item name="finskyButtonBarButtonStyle">?android:buttonStyle</item>

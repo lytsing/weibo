@@ -213,7 +213,8 @@ public class StatusItemAdapter extends BaseAdapter {
             }
             */
             
-            holder.thumbnailPic.setImageUrl(statuses.user.profile_image_url, mImageLoader);
+            holder.thumbnailPic.setImageUrl(statuses.thumbnail_pic, mImageLoader);
+            aq.id(holder.thumbnailPic).visible();
 
             
             aq.id(holder.thumbnailPic).clicked(new View.OnClickListener() {

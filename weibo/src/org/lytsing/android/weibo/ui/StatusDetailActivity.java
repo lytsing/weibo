@@ -21,20 +21,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
+import com.actionbarsherlock.view.Window;
 import com.androidquery.AQuery;
 import com.commonsware.cwac.merge.MergeAdapter;
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.AbstractAction;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.CommentsAPI;
 import com.weibo.sdk.android.api.FavoritesAPI;
@@ -60,8 +60,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     private Statuses mStatus;
 
-    private ActionBar mActionBar;
-
     private MergeAdapter mAdapter = null;
 
     private ListView mListView;
@@ -74,17 +72,12 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail);
         
-        mActionBar = (ActionBar) findViewById(R.id.actionbar);
         api = new CommentsAPI(mAccessToken);;
-
-        mActionBar.setHomeAction(new IntentAction(this, TimelineActivity.createIntent(this),
-                R.drawable.ic_title_home_default));
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.addAction(new RefreshAction());
 
         Intent i = this.getIntent();
 
@@ -95,17 +88,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         loadCommentData();
     }
 
-    private class RefreshAction extends AbstractAction {
-
-        public RefreshAction() {
-            super(R.drawable.ic_action_refresh);
-        }
-
-        @Override
-        public void performAction(View view) {
-            displayToast("refresh action");
-        }
-    }
 
     private void addComment(String content, boolean comment_ori) {
         api.create(content, mStatus.id, comment_ori, new RequestListener() {
@@ -171,6 +153,10 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     private void initView() {
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        
         mCommentsAdapter = new CommentsAdapter(this);
         mListView = (ListView) findViewById(R.id.list_view);
 
@@ -233,7 +219,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     }
 
     private void loadCommentData() {
-        mActionBar.setProgressBarVisibility(View.VISIBLE);
+        setSupportProgressBarIndeterminateVisibility(true);
 
         api.show(mStatus.id, 0, 0, 50, 1, WeiboAPI.AUTHOR_FILTER.ALL,
                 new RequestListener() {
@@ -267,7 +253,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
                                     @Override
                                     public void run() {
-                                        mActionBar.setProgressBarVisibility(View.GONE);
+                                        setSupportProgressBarIndeterminateVisibility(false);
                                         mCommentsAdapter.refresh();
                                     }
                                 });
@@ -325,16 +311,22 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.repost, menu);
 
         return true;
+        //return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpTo(this,
+                        new Intent(this, TimelineActivity.class));
+
+                return true;
             case R.id.comment_menu_item:
                 doPostComment();
                 break;

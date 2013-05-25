@@ -16,7 +16,6 @@
 
 package org.lytsing.android.weibo.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,12 +24,12 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.Action;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.api.WeiboAPI.FEATURE;
@@ -57,12 +56,12 @@ public class TimelineActivity extends BaseActivity {
 
     protected long mMaxId = 0;
 
-    private ActionBar mActionBar;
-
     private AQuery aq;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        
         super.onCreate(savedInstanceState);
 
         if (hasAccessToken()) {
@@ -85,35 +84,37 @@ public class TimelineActivity extends BaseActivity {
         Intent intent = new Intent(this, ComposeActivity.class);
         return intent;
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        
+        getSupportMenuInflater().inflate(R.menu.home, menu);
+        
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.compose:
+                startActivity(createComposeIntent());
+                break;
+            case R.id.refresh:
+                refreshStatus(mSinceId);
+                break;
+            default:
+                break;
+        }
 
-    public static Intent createIntent(Context context) {
-        Intent intent = new Intent(context, TimelineActivity.class);
-        return intent;
+        return true;
     }
 
     private void initView() {
         setContentView(R.layout.timeline);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         aq = new AQuery(this);
-
-        mActionBar = (ActionBar) findViewById(R.id.actionbar);
-        mActionBar.setHomeAction(new IntentAction(this, createIntent(this), R.drawable.logo_h));
-
-        final Action composeAction = new IntentAction(this, createComposeIntent(),
-                R.drawable.ic_action_compose);
-        mActionBar.addAction(composeAction);
-
-        mActionBar.addAction(new Action() {
-            @Override
-            public void performAction(View view) {
-                refreshStatus(mSinceId);
-            }
-
-            @Override
-            public int getDrawable() {
-                return R.drawable.ic_action_refresh;
-            }
-        });
 
         mListView = ((PullAndLoadListView) findViewById(R.id.msg_list_item));
 
@@ -193,7 +194,7 @@ public class TimelineActivity extends BaseActivity {
     }
 
     private void refreshStatus(long sinceId) {
-        mActionBar.setProgressBarVisibility(View.VISIBLE);
+        setSupportProgressBarIndeterminateVisibility(true);
 
         StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
         statusAPI.friendsTimeline(sinceId, 0, 20, 1, false, FEATURE.ALL, false,
@@ -215,7 +216,7 @@ public class TimelineActivity extends BaseActivity {
 
                             @Override
                             public void run() {
-                                mActionBar.setProgressBarVisibility(View.GONE);
+                                setSupportProgressBarIndeterminateVisibility(false);
                                 mAdapter.notifyDataSetChanged();
                                 // Call onRefreshComplete when the list has been refreshed.
                                 mListView.onRefreshComplete();

@@ -7,10 +7,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <com.markupartist.android.widget.ActionBar
-            android:id="@+id/actionbar"
-            style="@style/ActionBar" />
-
         <LinearLayout
             android:id="@+id/timelist_list"
             android:layout_width="fill_parent"

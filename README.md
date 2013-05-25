@@ -19,6 +19,48 @@ One fix per commit. If say a a commit closes the open issue 12. Just add `closes
 
 All code that is contributed must be compliant with [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
+## Build Instructions ##
+
+Dependent three-part libraries projects:
+
+* ActionBarSherlock http://actionbarsherlock.com/
+* android-actionbar https://github.com/johannilsson/android-actionbar
+* MenuDrawer https://github.com/SimonVT/android-menudrawer
+* android-pulltorefresh-and-loadmore https://github.com/shontauro/android-pulltorefresh-and-loadmore
+
+Just git clone them, and import into weibo project.
+
+Instructions for building on the command line with ant can be found below.
+
+### Building with Ant ###
+
+Once you have the Android SDK installed along with the library dependencies,
+run the following command from the root directory of the WordPress for Android
+project:
+
+    android update project -p .
+
+This will create a `local.properties` file that is specific for your setup.
+You can then build the project by running:
+
+    ant debug
+
+You can install the package onto a connected device or a virtual device by
+running:
+
+    ant installd
+
+Run all in one command:
+	
+	./build.sh
+
+
+Also see the full Android documentation, [Building and Running from the Command
+Line][command-line].
+
+[command-line]: http://developer.android.com/tools/building/building-cmdline.html
+
+
 ## Code Style Guidelines
 
 Contributers are recommended to follow the Android [Code Style Guidelines](http://source.android.com/source/code-style.html). 

@@ -5,10 +5,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <com.markupartist.android.widget.ActionBar
-        android:id="@+id/actionbar"
-        style="@style/ActionBar" />
-
     <ListView
         android:id="@+id/list_view"
         android:layout_width="fill_parent"
