@@ -39,7 +39,6 @@ import com.weibo.sdk.android.net.RequestListener;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.StatusItemAdapter;
-import org.lytsing.android.weibo.WeiboApplication;
 import org.lytsing.android.weibo.model.Statuses;
 import org.lytsing.android.weibo.model.WeiboObject;
 import org.lytsing.android.weibo.util.Log;
@@ -136,7 +135,7 @@ public class TimelineActivity extends BaseActivity {
 
         mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
 
-        mAdapter = new StatusItemAdapter(this, WeiboApplication.getWeiboApplication().getImageLoader());
+        mAdapter = new StatusItemAdapter(this, getWeiboApplication().getImageLoader());
 
         getFriendsTimeline(0, 0);
 

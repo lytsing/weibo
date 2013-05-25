@@ -41,7 +41,6 @@ public class ImageZoomActivity extends Activity {
         aq = new AQuery(this);
         
         image_zoom();
-        
     }
     
     private void image_zoom(){
