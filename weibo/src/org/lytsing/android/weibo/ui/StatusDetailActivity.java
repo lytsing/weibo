@@ -31,7 +31,6 @@ import android.widget.ListView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
 import com.actionbarsherlock.view.Window;
 import com.androidquery.AQuery;
 import com.commonsware.cwac.merge.MergeAdapter;

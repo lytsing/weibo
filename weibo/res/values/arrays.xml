@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- Used in MenuFragment.java -->
+    <string-array name="slide_list_items">
+        <item>Home</item>
+        <item>Search</item>
+    </string-array>
+    
+</resources>

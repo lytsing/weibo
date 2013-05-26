@@ -19,7 +19,7 @@
     <application
         android:label="@string/app_name"
         android:name=".WeiboApplication"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/ic_launcher"
         android:theme="@style/Weibo"
         android:hardwareAccelerated="true">
         <activity

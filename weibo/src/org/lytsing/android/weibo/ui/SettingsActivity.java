@@ -16,7 +16,6 @@
 
 package org.lytsing.android.weibo.ui;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -28,6 +27,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.text.format.Formatter;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.androidquery.util.AQUtility;
 
 import org.lytsing.android.weibo.R;
@@ -36,7 +36,7 @@ import org.lytsing.android.weibo.util.Log;
 
 import java.io.File;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends SherlockActivity {
     
     private static SettingsActivity mSettingsActivity;
 
@@ -49,6 +49,8 @@ public class SettingsActivity extends Activity {
                 new SettingsFragment()).commit();
         
         mSettingsActivity = this;
+        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public static class SettingsFragment extends PreferenceFragment {

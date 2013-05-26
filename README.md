@@ -24,7 +24,6 @@ All code that is contributed must be compliant with [Apache License 2.0](http://
 Dependent three-part libraries projects:
 
 * ActionBarSherlock http://actionbarsherlock.com/
-* android-actionbar https://github.com/johannilsson/android-actionbar
 * MenuDrawer https://github.com/SimonVT/android-menudrawer
 * android-pulltorefresh-and-loadmore https://github.com/shontauro/android-pulltorefresh-and-loadmore
 

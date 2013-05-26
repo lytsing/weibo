@@ -21,7 +21,7 @@ import android.os.Bundle;
 
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.weibo.sdk.android.Oauth2AccessToken;
@@ -34,7 +34,7 @@ import org.lytsing.android.weibo.WeiboApplication;
 /**
  * A base activity that handles common functionality in the app.
  */
-public abstract class BaseActivity extends SherlockActivity {
+public abstract class BaseActivity extends SherlockFragmentActivity {
 
     private static final int TOAST_DURATION = Toast.LENGTH_SHORT;
 

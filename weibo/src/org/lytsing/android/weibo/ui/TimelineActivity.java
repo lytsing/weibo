@@ -26,7 +26,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
@@ -34,6 +33,8 @@ import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.api.WeiboAPI.FEATURE;
 import com.weibo.sdk.android.net.RequestListener;
+
+import net.simonvt.menudrawer.MenuDrawer;
 
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
@@ -47,10 +48,14 @@ import org.lytsing.android.weibo.util.Util;
 import java.io.IOException;
 
 public class TimelineActivity extends BaseActivity {
+    
+    private static final String STATE_MENUDRAWER = TimelineActivity.class.getName() + ".menuDrawer";
 
     private StatusItemAdapter mAdapter = null;
 
     private PullAndLoadListView mListView = null;
+    
+    private MenuDrawer mMenuDrawer;
 
     protected long mSinceId = 0;
 
@@ -59,9 +64,7 @@ public class TimelineActivity extends BaseActivity {
     private AQuery aq;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        
+    public void onCreate(Bundle savedInstanceState) {        
         super.onCreate(savedInstanceState);
 
         if (hasAccessToken()) {
@@ -96,6 +99,9 @@ public class TimelineActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                mMenuDrawer.toggleMenu();
+                break;
             case R.id.compose:
                 startActivity(createComposeIntent());
                 break;
@@ -111,6 +117,26 @@ public class TimelineActivity extends BaseActivity {
 
     private void initView() {
         setContentView(R.layout.timeline);
+        
+        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
+        mMenuDrawer.setMenuView(R.layout.menu);
+
+        MenuFragment menu = (MenuFragment)getSupportFragmentManager().findFragmentById(R.id.left_menu);
+        menu.getListView().setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                
+                if (position == 1) {
+                    Intent intent = new Intent(TimelineActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
+                
+                mMenuDrawer.setActiveView(view);
+                mMenuDrawer.closeMenu();                
+            }
+        });
+        
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -164,6 +190,29 @@ public class TimelineActivity extends BaseActivity {
             }
         });
     }
+    
+    @Override
+    protected void onRestoreInstanceState(Bundle inState) {
+        super.onRestoreInstanceState(inState);
+        mMenuDrawer.restoreState(inState.getParcelable(STATE_MENUDRAWER));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(STATE_MENUDRAWER, mMenuDrawer.saveState());
+    }
+    
+    @Override
+    public void onBackPressed() {
+        final int drawerState = mMenuDrawer.getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            mMenuDrawer.closeMenu();
+            return;
+        }
+
+        super.onBackPressed();
+    }
 
     private void showLoadingIndicator() {
         aq.id(R.id.placeholder_loading).visible();
@@ -216,7 +265,6 @@ public class TimelineActivity extends BaseActivity {
 
                             @Override
                             public void run() {
-                                setSupportProgressBarIndeterminateVisibility(false);
                                 mAdapter.notifyDataSetChanged();
                                 // Call onRefreshComplete when the list has been refreshed.
                                 mListView.onRefreshComplete();
