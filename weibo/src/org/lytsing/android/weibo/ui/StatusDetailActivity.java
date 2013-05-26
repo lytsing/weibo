@@ -322,9 +322,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpTo(this,
-                        new Intent(this, TimelineActivity.class));
-
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.comment_menu_item:
                 doPostComment();

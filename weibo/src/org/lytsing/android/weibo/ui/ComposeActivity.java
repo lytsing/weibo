@@ -16,7 +16,6 @@
 
 package org.lytsing.android.weibo.ui;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.text.Editable;
 import android.text.Spannable;
@@ -34,7 +34,6 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -46,6 +45,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
@@ -167,14 +169,6 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             }           
         });
     }
-
-    public Intent createIntent(Context context) {
-        Intent intent = new Intent(context, TimelineActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        
-        return intent;
-    }
-    
     
     @Override
     public void onComplete(String response) {
@@ -209,11 +203,39 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             api.update(mContent, mLatitude, mLongitude, this);
         }
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.send, menu);
+        
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.send:
+                composeNewPost();
+                return false;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
 
+        if (viewId == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+            return;
+        }
+        
         if (viewId == R.id.ll_text_limit_unit) {
             mContent = mEdit.getText().toString();
             if (TextUtils.isEmpty(mContent)) return;
@@ -232,7 +254,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             popup.getMenuInflater().inflate(R.menu.pic, popup.getMenu());
 
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                public boolean onMenuItemClick(MenuItem item) {
+                public boolean onMenuItemClick(android.view.MenuItem item) {
                                     
                     Intent intent = new Intent();
                     intent.setType("image/*");

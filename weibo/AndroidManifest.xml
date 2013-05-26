@@ -59,7 +59,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.TimelineActivity" >
             </meta-data>
-
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
@@ -70,6 +69,10 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.TimelineActivity" />
+
         </activity>
         <activity
             android:name=".ui.WebViewDialog"
@@ -79,6 +82,9 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateVisible|adjustResize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.TimelineActivity" />
         </activity>
         <activity
             android:name=".ui.ImageViewerActivity"
