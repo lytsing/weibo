@@ -199,8 +199,9 @@ public class TimelineActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(STATE_MENUDRAWER, mMenuDrawer.saveState());
+        //java.lang.NullPointerException at org.lytsing.android.weibo.ui.TimelineActivity.onSaveInstanceState(TimelineActivity.java:204)
+        //super.onSaveInstanceState(outState);
+        //outState.putParcelable(STATE_MENUDRAWER, mMenuDrawer.saveState());
     }
     
     @Override
