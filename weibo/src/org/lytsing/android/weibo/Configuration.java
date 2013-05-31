@@ -18,7 +18,7 @@ package org.lytsing.android.weibo;
 
 public class Configuration {
     
-    public static final String CONSUMER_KEY = "1854301511";
+    public static final String CONSUMER_KEY = "2357253761";
     
     public static final String REDIRECT_CALLBACK_URL = "http://www.sina.com";
 }

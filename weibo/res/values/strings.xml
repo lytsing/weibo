@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">凌波微步</string>
+    <string name="app_name">Water Walk</string>
     
     
     <string name="WidgetProvider_timestamp_today">Today</string>
