@@ -51,6 +51,8 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
         mApplication = (WeiboApplication)getApplication();
         mWeibo = mApplication.getWeibo();
         mAccessToken = mApplication.getOauth2AccessToken();
+        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

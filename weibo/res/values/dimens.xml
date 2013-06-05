@@ -22,5 +22,7 @@
     <dimen name="actionbar_height">45dip</dimen>
     <dimen name="actionbar_item_height">45dip</dimen>
     <dimen name="actionbar_item_width">45dip</dimen>
+    
+    <dimen name="action_button_min_width">56dp</dimen>
 
 </resources>

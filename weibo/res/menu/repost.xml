@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="0"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/refresh" />
     
     <item
         android:id="@+id/comment_menu_item"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="never"
+        android:orderInCategory="98"
         android:title="@string/add_comment" />
     
     <item
         android:id="@+id/repost_menu_item"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="never"
+        android:orderInCategory="99"
         android:title="@string/repost" />
     
        <item
         android:id="@+id/favorites_menu_item"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="never"
+        android:orderInCategory="100"
         android:title="@string/favorites" />
 </menu>
-
-

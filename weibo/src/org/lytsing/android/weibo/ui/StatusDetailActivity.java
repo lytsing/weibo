@@ -63,6 +63,8 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     private ListView mListView;
 
     private CommentsAdapter mCommentsAdapter;
+    
+    private Menu mOptionsMenu;
 
     private AQuery aq = null;
     
@@ -150,20 +152,17 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
 
     private void initView() {
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         
         mCommentsAdapter = new CommentsAdapter(this);
         mListView = (ListView) findViewById(R.id.list_view);
 
         View view = Util.inflateView(R.layout.list_item_stream_activity, this, null);
-
+        
         mAdapter = new MergeAdapter();
         mAdapter.addView(view);
         mAdapter.addAdapter(mCommentsAdapter);
         mListView.setAdapter(mAdapter);
+        
 
         aq = new AQuery(view);
 
@@ -251,7 +250,9 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
                                     @Override
                                     public void run() {
+                                        //setRefreshActionButtonState(false);
                                         setSupportProgressBarIndeterminateVisibility(false);
+
                                         mCommentsAdapter.refresh();
                                     }
                                 });
@@ -311,9 +312,9 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.repost, menu);
+        mOptionsMenu = menu;
 
         return true;
-        //return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -406,5 +407,20 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     @Override
     public void onError(final WeiboException e) {
         Util.showToast(this, e.getMessage());
+    }
+    
+    public void setRefreshActionButtonState(boolean refreshing) {
+        if (mOptionsMenu == null) {
+            return;
+        }
+
+        final MenuItem refreshItem = mOptionsMenu.findItem(R.id.menu_refresh);
+        if (refreshItem != null) {
+            if (refreshing) {
+                refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+            } else {
+                refreshItem.setActionView(null);
+            }
+        }
     }
 }

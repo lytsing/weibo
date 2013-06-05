@@ -1,14 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/compose"
+        android:id="@+id/menu_compose"
         android:icon="@drawable/ic_action_compose"
         android:showAsAction="ifRoom"
         android:title="@string/compose"
         android:titleCondensed="@string/compose">
     </item>
     <item
-        android:id="@+id/refresh"
+        android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_action_refresh"
         android:showAsAction="ifRoom"
         android:title="@string/refresh"

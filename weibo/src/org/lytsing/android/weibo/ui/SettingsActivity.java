@@ -49,8 +49,6 @@ public class SettingsActivity extends SherlockActivity {
                 new SettingsFragment()).commit();
         
         mSettingsActivity = this;
-        
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public static class SettingsFragment extends PreferenceFragment {

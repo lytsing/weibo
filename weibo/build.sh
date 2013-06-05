@@ -12,7 +12,7 @@ fi
 
 PRJ=Weibo
 DATE=`date +%Y%m%d`
-VER=1.0
+VER=1.2
 NAME=$PRJ-$DATE-$VER
 
 cd ../../pulltorefresh-and-loadmore/

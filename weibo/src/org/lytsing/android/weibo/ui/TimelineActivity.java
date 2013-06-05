@@ -56,6 +56,8 @@ public class TimelineActivity extends BaseActivity {
     private PullAndLoadListView mListView = null;
     
     private MenuDrawer mMenuDrawer;
+    
+    private Menu mOptionsMenu;
 
     protected long mSinceId = 0;
 
@@ -93,6 +95,8 @@ public class TimelineActivity extends BaseActivity {
         
         getSupportMenuInflater().inflate(R.menu.home, menu);
         
+        mOptionsMenu = menu;
+        
         return true;
     }
     
@@ -102,10 +106,10 @@ public class TimelineActivity extends BaseActivity {
             case android.R.id.home:
                 mMenuDrawer.toggleMenu();
                 break;
-            case R.id.compose:
+            case R.id.menu_compose:
                 startActivity(createComposeIntent());
                 break;
-            case R.id.refresh:
+            case R.id.menu_refresh:
                 refreshStatus(mSinceId);
                 break;
             default:
@@ -137,9 +141,6 @@ public class TimelineActivity extends BaseActivity {
             }
         });
         
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         aq = new AQuery(this);
 
         mListView = ((PullAndLoadListView) findViewById(R.id.msg_list_item));
@@ -194,7 +195,7 @@ public class TimelineActivity extends BaseActivity {
     @Override
     protected void onRestoreInstanceState(Bundle inState) {
         super.onRestoreInstanceState(inState);
-        mMenuDrawer.restoreState(inState.getParcelable(STATE_MENUDRAWER));
+        //mMenuDrawer.restoreState(inState.getParcelable(STATE_MENUDRAWER));
     }
 
     @Override
@@ -217,10 +218,12 @@ public class TimelineActivity extends BaseActivity {
 
     private void showLoadingIndicator() {
         aq.id(R.id.placeholder_loading).visible();
+        setRefreshActionButtonState(true);
     }
 
     private void hideLoadingIndicator() {
         aq.id(R.id.placeholder_loading).gone();
+        setRefreshActionButtonState(false);
     }
     
     private void showErrorIndicator() {
@@ -244,7 +247,7 @@ public class TimelineActivity extends BaseActivity {
     }
 
     private void refreshStatus(long sinceId) {
-        setSupportProgressBarIndeterminateVisibility(true);
+        setRefreshActionButtonState(true);
 
         StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
         statusAPI.friendsTimeline(sinceId, 0, 20, 1, false, FEATURE.ALL, false,
@@ -280,6 +283,8 @@ public class TimelineActivity extends BaseActivity {
                                 } else {
                                     displayToast(R.string.no_new_blog_toast);
                                 }
+                                
+                                setRefreshActionButtonState(false);
                             }
                         });
                     }
@@ -287,12 +292,13 @@ public class TimelineActivity extends BaseActivity {
                     @Override
                     public void onError(final WeiboException e) {
                         Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
+                        setRefreshActionButtonState(false);
                     }
 
                     @Override
                     public void onIOException(IOException e) {
                         // TODO Auto-generated method stub
-
+                        setRefreshActionButtonState(false);
                     }
 
                 });
@@ -366,6 +372,21 @@ public class TimelineActivity extends BaseActivity {
 
                 });
 
+    }
+    
+    public void setRefreshActionButtonState(boolean refreshing) {
+        if (mOptionsMenu == null) {
+            return;
+        }
+
+        final MenuItem refreshItem = mOptionsMenu.findItem(R.id.menu_refresh);
+        if (refreshItem != null) {
+            if (refreshing) {
+                refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+            } else {
+                refreshItem.setActionView(null);
+            }
+        }
     }
 
     private void loadMoreData(final long maxId) {
