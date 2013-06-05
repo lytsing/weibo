@@ -1,6 +1,10 @@
 # Weibo for Android
 
-This projects is being designed to be a light-weight, fast user experience open Weibo alternative for Android. 
+<a href="https://play.google.com/store/apps/details?id=org.lytsing.android.weibo">
+	<img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
+</a>
+
+This projects is being designed to be a light-weight, fast user experience open Weibo alternative for Android. require Android 4.0+
 
 * Follow [Android Patterns](http://www.androidpatterns.com/).
 * Use lots of Open Source.

@@ -22,13 +22,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.text.format.Formatter;
 
-import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.androidquery.util.AQUtility;
 
@@ -53,18 +51,6 @@ public class SettingsActivity extends SherlockActivity {
         mSettingsActivity = this;
         
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-
-        return false;
     }
 
     public static class SettingsFragment extends PreferenceFragment {

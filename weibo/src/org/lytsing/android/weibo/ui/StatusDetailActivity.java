@@ -21,7 +21,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -321,9 +320,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
             case R.id.comment_menu_item:
                 doPostComment();
                 break;
@@ -337,7 +333,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                 break;
         }
 
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
     private void doPostComment() {

@@ -16,9 +16,8 @@
 
 package org.lytsing.android.weibo.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-
+import android.support.v4.app.NavUtils;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -62,19 +61,16 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
-            case R.id.setting_menu_item:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.help_info_menu_item:
-                break;
-            default:
-                break;
-        }
+            case android.R.id.home:
+                if (this instanceof TimelineActivity) {
+                    return false;
+                }
 
-        return false;
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**  
