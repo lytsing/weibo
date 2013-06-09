@@ -170,9 +170,9 @@ public class StatusItemAdapter extends BaseAdapter {
         
         holder.time.setText(time);
         holder.content.setText(statuses.text, TextView.BufferType.SPANNABLE);
-        Util.textHighlight(holder.content, "#","#");
+        Util.textHighlight(holder.content, "#", "#");
         //Util.textHighlight(holder.content, "@",":");
-        Util.textHighlight(holder.content, "http://"," ");
+        Util.textHighlight(holder.content, "http://", " ");
         
         holder.tweetForm.setText(Html.fromHtml(String.format(
                 mContext.getResources().getString(R.string.from), statuses.source)));
@@ -228,7 +228,7 @@ public class StatusItemAdapter extends BaseAdapter {
                     mContext.startActivity(intent);
                 }
                 
-            }) ;
+            });
         }
 
         
@@ -240,12 +240,12 @@ public class StatusItemAdapter extends BaseAdapter {
                 text = "@" + statuses.retweeted_status.user.name + ":";
             }
             
-            text += statuses.retweeted_status.text;;
+            text += statuses.retweeted_status.text;
             
             holder.retweetedText.setText(text, TextView.BufferType.SPANNABLE);
-            Util.textHighlight(holder.retweetedText, "#","#");
+            Util.textHighlight(holder.retweetedText, "#", "#");
             //Util.textHighlight(holder.retweetedText, "@",":");
-            Util.textHighlight(holder.retweetedText, "http://"," ");
+            Util.textHighlight(holder.retweetedText, "http://", " ");
 
             if (statuses.retweeted_status.thumbnail_pic != null) {
                 final String bmiddlePicUrl = statuses.retweeted_status.bmiddle_pic;

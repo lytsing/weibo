@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.lytsing.android.weibo;
 
 import android.app.Application;
@@ -35,22 +34,22 @@ public class WeiboApplication extends Application {
     private static WeiboApplication sWeiboApplication;
 
     private static Weibo sWeibo;
-    
+
     private static Oauth2AccessToken sOauth2AccessToken;
-    
+
     private final LruCache<String, Bitmap> mImageCache = new LruCache<String, Bitmap>(20);
-    
+
     private ImageLoader mImageLoader;
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         sWeiboApplication = this;
         sWeibo = Weibo.getInstance(Configuration.CONSUMER_KEY, Configuration.REDIRECT_CALLBACK_URL);
-        
+
         sOauth2AccessToken = AccessTokenKeeper.readAccessToken(this);
-        
+
         RequestQueue queue = Volley.newRequestQueue(this);
 
         ImageCache imageCache = new ImageCache() {
@@ -67,7 +66,6 @@ public class WeiboApplication extends Application {
 
         mImageLoader = new ImageLoader(queue, imageCache);
 
-        
         // set the max number of concurrent network connections, default is 4
         AjaxCallback.setNetworkLimit(8);
 
@@ -87,12 +85,13 @@ public class WeiboApplication extends Application {
         BitmapAjaxCallback.setMaxPixelLimit(2000000);
 
     }
-    
-    @Override
-    public void onLowMemory(){  
 
-        //clear all memory cached images when system is in low memory
-        //note that you can configure the max image cache count, see CONFIGURATION
+    @Override
+    public void onLowMemory() {
+
+        // clear all memory cached images when system is in low memory
+        // note that you can configure the max image cache count, see
+        // CONFIGURATION
         BitmapAjaxCallback.clearCache();
     }
 
@@ -103,14 +102,12 @@ public class WeiboApplication extends Application {
     public Weibo getWeibo() {
         return sWeibo;
     }
-    
+
     public Oauth2AccessToken getOauth2AccessToken() {
         return sOauth2AccessToken;
     }
-    
+
     public ImageLoader getImageLoader() {
         return mImageLoader;
     }
 }
-
-

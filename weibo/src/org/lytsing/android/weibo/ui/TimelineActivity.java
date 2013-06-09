@@ -402,7 +402,7 @@ public class TimelineActivity extends BaseActivity {
 
                         for (Statuses status : response.statuses) {
                             mAdapter.addStatuses(status);
-                            mMaxId = status.id -1;
+                            mMaxId = status.id - 1;
                         }
 
                         if (maxId == 0 && response.statuses.size() > 0) {

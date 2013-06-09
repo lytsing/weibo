@@ -23,14 +23,16 @@ import android.content.SharedPreferences.Editor;
 import com.weibo.sdk.android.Oauth2AccessToken;
 
 import org.lytsing.android.weibo.util.Preferences;
+
 /**
  * 该类用于保存Oauth2AccessToken到sharepreference，并提供读取功能
+ * 
  * @author xiaowei6@staff.sina.com.cn
- *
  */
 public class AccessTokenKeeper {
     /**
      * 保存accesstoken到SharedPreferences
+     * 
      * @param context Activity 上下文环境
      * @param token Oauth2AccessToken
      */
@@ -41,11 +43,13 @@ public class AccessTokenKeeper {
         editor.putLong(Preferences.EXPIRES_IN, token.getExpiresTime());
         editor.commit();
     }
+
     /**
      * 清空sharepreference
+     * 
      * @param context
      */
-    public static void clear(Context context){
+    public static void clear(Context context) {
         SharedPreferences pref = Preferences.get(context);
         Editor editor = pref.edit();
         editor.clear();
@@ -54,10 +58,11 @@ public class AccessTokenKeeper {
 
     /**
      * 从SharedPreferences读取accessstoken
+     * 
      * @param context
      * @return Oauth2AccessToken
      */
-    public static Oauth2AccessToken readAccessToken(Context context){
+    public static Oauth2AccessToken readAccessToken(Context context) {
         Oauth2AccessToken token = new Oauth2AccessToken();
         SharedPreferences pref = Preferences.get(context);
         token.setToken(pref.getString(Preferences.ACCESS_TOKEN, ""));

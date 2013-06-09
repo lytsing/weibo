@@ -28,6 +28,11 @@ import com.weibo.sdk.android.sso.SsoHandler;
 import org.lytsing.android.weibo.AccessTokenKeeper;
 import org.lytsing.android.weibo.util.Preferences;
 
+/**
+ * 
+ * @author lytsing
+ *
+ */
 public class AuthenticatedActivity extends BaseActivity {
     private SsoHandler mSsoHandler;
 
