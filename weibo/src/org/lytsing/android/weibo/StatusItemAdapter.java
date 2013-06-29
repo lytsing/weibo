@@ -40,7 +40,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Statuses item adapter
+ * Statuses item adapter.
  */
 public class StatusItemAdapter extends BaseAdapter {
     
@@ -104,25 +104,25 @@ public class StatusItemAdapter extends BaseAdapter {
         }
         
         //if (convertView == null) {
-            convertView = Util.inflateView(R.layout.list_item_status, mContext);
-            holder = new ViewHolder();
-            holder.userImage = (NetworkImageView) convertView.findViewById(R.id.ivItemPortrait);
-            holder.userName = (TextView) convertView.findViewById(R.id.tvItemName);
-            holder.gps = (ImageView) convertView.findViewById(R.id.ivItemGps);
-            holder.pic = (ImageView) convertView.findViewById(R.id.ivItemPic);
-            holder.time = (TextView) convertView.findViewById(R.id.tvItemDate);
-            holder.content = (TextView) convertView.findViewById(R.id.tvItemContent);
-            holder.thumbnailPic = (NetworkImageView) convertView.findViewById(R.id.tweet_upload_pic1);
-            holder.tweetForm = (TextView) convertView.findViewById(R.id.tweet_form);
-            holder.tweetRedirectPic = (ImageView) convertView.findViewById(R.id.tweet_redirect_pic);
-            holder.tweetRedirect = (TextView) convertView.findViewById(R.id.tweet_redirect);
-            holder.tweetCommentPic = (ImageView) convertView.findViewById(R.id.tweet_comment_pic);
-            holder.tweetComment = (TextView) convertView.findViewById(R.id.tweet_comment);
-            holder.tweetAttitudePic = (ImageView) convertView.findViewById(R.id.tweet_attitude_pic);
-            holder.tweetAttitude = (TextView) convertView.findViewById(R.id.tweet_attitude);
-            holder.subLayout = convertView.findViewById(R.id.subLayout);
-            holder.retweetedText = (TextView) convertView.findViewById(R.id.tvItemSubContent);
-            holder.tweetUploadPic2 = (ImageView) convertView.findViewById(R.id.tweet_upload_pic2);
+        convertView = Util.inflateView(R.layout.list_item_status, mContext);
+        holder = new ViewHolder();
+        holder.userImage = (NetworkImageView) convertView.findViewById(R.id.ivItemPortrait);
+        holder.userName = (TextView) convertView.findViewById(R.id.tvItemName);
+        holder.gps = (ImageView) convertView.findViewById(R.id.ivItemGps);
+        holder.pic = (ImageView) convertView.findViewById(R.id.ivItemPic);
+        holder.time = (TextView) convertView.findViewById(R.id.tvItemDate);
+        holder.content = (TextView) convertView.findViewById(R.id.tvItemContent);
+        holder.thumbnailPic = (NetworkImageView) convertView.findViewById(R.id.tweet_upload_pic1);
+        holder.tweetForm = (TextView) convertView.findViewById(R.id.tweet_form);
+        holder.tweetRedirectPic = (ImageView) convertView.findViewById(R.id.tweet_redirect_pic);
+        holder.tweetRedirect = (TextView) convertView.findViewById(R.id.tweet_redirect);
+        holder.tweetCommentPic = (ImageView) convertView.findViewById(R.id.tweet_comment_pic);
+        holder.tweetComment = (TextView) convertView.findViewById(R.id.tweet_comment);
+        holder.tweetAttitudePic = (ImageView) convertView.findViewById(R.id.tweet_attitude_pic);
+        holder.tweetAttitude = (TextView) convertView.findViewById(R.id.tweet_attitude);
+        holder.subLayout = convertView.findViewById(R.id.subLayout);
+        holder.retweetedText = (TextView) convertView.findViewById(R.id.tvItemSubContent);
+        holder.tweetUploadPic2 = (ImageView) convertView.findViewById(R.id.tweet_upload_pic2);
        
             /*
             convertView.setTag(holder);

@@ -24,47 +24,47 @@ public class User implements Serializable {
      */
     private static final long serialVersionUID = -7112440254024632167L;
 
-    /** 用户UID */
+    /** 用户UID. */
     public long id;
     
-    /** 用户昵称 */
+    /** 用户昵称. */
     public String screen_name;
     
-    /** 友好显示名称 */
+    /** 友好显示名称. */
     public String name;
 
     public String domain;
     
-    /** 用户所在地区ID */
+    /** 用户所在地区ID. */
     public String province;
     
-    /** 用户所在城市ID */
+    /** 用户所在城市ID. */
     public String city;
     
-    /** 用户所在地 */
+    /** 用户所在地. */
     public String location;
     
-    /** 用户描述 */
+    /** 用户描述. */
     public String description;
     
-    /** 用户博客地址 */
+    /** 用户博客地址. */
     public String url;
     
-    /** 用户头像地址 */
+    /** 用户头像地址. */
     public String profile_image_url;
     
-    /** 用户的个性化域名 */
+    /** 用户的个性化域名. */
     public String user_domain;
     
-    /** 性别，m：男、f：女、n：未知 */
+    /** 性别. m：男、f：女、n：未知 */
     public String gender;
 
     public String weihao;
     
-    /** 粉丝数 */
+    /** 粉丝数. */
     public int followers_count;
     
-    /** 关注数 */
+    /** 关注数. */
     public int friends_count;
     
     /** 微博数 */
@@ -85,28 +85,28 @@ public class User implements Serializable {
     
     public String remark;
     
-    /** 是否允许带有地理信息 */
+    /** 是否允许带有地理信息. */
     public boolean geo_enabled;
     
-    /** 是否是微博认证用户，即带V用户 */
+    /** 是否是微博认证用户，即带V用户. */
     public boolean verified;
     
-    /** 是否允许所有人对我的微博进行评论 */
+    /** 是否允许所有人对我的微博进行评论. */
     public boolean allow_all_comment;
     
-    /** 用户大头像地址 */
+    /** 用户大头像地址. */
     public String avatar_large;
     
-    /** 认证原因 */
+    /** 认证原因. */
     public String verified_reason;
     
-    /** 该用户是否关注当前登录用户 */
+    /** 该用户是否关注当前登录用户. */
     public boolean follow_me;
     
-    /** 用户的在线状态，0：不在线、1：在线 */
+    /** 用户的在线状态. 0：不在线、1：在线 */
     public int online_status;
     
-    /** 用户的互粉数 */
+    /** 用户的互粉数. */
     public int bi_followers_count;
 }
 

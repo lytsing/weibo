@@ -38,7 +38,7 @@ import java.io.File;
 
 public class SettingsActivity extends SherlockActivity {
     
-    private static SettingsActivity mSettingsActivity;
+    private static SettingsActivity sSettingsActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class SettingsActivity extends SherlockActivity {
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new SettingsFragment()).commit();
         
-        mSettingsActivity = this;
+        sSettingsActivity = this;
     }
 
     public static class SettingsFragment extends PreferenceFragment {
@@ -75,7 +75,7 @@ public class SettingsActivity extends SherlockActivity {
                 final Preference preference) {
 
             if ("os-licenses".equals(preference.getKey())) {
-                startActivity(WebViewDialog.getIntent(mSettingsActivity,
+                startActivity(WebViewDialog.getIntent(sSettingsActivity,
                         R.string.os_licenses_label,
                         "file:///android_asset/licenses.html"));
             } else if ("clear-cache".equals(preference.getKey())) {
@@ -86,7 +86,7 @@ public class SettingsActivity extends SherlockActivity {
                     }
                 };
 
-                AlertUtil.showAlert(mSettingsActivity, R.string.attention,
+                AlertUtil.showAlert(sSettingsActivity, R.string.attention,
                         R.string.clear_cache_summary,
                         getString(R.string.ok), listener,
                         getString(R.string.cancel), null);
@@ -95,17 +95,17 @@ public class SettingsActivity extends SherlockActivity {
         }
 
         private void image_clear_disk() {
-            AQUtility.cleanCacheAsync(mSettingsActivity, 0, 0);
+            AQUtility.cleanCacheAsync(sSettingsActivity, 0, 0);
         }
 
         private void configureAboutSection(PreferenceScreen preferenceScreen) {
             Preference buildVersion = preferenceScreen.findPreference("build-version");
 
             String versionName = "";
-            PackageManager pm = mSettingsActivity.getPackageManager();
+            PackageManager pm = sSettingsActivity.getPackageManager();
 
             try {
-                PackageInfo pi = pm.getPackageInfo(mSettingsActivity.getPackageName(), 0);
+                PackageInfo pi = pm.getPackageInfo(sSettingsActivity.getPackageName(), 0);
                 versionName = pi.versionName;
             } catch (NameNotFoundException e) {
                 Log.e("Get Version Code error!", e);
@@ -118,7 +118,7 @@ public class SettingsActivity extends SherlockActivity {
 
             @Override
             protected Long doInBackground(Void... params) {
-                File cacheDir = AQUtility.getCacheDir(mSettingsActivity);
+                File cacheDir = AQUtility.getCacheDir(sSettingsActivity);
 
                 long size = 0;
 
@@ -131,7 +131,7 @@ public class SettingsActivity extends SherlockActivity {
 
             protected void onPostExecute(Long result) {
                 Preference clearCache = getPreferenceScreen().findPreference("clear-cache");
-                String cacheSize = Formatter.formatFileSize(mSettingsActivity, result);
+                String cacheSize = Formatter.formatFileSize(sSettingsActivity, result);
                 clearCache.setSummary("Cache size: " + cacheSize);
             }
 

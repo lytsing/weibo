@@ -21,13 +21,20 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-public class AlertUtil {
+/**
+ * Alert Diaglog Util Class.
+ */
+public final class AlertUtil {
+    
+    private AlertUtil() {
+        
+    }
 
     /**
-     * Show Alert Dialog
-     * @param context
-     * @param titleId
-     * @param messageId
+     * Show Alert Dialog with resource id.
+     * @param context Activity context.
+     * @param titleId title id
+     * @param messageId message id
      */
     public static void showAlert(Context context, int titleId, int messageId) {
         Dialog dlg = new AlertDialog.Builder(context)
@@ -40,6 +47,12 @@ public class AlertUtil {
         dlg.show();
     }
 
+    /**
+     * Show Alert Dialog with String text.
+     * @param context Activity context.
+     * @param title Title
+     * @param message Message
+     */
     public static void showAlert(Context context, String title, String message) {
         Dialog dlg = new AlertDialog.Builder(context)
             .setIconAttribute(android.R.attr.alertDialogIcon)
@@ -52,7 +65,7 @@ public class AlertUtil {
     }
 
     /**
-     * Show Alert Dialog
+     * Show Alert Dialog with tow buttons.
      * @param context
      * @param titleId
      * @param messageId
@@ -77,7 +90,7 @@ public class AlertUtil {
     }
     
     /**
-     * Show Alert Dialog
+     * Show Alert Dialog with positive button.
      * @param context
      * @param titleId
      * @param messageId

@@ -47,7 +47,7 @@ public class Log {
 
     /**
      * Send a DEBUG log message.
-     * @param msg
+     * @param msg log message
      */
     public static void d(String msg) {
         if (DEBUG) {
@@ -98,7 +98,7 @@ public class Log {
     }
 
     /**
-     * Send a WARN log message
+     * Send a WARN log message.
      * @param msg The message you would like logged.
      */
     public static void w(String msg) {
@@ -140,7 +140,7 @@ public class Log {
     }
 
     /**
-     * Building Message
+     * Building Message.
      * @param msg The message you would like logged.
      * @return Message String
      */

@@ -29,6 +29,9 @@ import com.androidquery.callback.BitmapAjaxCallback;
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
 
+/**
+ * WeiboApplication.
+ */
 public class WeiboApplication extends Application {
 
     private static WeiboApplication sWeiboApplication;

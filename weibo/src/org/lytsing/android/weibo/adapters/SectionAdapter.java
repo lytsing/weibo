@@ -26,7 +26,7 @@ import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.util.Util;
 
 /**
- * abstract SectionAdapter
+ * abstract SectionAdapter.
  *
  */
 abstract public class SectionAdapter extends BaseAdapter {
@@ -35,7 +35,7 @@ abstract public class SectionAdapter extends BaseAdapter {
     protected View mSectionHeaderView;
 
     /**
-     * Constructor
+     * Constructor.
      * 
      * @param sectionTitleId The resource ID for a layout file containing a layout to use when
      *                  instantiating views.
@@ -48,7 +48,7 @@ abstract public class SectionAdapter extends BaseAdapter {
     }
 
     /**
-     * Constructor
+     * Constructor.
      * 
      * @param sectionHeaderView The header view
      */

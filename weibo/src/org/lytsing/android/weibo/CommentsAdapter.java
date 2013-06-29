@@ -30,6 +30,9 @@ import org.lytsing.android.weibo.util.Util;
 
 import java.util.ArrayList;
 
+/**
+ * Comments Adapter.
+ */
 public class CommentsAdapter extends BaseAdapter {
     
     private ArrayList<Comment> mComments;
@@ -42,7 +45,7 @@ public class CommentsAdapter extends BaseAdapter {
     
     /**
      * 
-     * @param context
+     * @param context Activity context.
      */
     public CommentsAdapter(Context context) {
         mComments = new ArrayList<Comment>();
@@ -51,7 +54,7 @@ public class CommentsAdapter extends BaseAdapter {
     }
 
     /**
-     * Get The Comment's count
+     * Get The Comment's count.
      */
     @Override
     public int getCount() {

@@ -48,7 +48,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mApplication = (WeiboApplication)getApplication();
+        mApplication = (WeiboApplication) getApplication();
         mWeibo = mApplication.getWeibo();
         mAccessToken = mApplication.getOauth2AccessToken();
         
@@ -71,19 +71,20 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     /**  
-     * @param resId
+     * @param resId resource id
      */
     public void displayToast(int resId) {
         Toast.makeText(this, resId, TOAST_DURATION).show();
     }    
 
     /**  
-     * @param text
+     * @param text desplay text
      */
     public void displayToast(CharSequence text) {
         Toast.makeText(this, text, TOAST_DURATION).show();

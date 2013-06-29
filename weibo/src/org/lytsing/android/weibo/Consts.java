@@ -16,7 +16,13 @@
 
 package org.lytsing.android.weibo;
 
-public class Consts {
+/**
+ * Constants.
+ */
+public final class Consts {
+    private Consts() {
+    }
+    
     public static final String ACTION_SHOW_IMAGE_VIWVER = "org.lytsing.android.weibo.action.showimagevieweractivity";
     
     public static final String STATUSES_KEY = "statuses";

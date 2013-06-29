@@ -18,19 +18,19 @@ import java.util.Calendar;
  */
 public class DateTimeUtils extends DateUtils {
 
-	private static String mTimestampLabelYesterday;
-	private static String mTimestampLabelToday;
-	private static String mTimestampLabelJustNow;
-	private static String mTimestampLabelMinutesAgo;
-	private static String mTimestampLabelHoursAgo;
-	private static String mTimestampLabelHourAgo;
+	private static String sTimestampLabelYesterday;
+	private static String sTimestampLabelToday;
+	private static String sTimestampLabelJustNow;
+	private static String sTimestampLabelMinutesAgo;
+	private static String sTimestampLabelHoursAgo;
+	private static String sTimestampLabelHourAgo;
 	
-	static Context mCtx;
+	private static Context sCtx;
 	
-	private static DateTimeUtils instance = null;
+	private static DateTimeUtils sInstance = null;
 
 	/**
-	 * Singleton contructor, needed to get access to the application context &
+	 * Singleton contructor. needed to get access to the application context &
 	 * strings for i18n
 	 * 
 	 * @param context
@@ -39,23 +39,23 @@ public class DateTimeUtils extends DateUtils {
 	 * @throws Exception
 	 */
 	public static DateTimeUtils getInstance(Context context) {
-		mCtx = context;
-		if (instance == null) {
-			instance = new DateTimeUtils();
-			mTimestampLabelYesterday = context.getResources().getString(
+		sCtx = context;
+		if (sInstance == null) {
+			sInstance = new DateTimeUtils();
+			sTimestampLabelYesterday = context.getResources().getString(
 					R.string.WidgetProvider_timestamp_yesterday);
-			mTimestampLabelToday = context.getResources().getString(
+			sTimestampLabelToday = context.getResources().getString(
 					R.string.WidgetProvider_timestamp_today);
-			mTimestampLabelJustNow = context.getResources().getString(
+			sTimestampLabelJustNow = context.getResources().getString(
 					R.string.WidgetProvider_timestamp_just_now);
-			mTimestampLabelMinutesAgo = context.getResources().getString(
+			sTimestampLabelMinutesAgo = context.getResources().getString(
 					R.string.WidgetProvider_timestamp_minutes_ago);
-			mTimestampLabelHoursAgo = context.getResources().getString(
+			sTimestampLabelHoursAgo = context.getResources().getString(
 					R.string.WidgetProvider_timestamp_hours_ago);
-			mTimestampLabelHourAgo = context.getResources().getString(
+			sTimestampLabelHourAgo = context.getResources().getString(
 					R.string.WidgetProvider_timestamp_hour_ago);
 		}
-		return instance;
+		return sInstance;
 	}
 
 	/**
@@ -79,13 +79,13 @@ public class DateTimeUtils extends DateUtils {
 						.get(Calendar.DAY_OF_YEAR);
 	}
 
-	public static String[] weekdays = new DateFormatSymbols().getWeekdays(); // get
+	public static String[] sWeekdays = new DateFormatSymbols().getWeekdays(); // get
 																				// day
 																				// names
 	public static final long millisInADay = 1000 * 60 * 60 * 24;
 
 	/**
-	 * Displays a user-friendly date difference string
+	 * Displays a user-friendly date difference string.
 	 * 
 	 * @param timedate
 	 *            Timestamp to format as date difference from now
@@ -108,22 +108,22 @@ public class DateTimeUtils extends DateUtils {
 		boolean isYesterday = DateTimeUtils.isYesterday(timedate);
 
 		if (hours > 0 && hours < 12) {
-			return hours == 1 ? String.format(mTimestampLabelHourAgo, hours)
-					: String.format(mTimestampLabelHoursAgo, hours);
+			return hours == 1 ? String.format(sTimestampLabelHourAgo, hours)
+					: String.format(sTimestampLabelHoursAgo, hours);
 		} else if (hours <= 0) {
-			if (minutes > 0)
-				return String.format(mTimestampLabelMinutesAgo, minutes);
-			else {
-				return mTimestampLabelJustNow;
+			if (minutes > 0) {
+				return String.format(sTimestampLabelMinutesAgo, minutes);
+			} else {
+				return sTimestampLabelJustNow;
 			}
 		} else if (isToday) {
-			return mTimestampLabelToday;
+			return sTimestampLabelToday;
 		} else if (isYesterday) {
-			return mTimestampLabelYesterday;
+			return sTimestampLabelYesterday;
 		} else if (startDateTime.getTimeInMillis() - timedate < millisInADay * 6) {
-			return weekdays[endDateTime.get(Calendar.DAY_OF_WEEK)];
+			return sWeekdays[endDateTime.get(Calendar.DAY_OF_WEEK)];
 		} else {
-			return formatDateTime(mCtx, timedate, DateUtils.FORMAT_NUMERIC_DATE);
+			return formatDateTime(sCtx, timedate, DateUtils.FORMAT_NUMERIC_DATE);
 		}
 	}
 

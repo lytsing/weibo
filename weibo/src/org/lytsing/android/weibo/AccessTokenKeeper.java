@@ -25,13 +25,13 @@ import com.weibo.sdk.android.Oauth2AccessToken;
 import org.lytsing.android.weibo.util.Preferences;
 
 /**
- * 该类用于保存Oauth2AccessToken到sharepreference，并提供读取功能
+ * 该类用于保存Oauth2AccessToken到sharepreference，并提供读取功能.
  * 
  * @author xiaowei6@staff.sina.com.cn
  */
 public class AccessTokenKeeper {
     /**
-     * 保存accesstoken到SharedPreferences
+     * 保存accesstoken到SharedPreferences.
      * 
      * @param context Activity 上下文环境
      * @param token Oauth2AccessToken
@@ -45,7 +45,7 @@ public class AccessTokenKeeper {
     }
 
     /**
-     * 清空sharepreference
+     * 清空sharepreference.
      * 
      * @param context
      */
@@ -57,7 +57,7 @@ public class AccessTokenKeeper {
     }
 
     /**
-     * 从SharedPreferences读取accessstoken
+     * 从SharedPreferences读取accessstoken.
      * 
      * @param context
      * @return Oauth2AccessToken

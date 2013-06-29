@@ -16,6 +16,9 @@
 
 package org.lytsing.android.weibo;
 
+/**
+ * Configuration for weibo sdk api.
+ */
 public class Configuration {
     
     public static final String CONSUMER_KEY = "2357253761";

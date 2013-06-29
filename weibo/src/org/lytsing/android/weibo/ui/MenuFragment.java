@@ -32,9 +32,9 @@ import java.util.Map;
 public class MenuFragment extends SherlockListFragment {
     
     //String[] list_items = getSherlockActivity().getResources().getStringArray(R.array.slide_list_items);
-    String[] list_items = new String[] {"Home", "Settings", "Search", "Help"};
+    private String[] mListItems = new String[] {"Home", "Settings", "Search", "Help"};
  
-    int[] icons = new int[]{
+    private int[] mIcons = new int[] {
         R.drawable.ic_menu_home,
         android.R.drawable.ic_menu_preferences,
         android.R.drawable.ic_menu_search,
@@ -47,10 +47,10 @@ public class MenuFragment extends SherlockListFragment {
         super.onViewCreated(view, savedInstanceState);
 
         List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();  
-        for (int i = 0; i < list_items.length; i++) {  
+        for (int i = 0; i < mListItems.length; i++) {  
             Map<String, Object> listItem = new HashMap<String, Object>();  
-            listItem.put("values", list_items[i]);  
-            listItem.put("images", icons[i]);  
+            listItem.put("values", mListItems[i]);  
+            listItem.put("images", mIcons[i]);  
             listItems.add(listItem);  
         }  
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems,  
