@@ -26,6 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.android.volley.toolbox.ImageLoader;
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
@@ -41,6 +42,7 @@ import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.StatusItemAdapter;
 import org.lytsing.android.weibo.model.Statuses;
 import org.lytsing.android.weibo.model.WeiboObject;
+import org.lytsing.android.weibo.toolbox.BitmapLruCache;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
@@ -65,9 +67,14 @@ public class TimelineActivity extends BaseActivity {
 
     private AQuery aq;
 
+    private ImageLoader mImageLoader;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {        
         super.onCreate(savedInstanceState);
+
+        mImageLoader = new ImageLoader(getWeiboApplication().getRequestQueue(),
+                new BitmapLruCache(20));
 
         if (hasAccessToken()) {
             initView();
@@ -163,7 +170,7 @@ public class TimelineActivity extends BaseActivity {
 
         mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
 
-        mAdapter = new StatusItemAdapter(this, getWeiboApplication().getImageLoader());
+        mAdapter = new StatusItemAdapter(this, mImageLoader);
 
         getFriendsTimeline(0, 0);
 

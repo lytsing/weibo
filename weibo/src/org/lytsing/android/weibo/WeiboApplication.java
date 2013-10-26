@@ -17,12 +17,11 @@
 package org.lytsing.android.weibo;
 
 import android.app.Application;
-import android.graphics.Bitmap;
-import android.support.v4.util.LruCache;
+import android.text.TextUtils;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.ImageLoader.ImageCache;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
@@ -34,15 +33,16 @@ import com.weibo.sdk.android.Weibo;
  */
 public class WeiboApplication extends Application {
 
+    /**
+     * Log or request TAG
+     */
+    public static final String TAG = "VolleyPatterns";
+
     private static WeiboApplication sWeiboApplication;
 
     private static Weibo sWeibo;
 
     private static Oauth2AccessToken sOauth2AccessToken;
-
-    private final LruCache<String, Bitmap> mImageCache = new LruCache<String, Bitmap>(20);
-
-    private ImageLoader mImageLoader;
 
     @Override
     public void onCreate() {
@@ -54,20 +54,6 @@ public class WeiboApplication extends Application {
         sOauth2AccessToken = AccessTokenKeeper.readAccessToken(this);
 
         RequestQueue queue = Volley.newRequestQueue(this);
-
-        ImageCache imageCache = new ImageCache() {
-            @Override
-            public void putBitmap(String key, Bitmap value) {
-                mImageCache.put(key, value);
-            }
-
-            @Override
-            public Bitmap getBitmap(String key) {
-                return mImageCache.get(key);
-            }
-        };
-
-        mImageLoader = new ImageLoader(queue, imageCache);
 
         // set the max number of concurrent network connections, default is 4
         AjaxCallback.setNetworkLimit(8);
@@ -98,7 +84,7 @@ public class WeiboApplication extends Application {
         BitmapAjaxCallback.clearCache();
     }
 
-    public static WeiboApplication getWeiboApplication() {
+    public static synchronized WeiboApplication getWeiboApplication() {
         return sWeiboApplication;
     }
 
@@ -110,7 +96,62 @@ public class WeiboApplication extends Application {
         return sOauth2AccessToken;
     }
 
-    public ImageLoader getImageLoader() {
-        return mImageLoader;
+    /**
+     * Global request queue for Volley
+     */
+    private RequestQueue mRequestQueue;
+
+    /**
+     * @return The Volley Request queue, the queue will be created if it is null
+     */
+    public RequestQueue getRequestQueue() {
+        // lazy initialize the request queue, the queue instance will be
+        // created when it is accessed for the first time
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+
+        return mRequestQueue;
+    }
+
+    /**
+     * Adds the specified request to the global queue, if tag is specified
+     * then it is used else Default TAG is used.
+     *
+     * @param req
+     * @param tag
+     */
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
+        // set the default tag if tag is empty
+        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+
+        VolleyLog.d("Adding request to queue: %s", req.getUrl());
+
+        getRequestQueue().add(req);
+    }
+
+    /**
+     * Adds the specified request to the global queue using the Default TAG.
+     *
+     * @param req
+     * @param tag
+     */
+    public <T> void addToRequestQueue(Request<T> req) {
+        // set the default tag if tag is empty
+        req.setTag(TAG);
+
+        getRequestQueue().add(req);
+    }
+
+    /**
+     * Cancels all pending requests by the specified TAG, it is important
+     * to specify a TAG so that the pending/ongoing requests can be cancelled.
+     *
+     * @param tag
+     */
+    public void cancelPendingRequests(Object tag) {
+        if (mRequestQueue != null) {
+            mRequestQueue.cancelAll(tag);
+        }
     }
 }
