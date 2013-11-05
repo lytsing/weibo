@@ -48,7 +48,6 @@ public class ImageViewerActivity extends Activity {
             .image(mMiddleImageUrl, false, false, 0, 0, null, AQuery.FADE_IN_NETWORK, 0);
 
         aq.id(R.id.toLargeImage).clicked(this, "buttonClicked");
-
     }
 
     public void buttonClicked(View button) {

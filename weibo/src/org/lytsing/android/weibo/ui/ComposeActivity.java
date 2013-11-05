@@ -253,10 +253,11 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(android.view.MenuItem item) {
                                     
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(intent, 2);
+                    Intent galleryIntent = new Intent();
+                    galleryIntent.setType("image/*");
+                    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                    galleryIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                    startActivityForResult(galleryIntent, 2);
 
                     return true;
                 }
@@ -284,24 +285,26 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) { 
             if (null == data) {
-                Toast.makeText(ComposeActivity.this, "添加图片失败!", Toast.LENGTH_SHORT).show();
-
+                displayToast("添加图片失败!");
                 return;
             }
+            
             Uri uri = data.getData();
             mPicPath = getRealPathFromURI(uri);
-            Log.d("pic url == " + mPicPath);
-            
-            File file = new File(mPicPath);
-
-            // load image from file, down sample to target width of 45 pixels
-            aq.id(R.id.iv_insertpic).image(file, 45).visible();
+            if (mPicPath != null) {
+                File file = new File(mPicPath);
+                // load image from file, down sample to target width of 45 pixels
+                aq.id(R.id.iv_insertpic).image(file, 45).visible();
+            } else {
+                displayToast("添加图片失败!");
+            }
         }
         
         super.onActivityResult(requestCode, resultCode, data);
     }
     
     // And to convert the image URI to the direct file system path of the image file
+    // TODO: bugs on Android 4.4, it return null.
     private String getRealPathFromURI(Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA };
         CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);

@@ -27,7 +27,6 @@ import android.content.DialogInterface;
 public final class AlertUtil {
     
     private AlertUtil() {
-        
     }
 
     /**
