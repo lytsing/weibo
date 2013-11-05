@@ -22,11 +22,14 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.weibo.sdk.android.Oauth2AccessToken;
 import com.weibo.sdk.android.Weibo;
+
+import org.lytsing.android.weibo.toolbox.BitmapLruCache;
 
 /**
  * WeiboApplication.
@@ -34,7 +37,7 @@ import com.weibo.sdk.android.Weibo;
 public class WeiboApplication extends Application {
 
     /**
-     * Log or request TAG
+     * Log or request TAG.
      */
     public static final String TAG = "VolleyPatterns";
 
@@ -42,7 +45,7 @@ public class WeiboApplication extends Application {
 
     private static Weibo sWeibo;
 
-    private static Oauth2AccessToken sOauth2AccessToken;
+    private Oauth2AccessToken mOauth2AccessToken;
 
     @Override
     public void onCreate() {
@@ -51,9 +54,9 @@ public class WeiboApplication extends Application {
         sWeiboApplication = this;
         sWeibo = Weibo.getInstance(Configuration.CONSUMER_KEY, Configuration.REDIRECT_CALLBACK_URL);
 
-        sOauth2AccessToken = AccessTokenKeeper.readAccessToken(this);
-
-        RequestQueue queue = Volley.newRequestQueue(this);
+        mOauth2AccessToken = AccessTokenKeeper.readAccessToken(this);
+        
+        mImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache(20));
 
         // set the max number of concurrent network connections, default is 4
         AjaxCallback.setNetworkLimit(8);
@@ -72,7 +75,6 @@ public class WeiboApplication extends Application {
 
         // set the max size of the memory cache, default is 1M pixels (4MB)
         BitmapAjaxCallback.setMaxPixelLimit(2000000);
-
     }
 
     @Override
@@ -93,11 +95,15 @@ public class WeiboApplication extends Application {
     }
 
     public Oauth2AccessToken getOauth2AccessToken() {
-        return sOauth2AccessToken;
+        return mOauth2AccessToken;
+    }
+    
+    public void setOauth2AccessToken(Oauth2AccessToken token) {
+        this.mOauth2AccessToken = token;
     }
 
     /**
-     * Global request queue for Volley
+     * Global request queue for Volley.
      */
     private RequestQueue mRequestQueue;
 
@@ -112,6 +118,12 @@ public class WeiboApplication extends Application {
         }
 
         return mRequestQueue;
+    }
+    
+    private ImageLoader mImageLoader;
+
+    public ImageLoader getImageLoader() {
+        return mImageLoader;
     }
 
     /**

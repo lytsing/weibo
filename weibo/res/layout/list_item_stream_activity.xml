@@ -17,7 +17,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="2dp">
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/stream_user_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -122,7 +122,7 @@
                     <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                        <ImageView
+                        <com.android.volley.toolbox.NetworkImageView
                             android:id="@+id/stream_media_1_1"
                             android:background="@color/default_stream_image_background"
                             android:layout_width="wrap_content"

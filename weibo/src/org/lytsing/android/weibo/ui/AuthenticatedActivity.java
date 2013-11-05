@@ -65,7 +65,7 @@ public class AuthenticatedActivity extends BaseActivity {
 
                 AccessTokenKeeper.keepAccessToken(AuthenticatedActivity.this,
                         mAccessToken);
-
+                getWeiboApplication().setOauth2AccessToken(mAccessToken);
                 enterTimeline();
             }
         }

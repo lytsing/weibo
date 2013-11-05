@@ -12,9 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * $Id: GsonRequest.java 595 2013-10-17 09:56:04Z huangliqing $
- *
  */
 
 package org.lytsing.android.weibo.toolbox;

@@ -16,6 +16,7 @@
 
 package org.lytsing.android.weibo.ui;
 
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -76,15 +78,10 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail);
-        
-        api = new CommentsAPI(mAccessToken);;
-
+        api = new CommentsAPI(mAccessToken);
         Intent i = this.getIntent();
-
         mStatus = (Statuses) i.getSerializableExtra(Consts.STATUSES_KEY);
-
         initView();
-
         loadCommentData();
     }
 
@@ -163,17 +160,18 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         mAdapter.addAdapter(mCommentsAdapter);
         mListView.setAdapter(mAdapter);
         
-
         aq = new AQuery(view);
 
         aq.id(R.id.stream_user_name).text(mStatus.user.name);
-
         aq.id(R.id.stream_content).text(mStatus.text).visible();
-
-        aq.id(R.id.stream_user_image).image(mStatus.user.profile_image_url);
+        
+        ((NetworkImageView)view.findViewById(R.id.stream_user_image)).setImageUrl(
+                mStatus.user.profile_image_url, getWeiboApplication().getImageLoader());
 
         if (mStatus.bmiddle_pic != null) {
-            aq.id(R.id.stream_media_1_1).image(mStatus.bmiddle_pic);
+            NetworkImageView bmiddlePic = ((NetworkImageView)view.findViewById(R.id.stream_media_1_1));
+            bmiddlePic.setVisibility(View.VISIBLE);
+            bmiddlePic.setImageUrl(mStatus.bmiddle_pic, getWeiboApplication().getImageLoader());
         }
 
         if (mStatus.retweeted_status != null) {
