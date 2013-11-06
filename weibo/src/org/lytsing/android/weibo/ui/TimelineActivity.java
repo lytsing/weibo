@@ -57,6 +57,8 @@ public class TimelineActivity extends BaseActivity {
     private final int SUCC_RESPONSE = 0;
 
     private final int ERROR_RESPONSE = 1;
+    
+    private final int PER_REQUEST_COUNT = 20;
 
     private static final String STATE_MENUDRAWER = TimelineActivity.class.getName() + ".menuDrawer";
 
@@ -279,7 +281,7 @@ public class TimelineActivity extends BaseActivity {
         setRefreshActionButtonState(true);
 
         StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
-        statusAPI.friendsTimeline(sinceId, 0, 20, 1, false, FEATURE.ALL, false,
+        statusAPI.friendsTimeline(sinceId, 0, PER_REQUEST_COUNT, 1, false, FEATURE.ALL, false,
                 new RequestListener() {
 
                     @Override
@@ -339,7 +341,7 @@ public class TimelineActivity extends BaseActivity {
         showLoadingIndicator();
 
         StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
-        statusAPI.friendsTimeline(sinceId, maxId, 20, 1, false, FEATURE.ALL, false,
+        statusAPI.friendsTimeline(sinceId, maxId, PER_REQUEST_COUNT, 1, false, FEATURE.ALL, false,
                 new RequestListener() {
 
                     @Override
@@ -442,7 +444,7 @@ public class TimelineActivity extends BaseActivity {
 
     private void loadMoreData(final long maxId) {
         StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
-        statusAPI.friendsTimeline(0, maxId, 20, 1, false, FEATURE.ALL, false,
+        statusAPI.friendsTimeline(0, maxId, PER_REQUEST_COUNT, 1, false, FEATURE.ALL, false,
                 new RequestListener() {
 
                     @Override

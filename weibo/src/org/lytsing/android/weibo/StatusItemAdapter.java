@@ -22,6 +22,7 @@ import com.androidquery.AQuery;
 import com.weibo.sdk.android.WeiboException;
 
 import org.lytsing.android.weibo.model.Statuses;
+import org.lytsing.android.weibo.toolbox.FadeInImageListener;
 import org.lytsing.android.weibo.util.DateTimeUtils;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
@@ -72,7 +73,7 @@ public class StatusItemAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        NetworkImageView userImage;
+        ImageView userImage;
         TextView userName;
         ImageView gps;
         ImageView pic;
@@ -96,9 +97,7 @@ public class StatusItemAdapter extends BaseAdapter {
         
         Statuses statuses = null;
         ViewHolder holder;
-        
-        //Log.d("getView:" + position);
-        
+                
         if (position < mStatuses.size()) {
             statuses = mStatuses.get(position);
         }
@@ -106,7 +105,7 @@ public class StatusItemAdapter extends BaseAdapter {
         //if (convertView == null) {
         convertView = Util.inflateView(R.layout.list_item_status, mContext);
         holder = new ViewHolder();
-        holder.userImage = (NetworkImageView) convertView.findViewById(R.id.ivItemPortrait);
+        holder.userImage = (ImageView) convertView.findViewById(R.id.ivItemPortrait);
         holder.userName = (TextView) convertView.findViewById(R.id.tvItemName);
         holder.gps = (ImageView) convertView.findViewById(R.id.ivItemGps);
         holder.pic = (ImageView) convertView.findViewById(R.id.ivItemPic);
@@ -136,18 +135,8 @@ public class StatusItemAdapter extends BaseAdapter {
         //Enable hardware acceleration if the device has API 11 or above        
         aq.hardwareAccelerated11();
 
-        // Comment it, now use volley :-)
-        /*
-        Bitmap placeholder = aq.getCachedImage(R.drawable.portrait_image_empty);
-
-        if (aq.shouldDelay(position, convertView, parent, statuses.user.profile_image_url)) {
-            aq.id(holder.userImage).image(placeholder, 1.0f);
-        } else {
-            aq.id(holder.userImage).image(statuses.user.profile_image_url, true, true, 0, 0,
-                    placeholder, AQuery.FADE_IN);
-        }
-        */
-        holder.userImage.setImageUrl(statuses.user.profile_image_url, mImageLoader);
+        mImageLoader.get(statuses.user.profile_image_url, new FadeInImageListener(holder.userImage,
+                mContext));
         
         holder.userName.setText(statuses.user.name);
 
@@ -201,22 +190,9 @@ public class StatusItemAdapter extends BaseAdapter {
             
             final String middleImageUrl = statuses.bmiddle_pic;
             final String originalPicUrl = statuses.original_pic;
-            
-            // Comment it, now use volley :-)
-            /*
-            Bitmap loadingImg = aq.getCachedImage(R.drawable.chat_pic_loading);
-            if (aq.shouldDelay(position, convertView, parent, statuses.thumbnail_pic)) {
-                aq.id(holder.thumbnailPic).image(loadingImg, 1.0f).visible();
-            } else {
-                aq.id(holder.thumbnailPic).image(statuses.thumbnail_pic, false, true, 0, 0, loadingImg,
-                        AQuery.FADE_IN).visible();
-            }
-            */
-            
+
             holder.thumbnailPic.setImageUrl(statuses.thumbnail_pic, mImageLoader);
             aq.id(holder.thumbnailPic).visible();
-
-            
             aq.id(holder.thumbnailPic).clicked(new View.OnClickListener() {
 
                 @Override
@@ -227,7 +203,6 @@ public class StatusItemAdapter extends BaseAdapter {
                     
                     mContext.startActivity(intent);
                 }
-                
             });
         }
 
