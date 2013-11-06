@@ -19,9 +19,9 @@ package org.lytsing.android.weibo;
 /**
  * Configuration for weibo sdk api.
  */
-public class Configuration {
-    
-    public static final String CONSUMER_KEY = "2357253761";
-    
-    public static final String REDIRECT_CALLBACK_URL = "http://www.sina.com";
+public interface Configuration {
+
+    String CONSUMER_KEY = "2357253761";
+
+    String REDIRECT_CALLBACK_URL = "http://www.sina.com";
 }

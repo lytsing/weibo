@@ -31,4 +31,3 @@ public class LicenseActivity extends Activity {
         webView.loadUrl("file:///android_asset/licenses.html");
     }
 }
-

@@ -19,7 +19,6 @@ package org.lytsing.android.weibo.util;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Environment;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
@@ -30,9 +29,6 @@ import android.widget.Toast;
 
 import com.weibo.sdk.android.WeiboException;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -174,31 +170,6 @@ public class Util {
                 n = text.length();
             }
         }
-    }
-    
-    static private String getUpdateInfoFilename() {
-        return Environment.getExternalStorageDirectory().toString() + "/weibo.json";
-    }   
-    
-    static public boolean writeUpdateInfo(String msg) { 
-        String fileName = getUpdateInfoFilename();
-        File f = new File(fileName);
-        try {
-            if (f.exists()) {
-                f.delete();
-            }   
-    
-            f.createNewFile();
-            FileOutputStream stream = new FileOutputStream(f);
-            stream.write(msg.getBytes()); 
-            stream.flush(); 
-            stream.close();
-
-            return true;
-        } catch (IOException ex) {
-            Log.e("writeUpdateInfo()" + ex);
-            return false;
-        }   
     }
     
     public static void showToast(final Activity activity, final String content) {

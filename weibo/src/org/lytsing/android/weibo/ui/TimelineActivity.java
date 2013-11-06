@@ -19,6 +19,9 @@ package org.lytsing.android.weibo.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -36,6 +39,8 @@ import com.weibo.sdk.android.net.RequestListener;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.StatusItemAdapter;
@@ -49,6 +54,10 @@ import java.io.IOException;
 
 public class TimelineActivity extends BaseActivity {
     
+    private final int SUCC_RESPONSE = 0;
+
+    private final int ERROR_RESPONSE = 1;
+
     private static final String STATE_MENUDRAWER = TimelineActivity.class.getName() + ".menuDrawer";
 
     private StatusItemAdapter mAdapter = null;
@@ -215,6 +224,26 @@ public class TimelineActivity extends BaseActivity {
 
         super.onBackPressed();
     }
+    
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SUCC_RESPONSE:
+                    setLastSyncTime(Util.getNowLocaleTime());
+                    mAdapter.notifyDataSetChanged();
+                    mListView.onLoadMoreComplete();
+                    break;
+                case ERROR_RESPONSE:
+                    if (!TextUtils.isEmpty((String) msg.obj)) {
+                        displayToast("Error:" + (String) msg.obj);
+                        mListView.onLoadMoreComplete();
+                    }
+                    break;
+            }
+        }
+    };
 
     private void showLoadingIndicator() {
         aq.id(R.id.placeholder_loading).visible();
@@ -315,8 +344,31 @@ public class TimelineActivity extends BaseActivity {
 
                     @Override
                     public void onComplete(String result) {
+                        if (TextUtils.isEmpty(result) || result.contains("error_code")) {
+                            JSONObject obj;
+                            try {
+                                obj = new JSONObject(result);
+                                final String msg = obj.getString("error");
+                                
+                                runOnUiThread(new Runnable() {
 
-                        //Util.writeUpdateInfo(result);
+                                    @Override
+                                    public void run() {
+                                        hideLoadingIndicator();
+                                        aq.id(R.id.placeholder_error).gone();
+                                        displayToast("Error:" + msg);
+                                        showContents();
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                });
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            return;
+                        }
+
                         Gson gson = new Gson();
                         WeiboObject response = gson.fromJson(result, WeiboObject.class);
 
@@ -367,9 +419,8 @@ public class TimelineActivity extends BaseActivity {
 
                     @Override
                     public void onIOException(IOException e) {
-
+                        Util.showToast(TimelineActivity.this, "IO error:" + e.getMessage());
                     }
-
                 });
 
     }
@@ -396,47 +447,40 @@ public class TimelineActivity extends BaseActivity {
 
                     @Override
                     public void onComplete(String result) {
+                        try {
+                            Message msg = Message.obtain();
+                            if (TextUtils.isEmpty(result) || result.contains("error_code")) {
+                                msg.what = ERROR_RESPONSE;
+                                JSONObject obj = new JSONObject(result);
+                                msg.obj = obj.getString("error");
+                            } else {
+                                msg.what = SUCC_RESPONSE;
+                                Gson gson = new Gson();
+                                WeiboObject response = gson.fromJson(result, WeiboObject.class);
 
-                        Gson gson = new Gson();
-                        WeiboObject response = gson.fromJson(result, WeiboObject.class);
+                                for (Statuses status : response.statuses) {
+                                    mAdapter.addStatuses(status);
+                                    mMaxId = status.id - 1;
+                                }
 
-                        for (Statuses status : response.statuses) {
-                            mAdapter.addStatuses(status);
-                            mMaxId = status.id - 1;
-                        }
-
-                        if (maxId == 0 && response.statuses.size() > 0) {
-                            mSinceId = response.statuses.get(0).id;
-                        }
-
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-
-                                setLastSyncTime(Util.getNowLocaleTime());
-                                mAdapter.notifyDataSetChanged();
-                                // Call onLoadMoreComplete when the LoadMore
-                                // task, has finished
-                                mListView.onLoadMoreComplete();
+                                if (maxId == 0 && response.statuses.size() > 0) {
+                                    mSinceId = response.statuses.get(0).id;
+                                }
                             }
-                        });
+
+                            mHandler.sendMessage(msg);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
                     public void onError(final WeiboException e) {
+                        Message msg = Message.obtain();
+                        msg.what = ERROR_RESPONSE;
+                        msg.obj = e.getMessage();
 
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                displayToast("Error:" + e.getMessage());
-                                // Notify the loading more operation has finished
-                                // TODO: remove the OnLoadMoreListener of the listview as
-                                // there has error or no more items to load.
-                                mListView.onLoadMoreComplete();
-                            }
-                        });
+                        mHandler.sendMessage(msg);
                     }
 
                     @Override
@@ -445,7 +489,7 @@ public class TimelineActivity extends BaseActivity {
 
                             @Override
                             public void run() {
-                                displayToast("Error:" + e.getMessage());
+                                displayToast("IO Error:" + e.getMessage());
                                 mListView.onLoadMoreComplete();
                             }
                         });

@@ -19,15 +19,13 @@ package org.lytsing.android.weibo;
 /**
  * Constants.
  */
-public final class Consts {
-    private Consts() {
-    }
-    
-    public static final String ACTION_SHOW_IMAGE_VIWVER = "org.lytsing.android.weibo.action.showimagevieweractivity";
-    
-    public static final String STATUSES_KEY = "statuses";
+public interface Consts {
 
-    public static final String MIDDLE_IMAGE_URL_KEY = "middle_image_url";
+    String ACTION_SHOW_IMAGE_VIWVER = "org.lytsing.android.weibo.action.showimagevieweractivity";
 
-    public static final String ORIGINAL_PIC_URL_KEY = "original_pic_url";
+    String STATUSES_KEY = "statuses";
+
+    String MIDDLE_IMAGE_URL_KEY = "middle_image_url";
+
+    String ORIGINAL_PIC_URL_KEY = "original_pic_url";
 }
