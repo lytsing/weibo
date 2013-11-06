@@ -30,7 +30,6 @@ public final class Preferences {
     public static final String PREF_LAST_SYNC_TIME = "last_sync_time";
     
     public static final String USER_ID = "user_id";
-    
 	
     public static SharedPreferences get(Context context) {
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_APPEND);

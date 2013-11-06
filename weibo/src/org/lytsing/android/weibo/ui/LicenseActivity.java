@@ -23,6 +23,8 @@ import android.webkit.WebView;
 import org.lytsing.android.weibo.R;
 
 public class LicenseActivity extends Activity {
+    
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         

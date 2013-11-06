@@ -43,7 +43,6 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     
     protected Oauth2AccessToken mAccessToken;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -80,20 +80,12 @@ public class TimelineActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {        
         super.onCreate(savedInstanceState);
 
-        if (hasAccessToken()) {
+        if (mAccessToken.isSessionValid()) {
             initView();
         } else {
             Intent intent = new Intent(this, AuthenticatedActivity.class);
             startActivity(intent);
         }
-    }
-    
-    private boolean hasAccessToken() {
-        SharedPreferences prefs = Preferences.get(this);
-        String token = prefs.getString(Preferences.ACCESS_TOKEN, null);
-        String expires_in = String.valueOf(prefs.getLong(Preferences.EXPIRES_IN, 0));
-
-        return (token != null && expires_in != null);
     }
 
     private Intent createComposeIntent() {
@@ -103,11 +95,8 @@ public class TimelineActivity extends BaseActivity {
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
         getSupportMenuInflater().inflate(R.menu.home, menu);
-        
         mOptionsMenu = menu;
-        
         return true;
     }
     
@@ -194,8 +183,7 @@ public class TimelineActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Consts.STATUSES_KEY, status);
 
-                    Intent intent = new Intent(TimelineActivity.this,
-                            StatusDetailActivity.class);
+                    Intent intent = new Intent(TimelineActivity.this, StatusDetailActivity.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -242,6 +230,8 @@ public class TimelineActivity extends BaseActivity {
                         displayToast("Error:" + (String) msg.obj);
                         mListView.onLoadMoreComplete();
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -507,3 +497,4 @@ public class TimelineActivity extends BaseActivity {
         mListView.setAdapter(mAdapter);
     }
 }
+
