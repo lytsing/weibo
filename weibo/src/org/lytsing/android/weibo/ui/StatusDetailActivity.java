@@ -82,9 +82,26 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         Intent i = this.getIntent();
         mStatus = (Statuses) i.getSerializableExtra(Consts.STATUSES_KEY);
         initView();
-        loadCommentData();
     }
 
+    private String getGeoGoogleMapUrl() {
+        StringBuilder sb = new StringBuilder()
+            .append("http://maps.google.cn/maps/api/staticmap?center=")
+            .append(mStatus.geo.coordinates.get(0))
+            .append(",")
+            .append(mStatus.geo.coordinates.get(1))
+            .append("&zoom=12&size=")
+            .append(getResources().getDimensionPixelSize(R.dimen.map_width))
+            .append("x")
+            .append(getResources().getDimensionPixelSize(R.dimen.map_height))
+            .append("&maptype=roadmap&markers=markerStyles|color:red|")
+            .append(mStatus.geo.coordinates.get(0))
+            .append(",")
+            .append(mStatus.geo.coordinates.get(1))
+            .append("&sensor=true");
+        
+        return sb.toString();
+    }
 
     private void addComment(String content, boolean comment_ori) {
         api.create(content, mStatus.id, comment_ori, new RequestListener() {
@@ -195,9 +212,18 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
             aq.id(R.id.tweet_redirect).text(String.valueOf(mStatus.reposts_count)).visible();
         }
 
+        if (mStatus.geo != null) {
+            aq.id(R.id.maps_layout).visible();
+            NetworkImageView mapView = (NetworkImageView) view.findViewById(R.id.pic_preview_iv);
+            mapView.setImageUrl(getGeoGoogleMapUrl(), getWeiboApplication().getImageLoader());
+        }
+
         if (mStatus.comments_count > 0) {
             aq.id(R.id.tweet_comment_pic).visible();
             aq.id(R.id.tweet_comment).text(String.valueOf(mStatus.comments_count)).visible();
+            loadCommentData();
+        } else {
+            mCommentsAdapter.refresh();
         }
 
         aq = new AQuery(this);

@@ -25,4 +25,8 @@
     
     <dimen name="action_button_min_width">56dp</dimen>
 
+	<!-- for google maps -->
+	<dimen name="map_width">290.0dip</dimen>
+	<dimen name="map_height">100.0dip</dimen>
+
 </resources>

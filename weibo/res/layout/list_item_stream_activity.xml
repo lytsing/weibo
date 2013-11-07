@@ -222,5 +222,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/maps_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            >
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/pic_preview_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="70.0px"
+                android:maxWidth="70.0px"
+                android:minHeight="33.0dip"
+                android:minWidth="48.0dip"
+                android:padding="5.0dip"
+                android:scaleType="fitXY"
+                android:src="@drawable/map_default" />
+        </LinearLayout>
+
     </LinearLayout>
+    
+
 </RelativeLayout>
