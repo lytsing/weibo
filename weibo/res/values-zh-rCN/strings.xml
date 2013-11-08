@@ -67,4 +67,22 @@
 
     <string name="computing_size">"正在计算\u2026"</string>
 	<string name="from">来自:%s</string>
+
+    <!--  volley -->
+    <string name="networking_error_title">注意</string>
+    <string name="networking_error">出现网络错误。请按“重试”，或按“取消”返回上一屏幕。</string>
+    <string name="general_error_title">注意</string>
+    <string name="general_error">出现服务器错误，请重试，或者取消并返回上一屏幕。</string>
+    <string name="general_error_noretry">出现错误。</string>
+    <string name="general_server_down">出现错误。</string>
+
+    <string name="http_error_304">没有数据返回.</string>
+    <string name="http_error_400">请求数据不合法，或者超过请求频率限制.</string>
+    <string name="http_error_401">没有进行身份验证.</string>
+    <string name="http_error_402">没有开通微博</string>
+    <string name="http_error_403">没有权限访问对应的资源.</string>
+    <string name="http_error_404">请求的资源不存在.</string>
+    <string name="http_error_500">服务器内部错误.</string>
+    <string name="http_error_502">微博接口API关闭或正在升级 .</string>
+    <string name="http_error_503">服务端资源不可用.</string>
 </resources>

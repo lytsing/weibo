@@ -83,5 +83,23 @@
 
     <string name="from">From:%s</string>
 
+    <!--  volley -->
+    <string name="networking_error_title">Attention</string>
+    <string name="networking_error">A network error has occurred. Retry, or cancel and return to the previous screen.</string>
+    <string name="general_error_title">Attention</string>
+    <string name="general_error">A server error has occurred. Retry, or cancel and return to the previous screen.</string>
+    <string name="general_error_noretry">An error has occurred.</string>
+    <string name="general_server_down">An error has occurred.</string>
+    
+    <string name="http_error_304">Not Modified</string>
+    <string name="http_error_400">Bad Request</string>
+    <string name="http_error_401">Not Authorized</string>
+    <string name="http_error_402">Not Start mblog</string>
+    <string name="http_error_403">Forbidden</string>
+    <string name="http_error_404">Not Found</string>
+    <string name="http_error_500">Internal Server Error</string>
+    <string name="http_error_502">Bad Gateway</string>
+    <string name="http_error_503">Service Unavailable</string>
+
 </resources>
 

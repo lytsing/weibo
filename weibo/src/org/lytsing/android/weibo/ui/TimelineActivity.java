@@ -29,11 +29,15 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.android.volley.Request.Method;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.api.StatusesAPI;
+import com.weibo.sdk.android.api.WeiboAPI;
 import com.weibo.sdk.android.api.WeiboAPI.FEATURE;
 import com.weibo.sdk.android.net.RequestListener;
 
@@ -44,21 +48,29 @@ import org.json.JSONObject;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.StatusItemAdapter;
+import org.lytsing.android.weibo.VolleyErrorHelper;
+import org.lytsing.android.weibo.WeiboApplication;
 import org.lytsing.android.weibo.model.Statuses;
 import org.lytsing.android.weibo.model.WeiboObject;
+import org.lytsing.android.weibo.toolbox.GsonRequest;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TimelineActivity extends BaseActivity {
     
-    private final int SUCC_RESPONSE = 0;
+    private final int ON_SUCC_RESPONSE = 0;
 
-    private final int ERROR_RESPONSE = 1;
+    private final int ON_ERROR_RESPONSE = 1;
+
+    private final int ERROR_CODE_RESPONSE = 2;
     
     private final int PER_REQUEST_COUNT = 20;
+
 
     private static final String STATE_MENUDRAWER = TimelineActivity.class.getName() + ".menuDrawer";
 
@@ -165,7 +177,9 @@ public class TimelineActivity extends BaseActivity {
 
         mAdapter = new StatusItemAdapter(this, getWeiboApplication().getImageLoader());
 
+
         getFriendsTimeline(0, 0);
+        //requestFriendsTimeline();
 
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -220,16 +234,15 @@ public class TimelineActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case SUCC_RESPONSE:
+                case ON_SUCC_RESPONSE:
                     setLastSyncTime(Util.getNowLocaleTime());
                     mAdapter.notifyDataSetChanged();
                     mListView.onLoadMoreComplete();
                     break;
-                case ERROR_RESPONSE:
-                    if (!TextUtils.isEmpty((String) msg.obj)) {
-                        displayToast("Error:" + (String) msg.obj);
-                        mListView.onLoadMoreComplete();
-                    }
+                case ERROR_CODE_RESPONSE:
+                case ON_ERROR_RESPONSE:
+                    displayToast("Error:" + (String) msg.obj);
+                    mListView.onLoadMoreComplete();
                     break;
                 default:
                     break;
@@ -324,6 +337,72 @@ public class TimelineActivity extends BaseActivity {
 
                 });
     }
+    
+    private void requestFriendsTimeline() {
+        
+        hideErrorIndicator();
+        showLoadingIndicator();
+        
+        String url = "https://api.weibo.com/2/statuses/friends_timeline.json";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("access_token", mAccessToken.getToken());
+        params.put("count", String.valueOf(PER_REQUEST_COUNT));
+        params.put("page", String.valueOf(1));
+        params.put("base_app", String.valueOf(0));
+        params.put("feature", String.valueOf(0));
+        
+        GsonRequest<WeiboObject> checkUpdateRequest = new GsonRequest<WeiboObject>(Method.GET, url,
+                params,
+                WeiboObject.class,
+                createMyReqSuccessListener(),
+                createMyReqErrorListener());
+
+        WeiboApplication.getWeiboApplication().addToRequestQueue(checkUpdateRequest);
+    }
+    
+    private Response.Listener<WeiboObject> createMyReqSuccessListener() {
+        return new Response.Listener<WeiboObject>() {
+            @Override
+            public void onResponse(WeiboObject info) {
+                for (Statuses status : info.statuses) {
+                    mAdapter.addStatuses(status);
+                    mMaxId = status.id - 1;
+                }
+
+                if (info.statuses.size() > 0) {
+                    mSinceId = info.statuses.get(0).id;
+                }
+
+                hideLoadingIndicator();
+                aq.id(R.id.placeholder_error).gone();
+
+                showContents();
+                mAdapter.notifyDataSetChanged();
+                setLastSyncTime(Util.getNowLocaleTime());
+            }
+        };
+    }
+    
+    private Response.ErrorListener createMyReqErrorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(error.getMessage());
+                String errorMsg = VolleyErrorHelper.getMessage(error, getApplicationContext());
+                
+                hideLoadingIndicator();
+                showErrorIndicator();
+                aq.id(R.id.error_msg).text(errorMsg);
+                aq.id(R.id.retry_button).clicked(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        requestFriendsTimeline();
+                    }
+                });
+            }
+        };
+    }
 
     private void getFriendsTimeline(final long sinceId, final long maxId) {
 
@@ -335,46 +414,12 @@ public class TimelineActivity extends BaseActivity {
                 new RequestListener() {
 
                     @Override
-                    public void onComplete(String result) {
-                        if (TextUtils.isEmpty(result) || result.contains("error_code")) {
-                            JSONObject obj;
-                            try {
-                                obj = new JSONObject(result);
-                                final String msg = obj.getString("error");
-                                
-                                runOnUiThread(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        hideLoadingIndicator();
-                                        aq.id(R.id.placeholder_error).gone();
-                                        displayToast("Error:" + msg);
-                                        showContents();
-                                        mAdapter.notifyDataSetChanged();
-                                    }
-                                });
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            return;
-                        }
-
-                        Gson gson = new Gson();
-                        WeiboObject response = gson.fromJson(result, WeiboObject.class);
-
-                        for (Statuses status : response.statuses) {
-                            mAdapter.addStatuses(status);
-
-                            if (sinceId == 0) {
-                                mMaxId = status.id - 1;
-                            }
-                        }
-
-                        if (maxId == 0 && response.statuses.size() > 0) {
-                            mSinceId = response.statuses.get(0).id;
-                        }
+            public void onComplete(String result) {
+                if (TextUtils.isEmpty(result) || result.contains("error_code")) {
+                    JSONObject obj;
+                    try {
+                        obj = new JSONObject(result);
+                        final String msg = obj.getString("error");
 
                         runOnUiThread(new Runnable() {
 
@@ -382,41 +427,75 @@ public class TimelineActivity extends BaseActivity {
                             public void run() {
                                 hideLoadingIndicator();
                                 aq.id(R.id.placeholder_error).gone();
-
+                                displayToast("Error:" + msg);
                                 showContents();
                                 mAdapter.notifyDataSetChanged();
-                                setLastSyncTime(Util.getNowLocaleTime());
                             }
                         });
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                    @Override
-                    public void onError(final WeiboException e) {
-                        runOnUiThread(new Runnable() {
+                    return;
+                }
 
-                            @Override
-                            public void run() {
-                                showErrorIndicator();
-                                aq.id(R.id.error_msg).text(e.getMessage());
-                                aq.id(R.id.retry_button).clicked(new OnClickListener() {
+                Gson gson = new Gson();
+                WeiboObject response = gson.fromJson(result, WeiboObject.class);
 
-                                    @Override
-                                    public void onClick(View v) {
-                                        getFriendsTimeline(sinceId, maxId);
-                                    }
-                                });
-                            }
-                        });
+                for (Statuses status : response.statuses) {
+                    mAdapter.addStatuses(status);
+
+                    if (sinceId == 0) {
+                        mMaxId = status.id - 1;
                     }
+                }
+
+                if (maxId == 0 && response.statuses.size() > 0) {
+                    mSinceId = response.statuses.get(0).id;
+                }
+
+                runOnUiThread(new Runnable() {
 
                     @Override
-                    public void onIOException(IOException e) {
-                        Util.showToast(TimelineActivity.this, "IO error:" + e.getMessage());
+                    public void run() {
+                        hideLoadingIndicator();
+                        aq.id(R.id.placeholder_error).gone();
+
+                        showContents();
+                        mAdapter.notifyDataSetChanged();
+                        setLastSyncTime(Util.getNowLocaleTime());
                     }
                 });
+            }
+
+        @Override
+            public void onError(final WeiboException e) {
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        showErrorIndicator();
+                        aq.id(R.id.error_msg).text(e.getMessage());
+                        aq.id(R.id.retry_button).clicked(new OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                getFriendsTimeline(sinceId, maxId);
+                            }
+                        });
+                    }
+                });
+            }
+
+        @Override
+            public void onIOException(IOException e) {
+                Util.showToast(TimelineActivity.this, "IO error:" + e.getMessage());
+            }
+            });
 
     }
-    
+
     public void setRefreshActionButtonState(boolean refreshing) {
         if (mOptionsMenu == null) {
             return;
@@ -442,11 +521,11 @@ public class TimelineActivity extends BaseActivity {
                         try {
                             Message msg = Message.obtain();
                             if (TextUtils.isEmpty(result) || result.contains("error_code")) {
-                                msg.what = ERROR_RESPONSE;
+                                msg.what = ERROR_CODE_RESPONSE;
                                 JSONObject obj = new JSONObject(result);
                                 msg.obj = obj.getString("error");
                             } else {
-                                msg.what = SUCC_RESPONSE;
+                                msg.what = ON_SUCC_RESPONSE;
                                 Gson gson = new Gson();
                                 WeiboObject response = gson.fromJson(result, WeiboObject.class);
 
@@ -469,7 +548,7 @@ public class TimelineActivity extends BaseActivity {
                     @Override
                     public void onError(final WeiboException e) {
                         Message msg = Message.obtain();
-                        msg.what = ERROR_RESPONSE;
+                        msg.what = ON_ERROR_RESPONSE;
                         msg.obj = e.getMessage();
 
                         mHandler.sendMessage(msg);

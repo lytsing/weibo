@@ -45,9 +45,8 @@ import java.util.Map;
  * 1. Add retrying failed requests and customizing request Timeout
  *  see http://arnab.ch/blog/2013/08/asynchronous-http-requests-in-android-using-volley/
  * 
- * @param <T>
+ * @param <T> JSON type of response expected
  */
-
 public class GsonRequest<T> extends Request<T> {
     private final Gson mGson;
     private final Class<T> mClazz;
@@ -115,6 +114,7 @@ public class GsonRequest<T> extends Request<T> {
     public Map<String, String> getHeaders() throws AuthFailureError {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put(CoreProtocolPNames.USER_AGENT, System.getProperty("http.agent"));
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
         return headers;
     }
 }
