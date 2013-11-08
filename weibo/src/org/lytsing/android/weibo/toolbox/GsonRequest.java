@@ -80,12 +80,10 @@ public class GsonRequest<T> extends Request<T> {
         mGson = new Gson();
     }
 
-
     @Override
     protected void deliverResponse(T response) {
         mListener.onResponse(response);
     }
-
 
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
@@ -106,16 +104,5 @@ public class GsonRequest<T> extends Request<T> {
             throws com.android.volley.AuthFailureError {
         return mParams;
     };
-    
-    /**
-     * Setting Request Headers (HTTP headers) for Apache/Nginx Proxy Server monitor log
-     */
-    @Override
-    public Map<String, String> getHeaders() throws AuthFailureError {
-        HashMap<String, String> headers = new HashMap<String, String>();
-        headers.put(CoreProtocolPNames.USER_AGENT, System.getProperty("http.agent"));
-        headers.put("Content-Type", "application/x-www-form-urlencoded");
-        return headers;
-    }
 }
 

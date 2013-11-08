@@ -178,8 +178,8 @@ public class TimelineActivity extends BaseActivity {
         mAdapter = new StatusItemAdapter(this, getWeiboApplication().getImageLoader());
 
 
-        getFriendsTimeline(0, 0);
-        //requestFriendsTimeline();
+        //getFriendsTimeline(0, 0);
+        requestFriendsTimeline();
 
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -351,13 +351,13 @@ public class TimelineActivity extends BaseActivity {
         params.put("base_app", String.valueOf(0));
         params.put("feature", String.valueOf(0));
         
-        GsonRequest<WeiboObject> checkUpdateRequest = new GsonRequest<WeiboObject>(Method.GET, url,
+        GsonRequest<WeiboObject> timelineRequest = new GsonRequest<WeiboObject>(Method.GET, url,
                 params,
                 WeiboObject.class,
                 createMyReqSuccessListener(),
                 createMyReqErrorListener());
 
-        WeiboApplication.getWeiboApplication().addToRequestQueue(checkUpdateRequest);
+        WeiboApplication.getWeiboApplication().addToRequestQueue(timelineRequest);
     }
     
     private Response.Listener<WeiboObject> createMyReqSuccessListener() {
