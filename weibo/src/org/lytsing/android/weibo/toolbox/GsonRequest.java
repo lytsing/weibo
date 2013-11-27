@@ -18,6 +18,7 @@
 package org.lytsing.android.weibo.toolbox;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -53,6 +54,8 @@ public class GsonRequest<T> extends Request<T> {
     private final Listener<T> mListener;
     private Map<String, String> mParams;
 
+    private static final int SET_SOCKET_TIMEOUT = 20 * 1000;
+
     public GsonRequest(int method,
                        String url,
                        Map<String, String> params,
@@ -64,20 +67,12 @@ public class GsonRequest<T> extends Request<T> {
         this.mListener = listener;
         this.mParams = params;
         mGson = new Gson();
-    }
 
-    public GsonRequest(int method,
-                       String url,
-                       Map<String, String> params,
-                       Class<T> clazz,
-                       Listener<T> listener,
-                       ErrorListener errorListener,
-                       Gson gson) {
-        super(method, url, errorListener);
-        this.mClazz = clazz;
-        this.mListener = listener;
-        this.mParams = params;
-        mGson = new Gson();
+        //Set a retry policy in case of SocketTimeout & ConnectionTimeout Exceptions.
+        //Volley does retry for you if you have specified the policy.
+        setRetryPolicy(new DefaultRetryPolicy(SET_SOCKET_TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     @Override
@@ -100,9 +95,17 @@ public class GsonRequest<T> extends Request<T> {
         }
     }
     
+    @Override
     protected Map<String, String> getParams()
             throws com.android.volley.AuthFailureError {
         return mParams;
     };
+    
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put(CoreProtocolPNames.USER_AGENT, System.getProperty("http.agent"));
+        return headers;
+    }
 }
 

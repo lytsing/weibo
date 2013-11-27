@@ -302,7 +302,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     }
     
     // And to convert the image URI to the direct file system path of the image file
-    // TODO: bugs on Android 4.4, it return null.
+    // TODO: bugs on Android 4.4, it return null when Choose Open from Rencent/Images/Downlaods.
     private String getRealPathFromURI(Uri contentUri) {
         String[] proj = { MediaStore.Images.Media.DATA };
         CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);

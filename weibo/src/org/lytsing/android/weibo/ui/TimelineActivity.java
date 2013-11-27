@@ -178,8 +178,8 @@ public class TimelineActivity extends BaseActivity {
         mAdapter = new StatusItemAdapter(this, getWeiboApplication().getImageLoader());
 
 
-        //getFriendsTimeline(0, 0);
-        requestFriendsTimeline();
+        getFriendsTimeline(0, 0);
+        //requestFriendsTimeline();
 
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
