@@ -25,7 +25,7 @@ import com.weibo.sdk.android.WeiboDialogError;
 import com.weibo.sdk.android.WeiboException;
 import com.weibo.sdk.android.sso.SsoHandler;
 
-import org.lytsing.android.weibo.AccessTokenKeeper;
+import org.lytsing.android.weibo.Session;
 import org.lytsing.android.weibo.util.Preferences;
 
 /**
@@ -63,7 +63,7 @@ public class AuthenticatedActivity extends BaseActivity {
             mAccessToken = new Oauth2AccessToken(token, expires_in);
             if (mAccessToken.isSessionValid()) {
 
-                AccessTokenKeeper.keepAccessToken(AuthenticatedActivity.this,
+                Session.save(AuthenticatedActivity.this,
                         mAccessToken);
                 getWeiboApplication().setOauth2AccessToken(mAccessToken);
                 enterTimeline();

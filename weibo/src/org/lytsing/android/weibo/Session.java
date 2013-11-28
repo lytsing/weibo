@@ -26,18 +26,18 @@ import com.weibo.sdk.android.Oauth2AccessToken;
 import org.lytsing.android.weibo.util.Preferences;
 
 /**
- * 该类用于保存Oauth2AccessToken到sharepreference，并提供读取功能.
+ * utility class for storing and retrieving Weibo session data.
  * 
- * @author xiaowei6@staff.sina.com.cn
+ * @author lytsing
  */
-public class AccessTokenKeeper {
+public class Session {
     /**
-     * 保存accesstoken到SharedPreferences.
+     * Stores the session data on disk.
      * 
      * @param context Activity 上下文环境
      * @param token Oauth2AccessToken
      */
-    public static void keepAccessToken(Context context, Oauth2AccessToken token) {
+    public static void save(Context context, Oauth2AccessToken token) {
         SharedPreferences pref = Preferences.get(context);
         Editor editor = pref.edit();
         editor.putString(Preferences.ACCESS_TOKEN, token.getToken());
@@ -46,11 +46,11 @@ public class AccessTokenKeeper {
     }
 
     /**
-     * 清空sharepreference.
+     * Clears the saved session data.
      * 
      * @param context
      */
-    public static void clear(Context context) {
+    public static void clearSavedSession(Context context) {
         SharedPreferences pref = Preferences.get(context);
         Editor editor = pref.edit();
         editor.clear();
@@ -58,12 +58,12 @@ public class AccessTokenKeeper {
     }
 
     /**
-     * 从SharedPreferences读取accessstoken.
+     * Loads the session data from disk.
      * 
      * @param context
      * @return Oauth2AccessToken
      */
-    public static Oauth2AccessToken readAccessToken(Context context) {
+    public static Oauth2AccessToken restore(Context context) {
         Oauth2AccessToken token = new Oauth2AccessToken();
         SharedPreferences pref = Preferences.get(context);
         token.setToken(pref.getString(Preferences.ACCESS_TOKEN, ""));

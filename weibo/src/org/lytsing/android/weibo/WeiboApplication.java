@@ -54,7 +54,7 @@ public class WeiboApplication extends Application {
         sWeiboApplication = this;
         sWeibo = Weibo.getInstance(Configuration.CONSUMER_KEY, Configuration.REDIRECT_CALLBACK_URL);
 
-        mOauth2AccessToken = AccessTokenKeeper.readAccessToken(this);
+        mOauth2AccessToken = Session.restore(this);
         
         mImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache(20));
 
