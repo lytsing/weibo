@@ -36,10 +36,12 @@ import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
 import com.weibo.sdk.android.WeiboException;
+import com.weibo.sdk.android.WeiboParameters;
 import com.weibo.sdk.android.api.StatusesAPI;
 import com.weibo.sdk.android.api.WeiboAPI;
 import com.weibo.sdk.android.api.WeiboAPI.FEATURE;
 import com.weibo.sdk.android.net.RequestListener;
+import com.weibo.sdk.android.util.Utility;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
@@ -58,8 +60,6 @@ import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TimelineActivity extends BaseActivity {
     
@@ -178,8 +178,7 @@ public class TimelineActivity extends BaseActivity {
         mAdapter = new StatusItemAdapter(this, getWeiboApplication().getImageLoader());
 
 
-        getFriendsTimeline(0, 0);
-        //requestFriendsTimeline();
+        requestFriendsTimeline();
 
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -343,16 +342,18 @@ public class TimelineActivity extends BaseActivity {
         hideErrorIndicator();
         showLoadingIndicator();
         
-        String url = "https://api.weibo.com/2/statuses/friends_timeline.json";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("access_token", mAccessToken.getToken());
-        params.put("count", String.valueOf(PER_REQUEST_COUNT));
-        params.put("page", String.valueOf(1));
-        params.put("base_app", String.valueOf(0));
-        params.put("feature", String.valueOf(0));
+        String url = WeiboAPI.API_SERVER + "/statuses/friends_timeline.json";
+        WeiboParameters  params = new WeiboParameters();
+        params.add("access_token", mAccessToken.getToken());
+        params.add("count", PER_REQUEST_COUNT);
+        params.add("page", 1);
+        params.add("base_app", 0);
+        params.add("feature", 0);
+        
+        url = url + "?" + Utility.encodeUrl(params);
         
         GsonRequest<WeiboObject> timelineRequest = new GsonRequest<WeiboObject>(Method.GET, url,
-                params,
+                null,
                 WeiboObject.class,
                 createMyReqSuccessListener(),
                 createMyReqErrorListener());
@@ -402,98 +403,6 @@ public class TimelineActivity extends BaseActivity {
                 });
             }
         };
-    }
-
-    private void getFriendsTimeline(final long sinceId, final long maxId) {
-
-        hideErrorIndicator();
-        showLoadingIndicator();
-
-        StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
-        statusAPI.friendsTimeline(sinceId, maxId, PER_REQUEST_COUNT, 1, false, FEATURE.ALL, false,
-                new RequestListener() {
-
-                    @Override
-            public void onComplete(String result) {
-                if (TextUtils.isEmpty(result) || result.contains("error_code")) {
-                    JSONObject obj;
-                    try {
-                        obj = new JSONObject(result);
-                        final String msg = obj.getString("error");
-
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                hideLoadingIndicator();
-                                aq.id(R.id.placeholder_error).gone();
-                                displayToast("Error:" + msg);
-                                showContents();
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        });
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    return;
-                }
-
-                Gson gson = new Gson();
-                WeiboObject response = gson.fromJson(result, WeiboObject.class);
-
-                for (Statuses status : response.statuses) {
-                    mAdapter.addStatuses(status);
-
-                    if (sinceId == 0) {
-                        mMaxId = status.id - 1;
-                    }
-                }
-
-                if (maxId == 0 && response.statuses.size() > 0) {
-                    mSinceId = response.statuses.get(0).id;
-                }
-
-                runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        hideLoadingIndicator();
-                        aq.id(R.id.placeholder_error).gone();
-
-                        showContents();
-                        mAdapter.notifyDataSetChanged();
-                        setLastSyncTime(Util.getNowLocaleTime());
-                    }
-                });
-            }
-
-        @Override
-            public void onError(final WeiboException e) {
-                runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        showErrorIndicator();
-                        aq.id(R.id.error_msg).text(e.getMessage());
-                        aq.id(R.id.retry_button).clicked(new OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                getFriendsTimeline(sinceId, maxId);
-                            }
-                        });
-                    }
-                });
-            }
-
-        @Override
-            public void onIOException(IOException e) {
-                Util.showToast(TimelineActivity.this, "IO error:" + e.getMessage());
-            }
-            });
-
     }
 
     public void setRefreshActionButtonState(boolean refreshing) {
