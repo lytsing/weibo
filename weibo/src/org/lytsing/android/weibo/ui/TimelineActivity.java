@@ -62,13 +62,13 @@ import org.lytsing.android.weibo.util.Util;
 import java.io.IOException;
 
 public class TimelineActivity extends BaseActivity {
-    
+
     private final int ON_SUCC_RESPONSE = 0;
 
     private final int ON_ERROR_RESPONSE = 1;
 
     private final int ERROR_CODE_RESPONSE = 2;
-    
+
     private final int PER_REQUEST_COUNT = 20;
 
 
@@ -77,9 +77,9 @@ public class TimelineActivity extends BaseActivity {
     private StatusItemAdapter mAdapter = null;
 
     private PullAndLoadListView mListView = null;
-    
+
     private MenuDrawer mMenuDrawer;
-    
+
     private Menu mOptionsMenu;
 
     protected long mSinceId = 0;
@@ -104,14 +104,14 @@ public class TimelineActivity extends BaseActivity {
         Intent intent = new Intent(this, ComposeActivity.class);
         return intent;
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.home, menu);
         mOptionsMenu = menu;
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -133,7 +133,7 @@ public class TimelineActivity extends BaseActivity {
 
     private void initView() {
         setContentView(R.layout.timeline);
-        
+
         mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
         mMenuDrawer.setMenuView(R.layout.menu);
 
@@ -142,17 +142,17 @@ public class TimelineActivity extends BaseActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                
+
                 if (position == 1) {
                     Intent intent = new Intent(TimelineActivity.this, SettingsActivity.class);
                     startActivity(intent);
                 }
-                
+
                 mMenuDrawer.setActiveView(view);
-                mMenuDrawer.closeMenu();                
+                mMenuDrawer.closeMenu();
             }
         });
-        
+
         aq = new AQuery(this);
 
         mListView = ((PullAndLoadListView) findViewById(R.id.msg_list_item));
@@ -203,7 +203,7 @@ public class TimelineActivity extends BaseActivity {
             }
         });
     }
-    
+
     @Override
     protected void onRestoreInstanceState(Bundle inState) {
         super.onRestoreInstanceState(inState);
@@ -216,7 +216,7 @@ public class TimelineActivity extends BaseActivity {
         //super.onSaveInstanceState(outState);
         //outState.putParcelable(STATE_MENUDRAWER, mMenuDrawer.saveState());
     }
-    
+
     @Override
     public void onBackPressed() {
         final int drawerState = mMenuDrawer.getDrawerState();
@@ -227,7 +227,7 @@ public class TimelineActivity extends BaseActivity {
 
         super.onBackPressed();
     }
-    
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -258,11 +258,11 @@ public class TimelineActivity extends BaseActivity {
         aq.id(R.id.placeholder_loading).gone();
         setRefreshActionButtonState(false);
     }
-    
+
     private void showErrorIndicator() {
         aq.id(R.id.placeholder_error).visible();
     }
-    
+
     private void hideErrorIndicator() {
         aq.id(R.id.placeholder_error).gone();
     }
@@ -316,7 +316,7 @@ public class TimelineActivity extends BaseActivity {
                                 } else {
                                     displayToast(R.string.no_new_blog_toast);
                                 }
-                                
+
                                 setRefreshActionButtonState(false);
                             }
                         });
@@ -336,12 +336,12 @@ public class TimelineActivity extends BaseActivity {
 
                 });
     }
-    
+
     private void requestFriendsTimeline() {
-        
+
         hideErrorIndicator();
         showLoadingIndicator();
-        
+
         String url = WeiboAPI.API_SERVER + "/statuses/friends_timeline.json";
         WeiboParameters  params = new WeiboParameters();
         params.add("access_token", mAccessToken.getToken());
@@ -349,9 +349,9 @@ public class TimelineActivity extends BaseActivity {
         params.add("page", 1);
         params.add("base_app", 0);
         params.add("feature", 0);
-        
+
         url = url + "?" + Utility.encodeUrl(params);
-        
+
         GsonRequest<WeiboObject> timelineRequest = new GsonRequest<WeiboObject>(Method.GET, url,
                 null,
                 WeiboObject.class,
@@ -360,7 +360,7 @@ public class TimelineActivity extends BaseActivity {
 
         WeiboApplication.getWeiboApplication().addToRequestQueue(timelineRequest);
     }
-    
+
     private Response.Listener<WeiboObject> createMyReqSuccessListener() {
         return new Response.Listener<WeiboObject>() {
             @Override
@@ -383,14 +383,14 @@ public class TimelineActivity extends BaseActivity {
             }
         };
     }
-    
+
     private Response.ErrorListener createMyReqErrorListener() {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(error.getMessage());
                 String errorMsg = VolleyErrorHelper.getMessage(error, getApplicationContext());
-                
+
                 hideLoadingIndicator();
                 showErrorIndicator();
                 aq.id(R.id.error_msg).text(errorMsg);

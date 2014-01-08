@@ -39,7 +39,7 @@ public class WeiboApplication extends Application {
     /**
      * Log or request TAG.
      */
-    public static final String TAG = "VolleyPatterns";
+    public static final String TAG = "Weibo";
 
     private static WeiboApplication sWeiboApplication;
 
