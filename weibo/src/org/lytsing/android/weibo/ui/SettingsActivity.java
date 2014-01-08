@@ -37,7 +37,7 @@ import org.lytsing.android.weibo.util.Log;
 import java.io.File;
 
 public class SettingsActivity extends SherlockActivity {
-    
+
     private static SettingsActivity sSettingsActivity;
 
     @Override
@@ -47,7 +47,7 @@ public class SettingsActivity extends SherlockActivity {
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new SettingsFragment()).commit();
-        
+
         sSettingsActivity = this;
     }
 

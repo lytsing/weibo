@@ -25,21 +25,21 @@ import android.webkit.WebView;
 import org.lytsing.android.weibo.R;
 
 public class WebViewDialog extends FragmentActivity {
-    
+
     public static Intent getIntent(Context context, int title, String url) {
         return new Intent(context, WebViewDialog.class)
                 .putExtra(Intent.EXTRA_TITLE, title)
                 .putExtra(Intent.EXTRA_STREAM, url);
     }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         setTitle(getIntent().getIntExtra(Intent.EXTRA_TITLE, R.string.app_name));
-        
+
         setContentView(R.layout.activity_licenses);
-        
+
         WebView webView = (WebView) findViewById(R.id.content);
         webView.loadUrl(getIntent().getStringExtra(Intent.EXTRA_STREAM));
     }

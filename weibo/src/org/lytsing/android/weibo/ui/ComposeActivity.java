@@ -64,57 +64,57 @@ import java.io.IOException;
 
 public class ComposeActivity extends BaseActivity implements OnClickListener,
         RequestListener {
-        
+
     private EditText mEdit;
-    
+
     private GridView mGridView;
-    
+
     private GridViewFaceAdapter mGVFaceAdapter;
-    
+
     private InputMethodManager imm;
-    
+
     private TextView mTextNum;
-    
+
     private String mPicPath = "";
     private String mContent = "";
     private String mLatitude = "";
     private String mLongitude = "";
-    
+
     private AQuery aq;
-    
+
     private boolean mIsLocation = false;
-    
+
     public static final int WEIBO_MAX_LENGTH = 140;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy); 
-        
+
         imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-        
+
         initView();
-        
+
         initGridView();
-        
+
         //location_ajax();
     }
-    
+
     public void initView() {
         this.setContentView(R.layout.newblog2);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
+
         aq = new AQuery(this);
 
         aq.id(R.id.ll_text_limit_unit).clicked(this);
         aq.id(R.id.ib_insert_pic).clicked(this);
         aq.id(R.id.ib_insert_location).clicked(this);
         aq.id(R.id.ib_face_keyboard).clicked(this);
-        
+
         mTextNum = (TextView) findViewById(R.id.tv_text_limit);
-        
+
         mEdit = (EditText) this.findViewById(R.id.et_mblog);
         mEdit.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -134,21 +134,21 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                     len = len - WEIBO_MAX_LENGTH;
                     mTextNum.setTextColor(Color.RED);
                 }
-                
+
                 mTextNum.setText(String.valueOf(len));
             }
         });
-        
+
         mEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //显示软键盘
                 showIMM();
             }
         });
-        
+
         //aq.id(R.id.ly_loadlocation).visible();
     }
-    
+
     //初始化表情控件
     private void initGridView() {
         mGVFaceAdapter = new GridViewFaceAdapter(this);
@@ -161,13 +161,13 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 Drawable d = getResources().getDrawable((int)mGVFaceAdapter.getItemId(position));
                 d.setBounds(0, 0, 35, 35);//设置表情图片的显示大小
                 ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
-                ss.setSpan(span, 0, view.getTag().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);              
+                ss.setSpan(span, 0, view.getTag().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 //在光标所在处插入表情
-                mEdit.getText().insert(mEdit.getSelectionStart(), ss);              
-            }           
+                mEdit.getText().insert(mEdit.getSelectionStart(), ss);
+            }
         });
     }
-    
+
     @Override
     public void onComplete(String response) {
         Util.showToast(this, R.string.send_success);
@@ -186,7 +186,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 ComposeActivity.this.getString(R.string.send_failed) + ":%s", e.getMessage());
         Util.showToast(this, content);
     }
-    
+
     private void composeNewPost() {
         StatusesAPI api = new StatusesAPI(mAccessToken);
         mContent = mEdit.getText().toString();
@@ -201,16 +201,16 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             api.update(mContent, mLatitude, mLongitude, this);
         }
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.send, menu);
-        
+
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -230,11 +230,11 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             NavUtils.navigateUpFromSameTask(this);
             return;
         }
-        
+
         if (viewId == R.id.ll_text_limit_unit) {
             mContent = mEdit.getText().toString();
             if (TextUtils.isEmpty(mContent)) return;
-            
+
             DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     mEdit.setText("");
@@ -250,7 +250,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 public boolean onMenuItemClick(android.view.MenuItem item) {
-                                    
+
                     Intent galleryIntent = new Intent();
                     galleryIntent.setType("image/*");
                     galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -278,7 +278,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         }
     }
 
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) { 
@@ -286,7 +286,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 displayToast("添加图片失败!");
                 return;
             }
-            
+
             Uri uri = data.getData();
             mPicPath = getRealPathFromURI(uri);
             if (mPicPath != null) {
@@ -297,10 +297,10 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 displayToast("添加图片失败!");
             }
         }
-        
+
         super.onActivityResult(requestCode, resultCode, data);
     }
-    
+
     // And to convert the image URI to the direct file system path of the image file
     // TODO: bugs on Android 4.4, it return null when Choose Open from Rencent/Images/Downlaods.
     private String getRealPathFromURI(Uri contentUri) {
@@ -314,26 +314,26 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
     private LocationAjaxCallback cb;
     public void location_ajax() {
-        
+
         LocationAjaxCallback cb = new LocationAjaxCallback();
         cb.weakHandler(this, "locationCb").timeout(30 * 1000).accuracy(1000).iteration(3);      
         cb.async(this);
-        
+
         this.cb = cb;
     }
-    
+
     public void locationCb(String url, Location loc, AjaxStatus status) {
-        
+
         if (loc != null) {
             Log.d("Location:" + loc.toString());
             mLatitude = String.valueOf(loc.getLatitude());
             mLongitude = String.valueOf(loc.getLongitude());
-            
+
             //PlaceAPI api = new PlaceAPI(mAccessToken);
             //api.nearbyPois(mLatitude, mLongitude, range, q, category, count, page, offset, listener);
-            
+
             mIsLocation = true;
-            
+
             aq.id(R.id.ly_loadlocation).gone();
             aq.id(R.id.tv_location).visible();
             aq.id(R.id.ib_insert_location).image(R.drawable.btn_insert_location_nor_2);

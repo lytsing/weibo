@@ -42,14 +42,14 @@ import com.android.volley.toolbox.JsonRequest;
  */
 public class MultipartRequest extends JsonRequest<JSONObject> {
 
-	/* To hold the parameter name and the File to upload */
-	private Map<String,File> fileUploads = new HashMap<String,File>();
-	
-	/* To hold the parameter name and the string content to upload */
-	private Map<String,String> stringUploads = new HashMap<String,String>();
-	
-	private Map<String, String> headers = new HashMap<String, String>();
-	
+    /* To hold the parameter name and the File to upload */
+    private Map<String,File> fileUploads = new HashMap<String,File>();
+
+    /* To hold the parameter name and the string content to upload */
+    private Map<String,String> stringUploads = new HashMap<String,String>();
+
+    private Map<String, String> headers = new HashMap<String, String>();
+
     /**
      * Creates a new request.
      * @param method the HTTP method to use
@@ -60,9 +60,9 @@ public class MultipartRequest extends JsonRequest<JSONObject> {
      * @param errorListener Error listener, or null to ignore errors.
      */
     public MultipartRequest(int method, String url, JSONObject jsonRequest,
-                            Listener<JSONObject> listener, ErrorListener errorListener) {
+            Listener<JSONObject> listener, ErrorListener errorListener) {
         super(method, url, (jsonRequest == null) ? null : jsonRequest.toString(), listener,
-                    errorListener);
+                errorListener);
     }
 
     /**
@@ -72,49 +72,49 @@ public class MultipartRequest extends JsonRequest<JSONObject> {
      * @see #JsonObjectRequest(int, String, JSONObject, Listener, ErrorListener)
      */
     public MultipartRequest(String url, JSONObject jsonRequest, Listener<JSONObject> listener,
-                            ErrorListener errorListener) {
+            ErrorListener errorListener) {
         this(jsonRequest == null ? Method.GET : Method.POST, url, jsonRequest,
                 listener, errorListener);
     }
 
 
     public void addFileUpload(String param,File file) {
-    	fileUploads.put(param,file);
+        fileUploads.put(param,file);
     }
-    
+
     public void addStringUpload(String param,String content) {
-    	stringUploads.put(param,content);
+        stringUploads.put(param,content);
     }
-    
+
     public Map<String,File> getFileUploads() {
-    	return fileUploads;
+        return fileUploads;
     }
-    
+
     public Map<String,String> getStringUploads() {
-    	return stringUploads;
+        return stringUploads;
     }
-    
-	@Override
-	public Map<String, String> getHeaders() throws AuthFailureError {
-		return headers;
-	}
-	
-	public void setHeader(String title, String content) {
-		 headers.put(title, content);
-	}
 
     @Override
-    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-        try {
-            String jsonString =
-                new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(new JSONObject(jsonString),
-                    HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException e) {
-            return Response.error(new ParseError(e));
-        } catch (JSONException je) {
-            return Response.error(new ParseError(je));
+        public Map<String, String> getHeaders() throws AuthFailureError {
+            return headers;
         }
+
+    public void setHeader(String title, String content) {
+        headers.put(title, content);
     }
+
+    @Override
+        protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+            try {
+                String jsonString =
+                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                return Response.success(new JSONObject(jsonString),
+                        HttpHeaderParser.parseCacheHeaders(response));
+            } catch (UnsupportedEncodingException e) {
+                return Response.error(new ParseError(e));
+            } catch (JSONException je) {
+                return Response.error(new ParseError(je));
+            }
+        }
 }
 

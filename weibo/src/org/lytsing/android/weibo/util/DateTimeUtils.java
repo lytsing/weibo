@@ -13,7 +13,7 @@ import java.util.Calendar;
  *  It has an advanced logic, that for timestamps of today,
  *  it would display the seconds or minutes or hours,
  *  while for other timestamps it would display the date.
- *  
+ *
  * @see http://stackoverflow.com/questions/3910042/javaandroid-convert-sqlite-date-to-x-days-ago
  */
 public class DateTimeUtils extends DateUtils {

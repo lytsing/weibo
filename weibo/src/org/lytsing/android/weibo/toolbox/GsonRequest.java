@@ -39,13 +39,13 @@ import java.util.Map;
 /**
  * GsonRequest is a way to solve the Volley's JSONObjectReuqest can't post paramsters like the StringRequest
  * @see http://stackoverflow.com/questions/16626032/volley-post-get-parameters
- * 
+ *
  * @author Lytsing Huang
  *
  * Changlog:
  * 1. Add retrying failed requests and customizing request Timeout
  *  see http://arnab.ch/blog/2013/08/asynchronous-http-requests-in-android-using-volley/
- * 
+ *
  * @param <T> JSON type of response expected
  */
 public class GsonRequest<T> extends Request<T> {
@@ -94,13 +94,13 @@ public class GsonRequest<T> extends Request<T> {
             return Response.error(new ParseError(e));
         }
     }
-    
+
     @Override
     protected Map<String, String> getParams()
             throws com.android.volley.AuthFailureError {
         return mParams;
     };
-    
+
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         HashMap<String, String> headers = new HashMap<String, String>();

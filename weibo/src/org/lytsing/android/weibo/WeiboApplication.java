@@ -55,7 +55,7 @@ public class WeiboApplication extends Application {
         sWeibo = Weibo.getInstance(Configuration.CONSUMER_KEY, Configuration.REDIRECT_CALLBACK_URL);
 
         mOauth2AccessToken = Session.restore(this);
-        
+
         mImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache(20));
 
         // set the max number of concurrent network connections, default is 4
@@ -97,7 +97,7 @@ public class WeiboApplication extends Application {
     public Oauth2AccessToken getOauth2AccessToken() {
         return mOauth2AccessToken;
     }
-    
+
     public void setOauth2AccessToken(Oauth2AccessToken token) {
         this.mOauth2AccessToken = token;
     }
@@ -119,7 +119,7 @@ public class WeiboApplication extends Application {
 
         return mRequestQueue;
     }
-    
+
     private ImageLoader mImageLoader;
 
     public ImageLoader getImageLoader() {
@@ -167,3 +167,4 @@ public class WeiboApplication extends Application {
         }
     }
 }
+

@@ -29,7 +29,7 @@ import org.lytsing.android.weibo.Session;
 import org.lytsing.android.weibo.util.Preferences;
 
 /**
- * 
+ *
  * @author lytsing
  *
  */

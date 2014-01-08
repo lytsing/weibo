@@ -23,11 +23,11 @@ import android.webkit.WebView;
 import org.lytsing.android.weibo.R;
 
 public class LicenseActivity extends Activity {
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.license_activity);
         WebView webView = (WebView) findViewById(R.id.content);
         webView.loadUrl("file:///android_asset/licenses.html");

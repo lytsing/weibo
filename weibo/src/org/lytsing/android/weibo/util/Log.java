@@ -127,7 +127,7 @@ public class Log {
             android.util.Log.w(TAG, buildMessage(""), tr);
         }
     }
-    
+
     /**
      * Send an ERROR log message and log the exception.
      * @param msg The message you would like logged.

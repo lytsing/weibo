@@ -30,34 +30,34 @@ import java.util.List;
 import java.util.Map;
 
 public class MenuFragment extends SherlockListFragment {
-    
+
     //String[] list_items = getSherlockActivity().getResources().getStringArray(R.array.slide_list_items);
     private String[] mListItems = new String[] {"Home", "Settings", "Search", "Help"};
- 
+
     private int[] mIcons = new int[] {
         R.drawable.ic_menu_home,
         android.R.drawable.ic_menu_preferences,
         android.R.drawable.ic_menu_search,
         android.R.drawable.ic_menu_help
     };
- 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();  
-        for (int i = 0; i < mListItems.length; i++) {  
-            Map<String, Object> listItem = new HashMap<String, Object>();  
-            listItem.put("values", mListItems[i]);  
-            listItem.put("images", mIcons[i]);  
-            listItems.add(listItem);  
-        }  
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems,  
-                R.layout.slide, new String[] { "values", "images" },  
-                new int[] { R.id.slide_list_title, R.id.slide_list_icon });  
-        setListAdapter(adapter); 
+        List<Map<String, Object>> listItems = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < mListItems.length; i++) {
+            Map<String, Object> listItem = new HashMap<String, Object>();
+            listItem.put("values", mListItems[i]);
+            listItem.put("images", mIcons[i]);
+            listItems.add(listItem);
+        }
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), listItems,
+                R.layout.slide, new String[] { "values", "images" },
+                new int[] { R.id.slide_list_title, R.id.slide_list_icon });
+        setListAdapter(adapter);
 
     }
 
 }
+

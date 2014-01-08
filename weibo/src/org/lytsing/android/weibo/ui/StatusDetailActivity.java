@@ -65,11 +65,11 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     private ListView mListView;
 
     private CommentsAdapter mCommentsAdapter;
-    
+
     private Menu mOptionsMenu;
 
     private AQuery aq = null;
-    
+
     private CommentsAPI api;
 
     @Override
@@ -99,7 +99,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
             .append(",")
             .append(mStatus.geo.coordinates.get(1))
             .append("&sensor=true");
-        
+
         return sb.toString();
     }
 
@@ -166,22 +166,22 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
 
     private void initView() {
-        
+
         mCommentsAdapter = new CommentsAdapter(this);
         mListView = (ListView) findViewById(R.id.list_view);
 
         View view = Util.inflateView(R.layout.list_item_stream_activity, this, null);
-        
+
         mAdapter = new MergeAdapter();
         mAdapter.addView(view);
         mAdapter.addAdapter(mCommentsAdapter);
         mListView.setAdapter(mAdapter);
-        
+
         aq = new AQuery(view);
 
         aq.id(R.id.stream_user_name).text(mStatus.user.name);
         aq.id(R.id.stream_content).text(mStatus.text).visible();
-        
+
         ((NetworkImageView)view.findViewById(R.id.stream_user_image)).setImageUrl(
                 mStatus.user.profile_image_url, getWeiboApplication().getImageLoader());
 
@@ -432,7 +432,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     public void onError(final WeiboException e) {
         Util.showToast(this, e.getMessage());
     }
-    
+
     public void setRefreshActionButtonState(boolean refreshing) {
         if (mOptionsMenu == null) {
             return;

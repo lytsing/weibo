@@ -40,7 +40,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     protected WeiboApplication mApplication;
 
     protected Weibo mWeibo;
-    
+
     protected Oauth2AccessToken mAccessToken;
 
     @Override
@@ -50,7 +50,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
         mApplication = (WeiboApplication) getApplication();
         mWeibo = mApplication.getWeibo();
         mAccessToken = mApplication.getOauth2AccessToken();
-        
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -75,14 +75,14 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
         }
     }
 
-    /**  
+    /**
      * @param resId resource id
      */
     public void displayToast(int resId) {
         Toast.makeText(this, resId, TOAST_DURATION).show();
-    }    
+    }
 
-    /**  
+    /**
      * @param text desplay text
      */
     public void displayToast(CharSequence text) {

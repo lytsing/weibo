@@ -34,17 +34,17 @@ import java.util.ArrayList;
  * Comments Adapter.
  */
 public class CommentsAdapter extends BaseAdapter {
-    
+
     private ArrayList<Comment> mComments;
-    
+
     private Context mContext;
-    
+
     private TextView mNoComments;
-    
+
     private int mCount = 0;
-    
+
     /**
-     * 
+     *
      * @param context Activity context.
      */
     public CommentsAdapter(Context context) {
@@ -61,7 +61,7 @@ public class CommentsAdapter extends BaseAdapter {
         if (mComments.size() > 0) {
             mCount = mComments.size();
         }
-        
+
         return mCount;
     }
 
@@ -74,7 +74,7 @@ public class CommentsAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-    
+
     private boolean hasComments() {
         return mComments.size() > 0;
     }
@@ -87,17 +87,17 @@ public class CommentsAdapter extends BaseAdapter {
         } else {
             commentsView = Util.inflateView(R.layout.comment_list_item, mContext, null);
         }
-        
+
         if (!hasComments()) {
             return mNoComments;
         }
-        
+
         Comment comment = mComments.get(position);
         AQuery aq = new AQuery(commentsView);
-        
+
         aq.id(R.id.author).text(comment.getAuthor());
         aq.id(R.id.time).text(comment.getCreationTime());
-        
+
         TextView commentBody = (TextView) commentsView.findViewById(R.id.comment_body);
         commentBody.setText(comment.getBody());
         if (comment.hasTruncated()) {
@@ -107,21 +107,21 @@ public class CommentsAdapter extends BaseAdapter {
             commentBody.setMaxLines(Integer.MAX_VALUE);
             commentBody.setEllipsize(null);
         }
-        
+
         return commentsView;
     }
-    
+
     public void addComment(Comment comment) {
         mComments.add(comment);
     }
-    
+
     public void refresh() {
         if (!hasComments()) {
             mNoComments.setText(R.string.nocomments);
             mNoComments.setEnabled(false);
             mCount = 1;
         }
-        
+
         notifyDataSetChanged();
     }
 }

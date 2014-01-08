@@ -34,7 +34,7 @@ public class VolleyErrorHelper {
     /**
      * Returns appropriate message which is to be displayed to the user 
      * against the specified error object.
-     * 
+     *
      * @param error
      * @param context
      * @return
@@ -60,7 +60,7 @@ public class VolleyErrorHelper {
     private static boolean isNetworkProblem(Object error) {
         return (error instanceof NetworkError) || (error instanceof NoConnectionError);
     }
-    
+
     /**
      * Determines whether the error is related to server
      * @param error
@@ -69,11 +69,11 @@ public class VolleyErrorHelper {
     private static boolean isServerProblem(Object error) {
         return (error instanceof ServerError) || (error instanceof AuthFailureError);
     }
-    
+
     /**
      * Handles the server error, tries to determine whether to show a stock message or to 
      * show a message retrieved from the server.
-     * 
+     *
      * @param err
      * @param context
      * @return

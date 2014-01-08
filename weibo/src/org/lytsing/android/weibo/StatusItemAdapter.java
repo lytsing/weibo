@@ -44,13 +44,13 @@ import java.util.List;
  * Statuses item adapter.
  */
 public class StatusItemAdapter extends BaseAdapter {
-    
+
     private Context mContext;
 
     private List<Statuses> mStatuses;
-    
+
     private final ImageLoader mImageLoader;
-    
+
     public StatusItemAdapter(Context context, ImageLoader imageLoader) {
         mContext = context;
         mStatuses = new ArrayList<Statuses>();
@@ -94,14 +94,14 @@ public class StatusItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        
+
         Statuses statuses = null;
         ViewHolder holder;
-                
+
         if (position < mStatuses.size()) {
             statuses = mStatuses.get(position);
         }
-        
+
         //if (convertView == null) {
         convertView = Util.inflateView(R.layout.list_item_status, mContext);
         holder = new ViewHolder();
@@ -122,7 +122,7 @@ public class StatusItemAdapter extends BaseAdapter {
         holder.subLayout = convertView.findViewById(R.id.subLayout);
         holder.retweetedText = (TextView) convertView.findViewById(R.id.tvItemSubContent);
         holder.tweetUploadPic2 = (ImageView) convertView.findViewById(R.id.tweet_upload_pic2);
-       
+
             /*
             convertView.setTag(holder);
         } else {
@@ -131,22 +131,22 @@ public class StatusItemAdapter extends BaseAdapter {
 
         */
         AQuery aq = new AQuery(convertView);
-        
+
         //Enable hardware acceleration if the device has API 11 or above        
         aq.hardwareAccelerated11();
 
         mImageLoader.get(statuses.user.profile_image_url, new FadeInImageListener(holder.userImage,
                 mContext));
-        
+
         holder.userName.setText(statuses.user.name);
 
         if (statuses.geo != null) {
             holder.gps.setVisibility(View.VISIBLE);
             Log.d(statuses.geo.toString());
         }
-        
+
         String time = "";
-        
+
         try {
             Date date = Util.parseDate(statuses.created_at);
             if (date != null) {
@@ -156,13 +156,13 @@ public class StatusItemAdapter extends BaseAdapter {
         } catch (WeiboException e) {
             Log.e("StatusCode:" + e.getStatusCode() + " " + e.getMessage());
         }
-        
+
         holder.time.setText(time);
         holder.content.setText(statuses.text, TextView.BufferType.SPANNABLE);
         Util.textHighlight(holder.content, "#", "#");
         //Util.textHighlight(holder.content, "@",":");
         Util.textHighlight(holder.content, "http://", " ");
-        
+
         holder.tweetForm.setText(Html.fromHtml(String.format(
                 mContext.getResources().getString(R.string.from), statuses.source)));
 
@@ -187,7 +187,7 @@ public class StatusItemAdapter extends BaseAdapter {
 
         if (statuses.thumbnail_pic != null) {
             holder.pic.setVisibility(View.VISIBLE);
-            
+
             final String middleImageUrl = statuses.bmiddle_pic;
             final String originalPicUrl = statuses.original_pic;
 
@@ -200,23 +200,23 @@ public class StatusItemAdapter extends BaseAdapter {
                     Intent intent = new Intent(Consts.ACTION_SHOW_IMAGE_VIWVER);
                     intent.putExtra(Consts.MIDDLE_IMAGE_URL_KEY, middleImageUrl);
                     intent.putExtra(Consts.ORIGINAL_PIC_URL_KEY, originalPicUrl);
-                    
+
                     mContext.startActivity(intent);
                 }
             });
         }
 
-        
+
         if (statuses.retweeted_status != null) {
             holder.subLayout.setVisibility(View.VISIBLE);
-            
+
             String text = "";
             if (statuses.retweeted_status.user != null) {
                 text = "@" + statuses.retweeted_status.user.name + ":";
             }
-            
+
             text += statuses.retweeted_status.text;
-            
+
             holder.retweetedText.setText(text, TextView.BufferType.SPANNABLE);
             Util.textHighlight(holder.retweetedText, "#", "#");
             //Util.textHighlight(holder.retweetedText, "@",":");
@@ -240,14 +240,14 @@ public class StatusItemAdapter extends BaseAdapter {
                         });
             }
         }
-        
+
         return convertView;
     }
-    
+
     public void addStatuses(Statuses status) {
         mStatuses.add(status);
     }
-    
+
     public void addNewestStatuses(List<Statuses> statuses) {
         mStatuses.addAll(0, statuses);
     }

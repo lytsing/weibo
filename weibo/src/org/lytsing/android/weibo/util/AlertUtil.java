@@ -25,7 +25,7 @@ import android.content.DialogInterface;
  * Alert Diaglog Util Class.
  */
 public final class AlertUtil {
-    
+
     private AlertUtil() {
     }
 
@@ -42,7 +42,7 @@ public final class AlertUtil {
             .setPositiveButton(android.R.string.ok, null)
             .setMessage(messageId)
             .create();
-        
+
         dlg.show();
     }
 
@@ -59,7 +59,7 @@ public final class AlertUtil {
             .setPositiveButton(android.R.string.ok, null)
             .setMessage(message)
             .create();
-        
+
         dlg.show();
     }
 
@@ -84,10 +84,10 @@ public final class AlertUtil {
             .setMessage(messageId)
             .setCancelable(false)
             .create();
-        
+
         dlg.show();
     }
-    
+
     /**
      * Show Alert Dialog with positive button.
      * @param context
@@ -105,7 +105,7 @@ public final class AlertUtil {
             .setMessage(messageId)
             .setCancelable(false)
             .create();
-        
+
         dlg.show();
     }
 }

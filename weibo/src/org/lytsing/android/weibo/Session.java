@@ -27,13 +27,13 @@ import org.lytsing.android.weibo.util.Preferences;
 
 /**
  * utility class for storing and retrieving Weibo session data.
- * 
+ *
  * @author lytsing
  */
 public class Session {
     /**
      * Stores the session data on disk.
-     * 
+     *
      * @param context Activity 上下文环境
      * @param token Oauth2AccessToken
      */
@@ -47,7 +47,7 @@ public class Session {
 
     /**
      * Clears the saved session data.
-     * 
+     *
      * @param context
      */
     public static void clearSavedSession(Context context) {
@@ -59,7 +59,7 @@ public class Session {
 
     /**
      * Loads the session data from disk.
-     * 
+     *
      * @param context
      * @return Oauth2AccessToken
      */

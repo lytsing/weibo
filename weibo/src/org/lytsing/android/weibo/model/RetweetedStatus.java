@@ -21,7 +21,7 @@ import java.util.List;
 
 public class RetweetedStatus implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 3731983092212626968L;
 
@@ -57,10 +57,10 @@ public class RetweetedStatus implements Serializable {
 
     /** 缩略图 */
     public String thumbnail_pic;
-    
+
     /** 中型图片 */
     public String bmiddle_pic;
-    
+
     /** 原始图片 */
     public String original_pic;
 

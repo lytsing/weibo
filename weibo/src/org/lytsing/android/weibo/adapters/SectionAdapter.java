@@ -36,7 +36,7 @@ abstract public class SectionAdapter extends BaseAdapter {
 
     /**
      * Constructor.
-     * 
+     *
      * @param sectionTitleId The resource ID for a layout file containing a layout to use when
      *                  instantiating views.
      * @param context The current context.
@@ -49,7 +49,7 @@ abstract public class SectionAdapter extends BaseAdapter {
 
     /**
      * Constructor.
-     * 
+     *
      * @param sectionHeaderView The header view
      */
     public SectionAdapter(View sectionHeaderView) {
@@ -95,35 +95,35 @@ abstract public class SectionAdapter extends BaseAdapter {
     /**
      * Get the data item associated with the specified
      * position in the data set.
-     * 
+     *
      * @param position Position of the item whose data we want
      */
     public Object getItem(int position) {
         if (position == 0) {
             return mSectionHeaderView;
         }
-        
+
         return null;
     }
 
     /**
      * Get the row id associated with the specified position
      * in the list.
-     * 
+     *
      * @param position Position of the item whose data we want
      */
     public long getItemId(int position) {
         if (position == 0) {
             return mSectionHeaderView.getId();
-        } 
-        
+        }
+
         return 0;
     }
 
     /**
      * Get a View that displays the data at the specified
      * position in the data set.
-     * 
+     *
      * @param position Position of the item whose data we want
      * @param convertView View to recycle, if not null
      * @param parent ViewGroup containing the returned View
@@ -136,7 +136,7 @@ abstract public class SectionAdapter extends BaseAdapter {
     /**
      * Returns true if the item at the specified position is not a separator
      * (A separator is a non-selectable, non-clickable item).
-     * 
+     *
      * @param position Index of the item
      * @return True if the item is not a separator
      */
