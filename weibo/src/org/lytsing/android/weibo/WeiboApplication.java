@@ -27,8 +27,6 @@ import com.android.volley.toolbox.Volley;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuth;
-
 import org.lytsing.android.weibo.toolbox.BitmapLruCache;
 
 /**
@@ -42,8 +40,6 @@ public class WeiboApplication extends Application {
     public static final String TAG = "Weibo";
 
     private static WeiboApplication sWeiboApplication;
-
-    private static WeiboAuth sWeiboAuth;
 
     private Oauth2AccessToken mOauth2AccessToken;
 
@@ -87,14 +83,6 @@ public class WeiboApplication extends Application {
 
     public static synchronized WeiboApplication getWeiboApplication() {
         return sWeiboApplication;
-    }
-
-    public WeiboAuth getWeiboAuth() {
-        return sWeiboAuth;
-    }
-    
-    public void setWeiboAuth(WeiboAuth wa) {
-        sWeiboAuth =  wa;
     }
 
     public Oauth2AccessToken getOauth2AccessToken() {

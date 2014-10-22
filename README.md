@@ -30,6 +30,7 @@ Dependent three-part libraries projects:
 * ActionBarSherlock http://actionbarsherlock.com/
 * MenuDrawer https://github.com/SimonVT/android-menudrawer
 * android-pulltorefresh-and-loadmore https://github.com/shontauro/android-pulltorefresh-and-loadmore
+* weibo_android_sdk https://github.com/sinaweibosdk/weibo_android_sdk
 
 Just git clone them, and import into weibo project.
 
@@ -79,7 +80,7 @@ In short that is;
 Have fun and remember we do this in our spare time so don't be too serious :)
 
 ## License
-Copyright (c) 2012 [Lytsing Huang](http://lytsing.org)
+Copyright (c) 2012-2014 [Lytsing Huang](http://lytsing.org)
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 

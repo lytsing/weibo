@@ -25,16 +25,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import org.apache.http.params.CoreProtocolPNames;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 /**
  * GsonRequest is a way to solve the Volley's JSONObjectReuqest can't post paramsters like the StringRequest
@@ -45,6 +46,7 @@ import java.util.Map;
  * Changlog:
  * 1. Add retrying failed requests and customizing request Timeout
  *  see http://arnab.ch/blog/2013/08/asynchronous-http-requests-in-android-using-volley/
+ * 2. 2014/10/22 support http gzip, see https://github.com/darja/VolleyDemo/
  *
  * @param <T> JSON type of response expected
  */
@@ -53,6 +55,13 @@ public class GsonRequest<T> extends Request<T> {
     private final Class<T> mClazz;
     private final Listener<T> mListener;
     private Map<String, String> mParams;
+
+    private static final String HEADER_ENCODING = "Content-Encoding";
+    private static final String HEADER_USER_AGENT = "User-Agent";
+    private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
+    private static final String ENCODING_GZIP = "gzip";
+
+    private boolean mGzipEnabled = true;
 
     private static final int SET_SOCKET_TIMEOUT = 20 * 1000;
 
@@ -83,15 +92,54 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
-            String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            VolleyLog.d("Response: %s", json);
+            String responseString = null;
+            String charset = HttpHeaderParser.parseCharset(response.headers);
 
-            return Response.success(mGson.fromJson(json, mClazz),
+            if (mGzipEnabled && isGzipped(response)) {
+                try {
+                    byte[] data = decompressResponse(response.data);
+                    responseString = new String(data, charset);
+                } catch (IOException e) {
+                    // it seems that result is not GZIP
+                }
+            }
+
+            if (responseString == null) {
+                responseString = new String(response.data, charset);
+            }
+
+            return Response.success(mGson.fromJson(responseString, mClazz),
                                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
             return Response.error(new ParseError(e));
+        }
+    }
+
+    private boolean isGzipped(NetworkResponse response) {
+        Map<String, String> headers = response.headers;
+        return headers != null && !headers.isEmpty() && headers.containsKey(HEADER_ENCODING) &&
+            headers.get(HEADER_ENCODING).equalsIgnoreCase(ENCODING_GZIP);
+    }
+
+    protected byte[] decompressResponse(byte [] compressed) throws IOException {
+        ByteArrayOutputStream baos = null;
+        try {
+            int size;
+            ByteArrayInputStream memstream = new ByteArrayInputStream(compressed);
+            GZIPInputStream gzip = new GZIPInputStream(memstream);
+            final int buffSize = 8192;
+            byte[] tempBuffer = new byte[buffSize];
+            baos = new ByteArrayOutputStream();
+            while ((size = gzip.read(tempBuffer, 0, buffSize)) != -1) {
+                baos.write(tempBuffer, 0, size);
+            }
+            return baos.toByteArray();
+        } finally {
+            if (baos != null) {
+                baos.close();
+            }
         }
     }
 
@@ -104,8 +152,10 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         HashMap<String, String> headers = new HashMap<String, String>();
-        headers.put(CoreProtocolPNames.USER_AGENT, System.getProperty("http.agent"));
+        // add user agent header
+        headers.put(HEADER_USER_AGENT, System.getProperty("http.agent"));
+        // add gzip header
+        headers.put(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
         return headers;
     }
 }
-
