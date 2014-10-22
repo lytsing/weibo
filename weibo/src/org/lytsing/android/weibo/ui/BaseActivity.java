@@ -16,18 +16,16 @@
 
 package org.lytsing.android.weibo.ui;
 
-import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.widget.Toast;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.weibo.sdk.android.Oauth2AccessToken;
-import com.weibo.sdk.android.Weibo;
-
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.WeiboApplication;
+
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.widget.Toast;
 
 
 /**
@@ -39,8 +37,6 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 
     protected WeiboApplication mApplication;
 
-    protected Weibo mWeibo;
-
     protected Oauth2AccessToken mAccessToken;
 
     @Override
@@ -48,7 +44,6 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
 
         mApplication = (WeiboApplication) getApplication();
-        mWeibo = mApplication.getWeibo();
         mAccessToken = mApplication.getOauth2AccessToken();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

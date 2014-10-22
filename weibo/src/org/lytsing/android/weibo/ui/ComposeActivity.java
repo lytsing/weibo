@@ -19,6 +19,7 @@ package org.lytsing.android.weibo.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -49,9 +50,9 @@ import com.actionbarsherlock.view.MenuItem;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
-import com.weibo.sdk.android.WeiboException;
-import com.weibo.sdk.android.api.StatusesAPI;
-import com.weibo.sdk.android.net.RequestListener;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.StatusesAPI;
 
 import org.lytsing.android.weibo.GridViewFaceAdapter;
 import org.lytsing.android.weibo.R;
@@ -60,6 +61,7 @@ import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ComposeActivity extends BaseActivity implements OnClickListener,
@@ -76,6 +78,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     private TextView mTextNum;
 
     private String mPicPath = "";
+    private Uri mImageUri = null;
     private String mContent = "";
     private String mLatitude = "";
     private String mLongitude = "";
@@ -141,7 +144,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
         mEdit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //显示软键盘
+                // 显示软键盘
                 showIMM();
             }
         });
@@ -149,20 +152,20 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         //aq.id(R.id.ly_loadlocation).visible();
     }
 
-    //初始化表情控件
+    // 初始化表情控件
     private void initGridView() {
         mGVFaceAdapter = new GridViewFaceAdapter(this);
         mGridView = (GridView)findViewById(R.id.tweet_pub_faces);
         mGridView.setAdapter(mGVFaceAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //插入的表情
+                // 插入的表情
                 SpannableString ss = new SpannableString(view.getTag().toString());
                 Drawable d = getResources().getDrawable((int)mGVFaceAdapter.getItemId(position));
                 d.setBounds(0, 0, 35, 35);//设置表情图片的显示大小
                 ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
                 ss.setSpan(span, 0, view.getTag().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                //在光标所在处插入表情
+                // 在光标所在处插入表情
                 mEdit.getText().insert(mEdit.getSelectionStart(), ss);
             }
         });
@@ -175,13 +178,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     }
 
     @Override
-    public void onIOException(IOException e) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onError(final WeiboException e) {
+    public void onWeiboException(final WeiboException e) {
         String content = String.format(
                 ComposeActivity.this.getString(R.string.send_failed) + ":%s", e.getMessage());
         Util.showToast(this, content);
@@ -195,7 +192,18 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
         if (!TextUtils.isEmpty(mPicPath)) {
             Util.showToast(this, R.string.sending);
-            api.upload(this.mContent, this.mPicPath, mLatitude, mLongitude, this);
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            api.upload(this.mContent, bitmap, mLatitude, mLongitude, this);
         } else {
             // Just update a text weibo!
             api.update(mContent, mLatitude, mLongitude, this);
@@ -287,8 +295,8 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 return;
             }
 
-            Uri uri = data.getData();
-            mPicPath = getRealPathFromURI(uri);
+            mImageUri = data.getData();
+            mPicPath = getRealPathFromURI(mImageUri);
             if (mPicPath != null) {
                 File file = new File(mPicPath);
                 // load image from file, down sample to target width of 45 pixels

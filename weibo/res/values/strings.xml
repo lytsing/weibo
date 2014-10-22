@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Water Walk</string>
-    
-    
+
+
     <string name="WidgetProvider_timestamp_today">Today</string>
     <string name="WidgetProvider_timestamp_yesterday">Yesterday</string>
     <string name="WidgetProvider_timestamp_hour_ago">%s hour ago</string>
@@ -29,11 +29,11 @@
     <string name="settings_build_version">Build version</string>
     <string name="source_code_title">Source code</string>
     <string name="source_code_summary">https://github.com/lytsing/weibo</string>
-    
+
 
     <!-- listview.xml -->
     <string name="mblog_fake_tip">此微博为不实信息。</string>
-    
+
     <!-- TimelineActivity.java -->
     <string name="new_blog_toast">Receive %d New Weibo</string>
     <string name="no_new_blog_toast">No new weibo.</string>
@@ -51,12 +51,12 @@
 
     <string name="locating">Get location data....</string>
     <string name="say_something">Say something\u2026</string>
-    <string name="sending">Sending\u2026</string> 
+    <string name="sending">Sending\u2026</string>
 
     <!-- StatusDetailActivity.java -->
     <string name="title_mblog_content">Weibo Content</string>
     <string name="take_photo">Take photo</string>
-    <string name="pick_photo">Choose photo from Gallery</string> 
+    <string name="pick_photo">Choose photo from Gallery</string>
     <string name="comment">Comment</string>
     <string name="type_to_compose_text_enter_to_send">Quick comment</string>
     <string name="send">Send</string>
@@ -78,7 +78,7 @@
     <string name="del_pic">是否删除图片？</string>
 
     <string name="computing_size">Computing\u2026</string>
-    
+
     <string name="image_empty">""</string>
 
     <string name="from">From:%s</string>
@@ -90,7 +90,7 @@
     <string name="general_error">A server error has occurred. Retry, or cancel and return to the previous screen.</string>
     <string name="general_error_noretry">An error has occurred.</string>
     <string name="general_server_down">An error has occurred.</string>
-    
+
     <string name="http_error_304">Not Modified</string>
     <string name="http_error_400">Bad Request</string>
     <string name="http_error_401">Not Authorized</string>

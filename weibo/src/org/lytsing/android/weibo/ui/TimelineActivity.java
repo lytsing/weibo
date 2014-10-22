@@ -35,13 +35,10 @@ import com.android.volley.VolleyError;
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
-import com.weibo.sdk.android.WeiboException;
-import com.weibo.sdk.android.WeiboParameters;
-import com.weibo.sdk.android.api.StatusesAPI;
-import com.weibo.sdk.android.api.WeiboAPI;
-import com.weibo.sdk.android.api.WeiboAPI.FEATURE;
-import com.weibo.sdk.android.net.RequestListener;
-import com.weibo.sdk.android.util.Utility;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.net.WeiboParameters;
+import com.sina.weibo.sdk.openapi.StatusesAPI;
 
 import net.simonvt.menudrawer.MenuDrawer;
 
@@ -59,8 +56,6 @@ import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
 
-import java.io.IOException;
-
 public class TimelineActivity extends BaseActivity {
 
     private final int ON_SUCC_RESPONSE = 0;
@@ -70,9 +65,6 @@ public class TimelineActivity extends BaseActivity {
     private final int ERROR_CODE_RESPONSE = 2;
 
     private final int PER_REQUEST_COUNT = 20;
-
-
-    private static final String STATE_MENUDRAWER = TimelineActivity.class.getName() + ".menuDrawer";
 
     private StatusItemAdapter mAdapter = null;
 
@@ -89,7 +81,7 @@ public class TimelineActivity extends BaseActivity {
     private AQuery aq;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {        
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (mAccessToken.isSessionValid()) {
@@ -283,7 +275,7 @@ public class TimelineActivity extends BaseActivity {
         setRefreshActionButtonState(true);
 
         StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
-        statusAPI.friendsTimeline(sinceId, 0, PER_REQUEST_COUNT, 1, false, FEATURE.ALL, false,
+        statusAPI.friendsTimeline(sinceId, 0, PER_REQUEST_COUNT, 1, false, StatusesAPI.FEATURE_ALL, false,
                 new RequestListener() {
 
                     @Override
@@ -298,39 +290,28 @@ public class TimelineActivity extends BaseActivity {
                             mAdapter.addNewestStatuses(response.statuses);
                         }
 
-                        runOnUiThread(new Runnable() {
+                        mAdapter.notifyDataSetChanged();
+                        // Call onRefreshComplete when the list has been
+                        // refreshed.
+                        mListView.onRefreshComplete();
+                        mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
 
-                            @Override
-                            public void run() {
-                                mAdapter.notifyDataSetChanged();
-                                // Call onRefreshComplete when the list has been refreshed.
-                                mListView.onRefreshComplete();
-                                mListView.setLastUpdated(getLastSyncTime(
-                                        Preferences.PREF_LAST_SYNC_TIME));
+                        setLastSyncTime(Util.getNowLocaleTime());
 
-                                setLastSyncTime(Util.getNowLocaleTime());
+                        if (refreshCount > 0) {
+                            displayToast(String
+                                    .format(getResources().getString(R.string.new_blog_toast),
+                                            refreshCount));
+                        } else {
+                            displayToast(R.string.no_new_blog_toast);
+                        }
 
-                                if (refreshCount > 0) {
-                                    displayToast(String.format(getResources().getString(
-                                            R.string.new_blog_toast), refreshCount));
-                                } else {
-                                    displayToast(R.string.no_new_blog_toast);
-                                }
-
-                                setRefreshActionButtonState(false);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(final WeiboException e) {
-                        Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
                         setRefreshActionButtonState(false);
                     }
 
                     @Override
-                    public void onIOException(IOException e) {
-                        // TODO Auto-generated method stub
+                    public void onWeiboException(WeiboException e) {
+                        Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
                         setRefreshActionButtonState(false);
                     }
 
@@ -342,15 +323,15 @@ public class TimelineActivity extends BaseActivity {
         hideErrorIndicator();
         showLoadingIndicator();
 
-        String url = WeiboAPI.API_SERVER + "/statuses/friends_timeline.json";
+        String url = Consts.API_SERVER + "/statuses/friends_timeline.json";
         WeiboParameters  params = new WeiboParameters();
-        params.add("access_token", mAccessToken.getToken());
-        params.add("count", PER_REQUEST_COUNT);
-        params.add("page", 1);
-        params.add("base_app", 0);
-        params.add("feature", 0);
+        params.put("access_token", mAccessToken.getToken());
+        params.put("count", PER_REQUEST_COUNT);
+        params.put("page", 1);
+        params.put("base_app", 0);
+        params.put("feature", 0);
 
-        url = url + "?" + Utility.encodeUrl(params);
+        url = url + "?" + params.encodeUrl();
 
         GsonRequest<WeiboObject> timelineRequest = new GsonRequest<WeiboObject>(Method.GET, url,
                 null,
@@ -422,7 +403,7 @@ public class TimelineActivity extends BaseActivity {
 
     private void loadMoreData(final long maxId) {
         StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
-        statusAPI.friendsTimeline(0, maxId, PER_REQUEST_COUNT, 1, false, FEATURE.ALL, false,
+        statusAPI.friendsTimeline(0, maxId, PER_REQUEST_COUNT, 1, false, StatusesAPI.FEATURE_ALL, false,
                 new RequestListener() {
 
                     @Override
@@ -455,26 +436,13 @@ public class TimelineActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onError(final WeiboException e) {
+                    public void onWeiboException(final WeiboException e) {
                         Message msg = Message.obtain();
                         msg.what = ON_ERROR_RESPONSE;
                         msg.obj = e.getMessage();
 
                         mHandler.sendMessage(msg);
                     }
-
-                    @Override
-                    public void onIOException(final IOException e) {
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                displayToast("IO Error:" + e.getMessage());
-                                mListView.onLoadMoreComplete();
-                            }
-                        });
-                    }
-
                 });
     }
 

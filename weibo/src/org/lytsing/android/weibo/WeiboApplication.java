@@ -26,8 +26,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
-import com.weibo.sdk.android.Oauth2AccessToken;
-import com.weibo.sdk.android.Weibo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuth;
 
 import org.lytsing.android.weibo.toolbox.BitmapLruCache;
 
@@ -43,7 +43,7 @@ public class WeiboApplication extends Application {
 
     private static WeiboApplication sWeiboApplication;
 
-    private static Weibo sWeibo;
+    private static WeiboAuth sWeiboAuth;
 
     private Oauth2AccessToken mOauth2AccessToken;
 
@@ -52,9 +52,8 @@ public class WeiboApplication extends Application {
         super.onCreate();
 
         sWeiboApplication = this;
-        sWeibo = Weibo.getInstance(Configuration.CONSUMER_KEY, Configuration.REDIRECT_CALLBACK_URL);
-
-        mOauth2AccessToken = Session.restore(this);
+        
+        mOauth2AccessToken = Session.restore(sWeiboApplication);
 
         mImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache(20));
 
@@ -90,8 +89,12 @@ public class WeiboApplication extends Application {
         return sWeiboApplication;
     }
 
-    public Weibo getWeibo() {
-        return sWeibo;
+    public WeiboAuth getWeiboAuth() {
+        return sWeiboAuth;
+    }
+    
+    public void setWeiboAuth(WeiboAuth wa) {
+        sWeiboAuth =  wa;
     }
 
     public Oauth2AccessToken getOauth2AccessToken() {

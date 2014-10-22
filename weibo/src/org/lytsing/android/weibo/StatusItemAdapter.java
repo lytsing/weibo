@@ -19,7 +19,7 @@ package org.lytsing.android.weibo;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.androidquery.AQuery;
-import com.weibo.sdk.android.WeiboException;
+import com.sina.weibo.sdk.exception.WeiboException;
 
 import org.lytsing.android.weibo.model.Statuses;
 import org.lytsing.android.weibo.toolbox.FadeInImageListener;
@@ -154,7 +154,7 @@ public class StatusItemAdapter extends BaseAdapter {
                         date.getTime());
             }
         } catch (WeiboException e) {
-            Log.e("StatusCode:" + e.getStatusCode() + " " + e.getMessage());
+            Log.e("WeiboException:" + e.getMessage());
         }
 
         holder.time.setText(time);

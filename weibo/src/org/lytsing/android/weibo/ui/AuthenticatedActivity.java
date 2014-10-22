@@ -16,17 +16,18 @@
 
 package org.lytsing.android.weibo.ui;
 
-import android.content.Intent;
-import android.os.Bundle;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuth;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.exception.WeiboException;
 
-import com.weibo.sdk.android.Oauth2AccessToken;
-import com.weibo.sdk.android.WeiboAuthListener;
-import com.weibo.sdk.android.WeiboDialogError;
-import com.weibo.sdk.android.WeiboException;
-import com.weibo.sdk.android.sso.SsoHandler;
-
+import org.lytsing.android.weibo.Configuration;
 import org.lytsing.android.weibo.Session;
 import org.lytsing.android.weibo.util.Preferences;
+
+import android.content.Intent;
+import android.os.Bundle;
 
 /**
  *
@@ -42,7 +43,10 @@ public class AuthenticatedActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSsoHandler = new SsoHandler(this, mWeibo);
+        WeiboAuth weiboAuth = new WeiboAuth(this, Configuration.CONSUMER_KEY,
+                Configuration.REDIRECT_CALLBACK_URL, Configuration.SCOPE);
+
+        mSsoHandler = new SsoHandler(this, weiboAuth);
         mSsoHandler.authorize(new AuthDialogListener());
     }
 
@@ -68,11 +72,6 @@ public class AuthenticatedActivity extends BaseActivity {
                 getWeiboApplication().setOauth2AccessToken(mAccessToken);
                 enterTimeline();
             }
-        }
-
-        @Override
-        public void onError(WeiboDialogError e) {
-            displayToast("Auth error : " + e.getMessage());
         }
 
         @Override

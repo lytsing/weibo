@@ -17,11 +17,12 @@
 
 package org.lytsing.android.weibo;
 
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.weibo.sdk.android.Oauth2AccessToken;
 
 import org.lytsing.android.weibo.util.Preferences;
 

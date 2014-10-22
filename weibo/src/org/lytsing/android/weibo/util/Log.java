@@ -144,7 +144,7 @@ public class Log {
      * @param msg The message you would like logged.
      * @return Message String
      */
-    protected static String buildMessage(String msg) {      
+    protected static String buildMessage(String msg) {
         StackTraceElement ste = new Throwable().fillInStackTrace().getStackTrace()[2];
 
          return new StringBuilder()

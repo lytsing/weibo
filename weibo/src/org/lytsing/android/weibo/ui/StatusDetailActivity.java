@@ -35,12 +35,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.androidquery.AQuery;
 import com.commonsware.cwac.merge.MergeAdapter;
-import com.weibo.sdk.android.WeiboException;
-import com.weibo.sdk.android.api.CommentsAPI;
-import com.weibo.sdk.android.api.FavoritesAPI;
-import com.weibo.sdk.android.api.StatusesAPI;
-import com.weibo.sdk.android.api.WeiboAPI;
-import com.weibo.sdk.android.net.RequestListener;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.CommentsAPI;
+import com.sina.weibo.sdk.openapi.legacy.FavoritesAPI;
+import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +52,6 @@ import org.lytsing.android.weibo.model.Statuses;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
 
-import java.io.IOException;
 import java.util.Date;
 
 public class StatusDetailActivity extends BaseActivity implements RequestListener {
@@ -119,24 +117,17 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
             }
 
             @Override
-            public void onError(WeiboException e) {
+            public void onWeiboException(WeiboException e) {
                 // TODO Auto-generated method stub
 
             }
-
-            @Override
-            public void onIOException(IOException e) {
-                // TODO Auto-generated method stub
-
-            }
-
         });
     }
 
     private void addRepost(String content, boolean comment_ori) {
         StatusesAPI api = new StatusesAPI(mAccessToken);
-        api.repost(mStatus.id, content, comment_ori ? WeiboAPI.COMMENTS_TYPE.ORIGAL_STATUSES
-                : WeiboAPI.COMMENTS_TYPE.CUR_STATUSES, new RequestListener() {
+        api.repost(mStatus.id, content, comment_ori ? StatusesAPI.COMMENTS_RIGAL_STATUSES
+                : StatusesAPI.COMMENTS_CUR_STATUSES, new RequestListener() {
 
             @Override
             public void onComplete(String result) {
@@ -150,13 +141,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
             }
 
             @Override
-            public void onError(WeiboException e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onIOException(IOException e) {
+            public void onWeiboException(WeiboException e) {
                 // TODO Auto-generated method stub
 
             }
@@ -202,10 +187,6 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                     .visible();
         }
 
-        // The last line
-        /*
-         * aq.id(R.id.tweet_form).text("来自:" + Html.fromHtml(mStatus.source));
-         */
 
         if (mStatus.reposts_count > 0) {
             aq.id(R.id.tweet_redirect_pic).visible();
@@ -242,7 +223,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     private void loadCommentData() {
         setSupportProgressBarIndeterminateVisibility(true);
 
-        api.show(mStatus.id, 0, 0, 50, 1, WeiboAPI.AUTHOR_FILTER.ALL,
+        api.show(mStatus.id, 0, 0, 50, 1, CommentsAPI.AUTHOR_FILTER_ALL,
                 new RequestListener() {
 
                     @Override
@@ -291,17 +272,10 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                     }
 
                     @Override
-                    public void onError(WeiboException e) {
+                    public void onWeiboException(WeiboException e) {
                         // TODO Auto-generated method stub
 
                     }
-
-                    @Override
-                    public void onIOException(IOException e) {
-                        // TODO Auto-generated method stub
-
-                    }
-
                 });
     }
 
@@ -316,13 +290,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
             }
 
             @Override
-            public void onError(WeiboException e) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onIOException(IOException e) {
+            public void onWeiboException(WeiboException e) {
                 // TODO Auto-generated method stub
 
             }
@@ -424,12 +392,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     }
 
     @Override
-    public void onIOException(final IOException e) {
-        Util.showToast(this, e.getMessage());
-    }
-
-    @Override
-    public void onError(final WeiboException e) {
+    public void onWeiboException(final WeiboException e) {
         Util.showToast(this, e.getMessage());
     }
 

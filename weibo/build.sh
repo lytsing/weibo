@@ -12,8 +12,10 @@ fi
 
 PRJ=Weibo
 DATE=`date +%Y%m%d`
-VER=1.2
+VER=1.3
 NAME=$PRJ-$DATE-$VER
+
+ant clean
 
 cd ../../pulltorefresh-and-loadmore/
 android update project -p . -t android-8
@@ -24,6 +26,10 @@ android update project -p . -t android-16
 cd -
 
 cd ../../abs
+android update project -p . -t android-16
+cd -
+
+cd ../../WeiboSDK
 android update project -p . -t android-16
 cd -
 
