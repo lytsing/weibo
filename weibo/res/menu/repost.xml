@@ -9,7 +9,7 @@
     android:title="@string/refresh" />
   <item
     android:id="@+id/root_menu"
-    android:icon="@drawable/ic_menu_moreoverflow_normal_holo_light"
+    android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
     android:showAsAction="always"
     android:title="@string/more">
     <menu>

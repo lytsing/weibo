@@ -28,6 +28,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import org.lytsing.android.weibo.toolbox.BitmapLruCache;
+import org.lytsing.android.weibo.toolbox.OkHttpStack;
 
 /**
  * WeiboApplication.
@@ -105,7 +106,7 @@ public class WeiboApplication extends Application {
         // lazy initialize the request queue, the queue instance will be
         // created when it is accessed for the first time
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext(), new OkHttpStack());
         }
 
         return mRequestQueue;
