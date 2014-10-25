@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package org.lytsing.android.weibo;
+package org.lytsing.android.weibo.adapters;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.androidquery.AQuery;
 import com.sina.weibo.sdk.exception.WeiboException;
 
+import org.lytsing.android.weibo.Consts;
+import org.lytsing.android.weibo.R;
+import org.lytsing.android.weibo.R.id;
+import org.lytsing.android.weibo.R.layout;
+import org.lytsing.android.weibo.R.string;
 import org.lytsing.android.weibo.model.Statuses;
 import org.lytsing.android.weibo.toolbox.FadeInImageListener;
 import org.lytsing.android.weibo.util.DateTimeUtils;
@@ -30,6 +35,7 @@ import org.lytsing.android.weibo.util.Util;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -158,6 +164,8 @@ public class StatusItemAdapter extends BaseAdapter {
         }
 
         holder.time.setText(time);
+        
+        holder.content.setMovementMethod(LinkMovementMethod.getInstance());
         holder.content.setText(statuses.text, TextView.BufferType.SPANNABLE);
         Util.textHighlight(holder.content, "#", "#");
         //Util.textHighlight(holder.content, "@",":");

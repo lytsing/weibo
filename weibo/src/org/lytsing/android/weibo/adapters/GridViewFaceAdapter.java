@@ -1,5 +1,6 @@
-package org.lytsing.android.weibo;
+package org.lytsing.android.weibo.adapters;
 
+import org.lytsing.android.weibo.R;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

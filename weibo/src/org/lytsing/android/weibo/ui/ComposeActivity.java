@@ -54,8 +54,8 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
 
-import org.lytsing.android.weibo.GridViewFaceAdapter;
 import org.lytsing.android.weibo.R;
+import org.lytsing.android.weibo.adapters.GridViewFaceAdapter;
 import org.lytsing.android.weibo.util.AlertUtil;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;

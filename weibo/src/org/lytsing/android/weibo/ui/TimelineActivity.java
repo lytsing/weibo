@@ -46,9 +46,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.StatusItemAdapter;
 import org.lytsing.android.weibo.VolleyErrorHelper;
 import org.lytsing.android.weibo.WeiboApplication;
+import org.lytsing.android.weibo.adapters.StatusItemAdapter;
 import org.lytsing.android.weibo.model.Statuses;
 import org.lytsing.android.weibo.model.WeiboObject;
 import org.lytsing.android.weibo.toolbox.GsonRequest;
@@ -114,7 +114,7 @@ public class TimelineActivity extends BaseActivity {
                 startActivity(createComposeIntent());
                 break;
             case R.id.menu_refresh:
-                refreshStatus(mSinceId);
+                refreshStatuses(mSinceId);
                 break;
             default:
                 break;
@@ -154,7 +154,7 @@ public class TimelineActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 // Do work to refresh the list here.
-                refreshStatus(mSinceId);
+                refreshStatuses(mSinceId);
             }
         });
 
@@ -271,18 +271,28 @@ public class TimelineActivity extends BaseActivity {
         editor.commit();
     }
 
-    private void refreshStatus(long sinceId) {
+    private void refreshStatuses(long sinceId) {
         setRefreshActionButtonState(true);
 
-        StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
-        statusAPI.friendsTimeline(sinceId, 0, PER_REQUEST_COUNT, 1, false, StatusesAPI.FEATURE_ALL, false,
-                new RequestListener() {
+        String url = Consts.API_SERVER + "/statuses/friends_timeline.json";
+        WeiboParameters  params = new WeiboParameters();
+        params.put("access_token", mAccessToken.getToken());
+        params.put("sinceId", sinceId);
+        params.put("max_id", 0);
+        params.put("count", PER_REQUEST_COUNT);
+        params.put("page", 1);
+        params.put("base_app", 0);
+        params.put("feature", 0);
+
+        url = url + "?" + params.encodeUrl();
+
+        GsonRequest<WeiboObject> refreshRequest = new GsonRequest<WeiboObject>(Method.GET, url,
+                null,
+                WeiboObject.class,
+                new Response.Listener<WeiboObject>(){
 
                     @Override
-                    public void onComplete(String result) {
-                        Gson gson = new Gson();
-                        WeiboObject response = gson.fromJson(result, WeiboObject.class);
-
+                    public void onResponse(WeiboObject response) {
                         final int refreshCount = response.statuses.size();
                         Log.d("newsMsgLists length == " + refreshCount);
                         if (refreshCount > 0) {
@@ -308,14 +318,19 @@ public class TimelineActivity extends BaseActivity {
 
                         setRefreshActionButtonState(false);
                     }
+            
+        },
+        new Response.ErrorListener(){
 
-                    @Override
-                    public void onWeiboException(WeiboException e) {
-                        Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
-                        setRefreshActionButtonState(false);
-                    }
+            @Override
+            public void onErrorResponse(VolleyError e) {
+                Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
+                setRefreshActionButtonState(false);
+            }
+            
+        });
 
-                });
+        WeiboApplication.getWeiboApplication().addToRequestQueue(refreshRequest);
     }
 
     private void requestFriendsTimeline() {

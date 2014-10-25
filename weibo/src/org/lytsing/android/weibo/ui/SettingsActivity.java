@@ -49,6 +49,7 @@ public class SettingsActivity extends SherlockActivity {
                 new SettingsFragment()).commit();
 
         sSettingsActivity = this;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public static class SettingsFragment extends PreferenceFragment {
@@ -59,7 +60,7 @@ public class SettingsActivity extends SherlockActivity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings);
-        }
+                    }
 
         @Override
         public void onResume() {

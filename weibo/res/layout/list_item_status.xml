@@ -117,6 +117,7 @@
 			android:layout_marginTop="8.0dip"
 			android:text=""
 			android:textSize="16.0sp"
+			android:linksClickable="true"
 			android:lineSpacingExtra="2.669983dip" />
 		<RelativeLayout
 			android:id="@+id/lyUploadPic1"

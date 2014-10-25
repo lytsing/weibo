@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lytsing.android.weibo;
+package org.lytsing.android.weibo.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -25,6 +25,10 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 
+import org.lytsing.android.weibo.R;
+import org.lytsing.android.weibo.R.id;
+import org.lytsing.android.weibo.R.layout;
+import org.lytsing.android.weibo.R.string;
 import org.lytsing.android.weibo.model.Comment;
 import org.lytsing.android.weibo.util.Util;
 
