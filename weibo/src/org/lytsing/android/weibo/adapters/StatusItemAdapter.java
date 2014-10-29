@@ -138,7 +138,7 @@ public class StatusItemAdapter extends BaseAdapter {
         */
         AQuery aq = new AQuery(convertView);
 
-        //Enable hardware acceleration if the device has API 11 or above        
+        //Enable hardware acceleration if the device has API 11 or above
         aq.hardwareAccelerated11();
 
         mImageLoader.get(statuses.user.profile_image_url, new FadeInImageListener(holder.userImage,
@@ -164,8 +164,7 @@ public class StatusItemAdapter extends BaseAdapter {
         }
 
         holder.time.setText(time);
-        
-        holder.content.setMovementMethod(LinkMovementMethod.getInstance());
+
         holder.content.setText(statuses.text, TextView.BufferType.SPANNABLE);
         Util.textHighlight(holder.content, "#", "#");
         //Util.textHighlight(holder.content, "@",":");
