@@ -3,7 +3,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/CWAC-SackOfViewsAdapter.jar"/>
-	<classpathentry kind="lib" path="libs/gson-2.2.2.jar"/>
 	<classpathentry kind="lib" path="libs/volley.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="/abs/libs/android-support-v4.jar"/>
@@ -13,5 +12,7 @@
 	<classpathentry kind="lib" path="libs/okhttp-2.0.0.jar"/>
 	<classpathentry kind="lib" path="libs/okhttp-urlconnection-2.0.0.jar"/>
 	<classpathentry kind="lib" path="libs/okio-1.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/retrofit-1.7.1.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.3.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -47,8 +47,8 @@ import org.json.JSONObject;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.adapters.CommentsAdapter;
-import org.lytsing.android.weibo.model.Comment;
-import org.lytsing.android.weibo.model.Statuses;
+import org.lytsing.android.weibo.core.models.Comment;
+import org.lytsing.android.weibo.core.models.Statuses;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
 

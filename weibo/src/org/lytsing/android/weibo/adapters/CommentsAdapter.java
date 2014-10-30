@@ -29,7 +29,7 @@ import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.R.id;
 import org.lytsing.android.weibo.R.layout;
 import org.lytsing.android.weibo.R.string;
-import org.lytsing.android.weibo.model.Comment;
+import org.lytsing.android.weibo.core.models.Comment;
 import org.lytsing.android.weibo.util.Util;
 
 import java.util.ArrayList;

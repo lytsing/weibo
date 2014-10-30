@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package org.lytsing.android.weibo.model;
+package org.lytsing.android.weibo.core.models;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Geo implements Serializable {
-    private static final long serialVersionUID = 5703295501784257267L;
 
-    @SerializedName("type")
-    public String type;
+public class WeiboObject {
+    public List<Statuses> statuses;
 
-    public List<Float> coordinates;
+    @SerializedName("hasvisible")
+    public boolean hasvisible;
+
+    @SerializedName("previous_cursor")
+    public long previous_cursor;
+
+    @SerializedName("next_cursor")
+    public long next_cursor;
+
+    @SerializedName("total_number")
+    public int total_number;
 }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lytsing.android.weibo.model;
+package org.lytsing.android.weibo.core.models;
 
 import java.io.Serializable;
 
