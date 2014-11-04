@@ -18,19 +18,19 @@ TARGET=android-16
 
 ant clean
 
-cd ../../pulltorefresh-and-loadmore/
+cd ../pulltorefresh-and-loadmore/
 android update project -p . -t $TARGET
 cd -
 
-cd ../../android-menudrawer/library
+cd ../android-menudrawer/library
 android update project -p . -t $TARGET
 cd -
 
-cd ../../abs
+cd ../abs
 android update project -p . -t $TARGET
 cd -
 
-cd ../../WeiboSDK
+cd ../WeiboSDK
 android update project -p . -t $TARGET
 cd -
 
