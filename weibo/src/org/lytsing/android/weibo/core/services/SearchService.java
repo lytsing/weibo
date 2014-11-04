@@ -10,8 +10,7 @@ import retrofit.http.Query;
 
 
 @SuppressWarnings("deprecation")
-public abstract interface SearchService
-{
+public abstract interface SearchService {
     @GET("/1.1/search/tweets.json")
     public abstract void tweets(
             @Query("q") String query,
