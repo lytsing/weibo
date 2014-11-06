@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.lytsing.android.weibo;
+package org.lytsing.android.weibo.core;
 
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 

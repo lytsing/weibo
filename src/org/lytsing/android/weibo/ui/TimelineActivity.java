@@ -46,7 +46,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.VolleyErrorHelper;
+import org.lytsing.android.weibo.core.Configuration;
+import org.lytsing.android.weibo.toolbox.VolleyErrorHelper;
 import org.lytsing.android.weibo.WeiboApplication;
 import org.lytsing.android.weibo.adapters.StatusItemAdapter;
 import org.lytsing.android.weibo.core.models.Statuses;
@@ -274,7 +275,7 @@ public class TimelineActivity extends BaseActivity {
     private void refreshStatuses(long sinceId) {
         setRefreshActionButtonState(true);
 
-        String url = Consts.API_SERVER + "/statuses/friends_timeline.json";
+        String url = Configuration.API_SERVER + "/statuses/friends_timeline.json";
         WeiboParameters  params = new WeiboParameters();
         params.put("access_token", mAccessToken.getToken());
         params.put("sinceId", sinceId);
@@ -338,7 +339,7 @@ public class TimelineActivity extends BaseActivity {
         hideErrorIndicator();
         showLoadingIndicator();
 
-        String url = Consts.API_SERVER + "/statuses/friends_timeline.json";
+        String url = Configuration.API_SERVER + "/statuses/friends_timeline.json";
         WeiboParameters  params = new WeiboParameters();
         params.put("access_token", mAccessToken.getToken());
         params.put("count", PER_REQUEST_COUNT);

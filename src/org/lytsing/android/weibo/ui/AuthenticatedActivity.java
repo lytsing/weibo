@@ -22,8 +22,8 @@ import com.sina.weibo.sdk.auth.WeiboAuthListener;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.exception.WeiboException;
 
-import org.lytsing.android.weibo.Configuration;
-import org.lytsing.android.weibo.Session;
+import org.lytsing.android.weibo.core.Configuration;
+import org.lytsing.android.weibo.core.Session;
 import org.lytsing.android.weibo.util.Preferences;
 
 import android.content.Intent;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.lytsing.android.weibo;
+package org.lytsing.android.weibo.toolbox;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -24,6 +24,8 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import android.content.Context;
+
+import org.lytsing.android.weibo.R;
 
 /**
  * simple helper to display appropriate message when one of these exceptions occurs

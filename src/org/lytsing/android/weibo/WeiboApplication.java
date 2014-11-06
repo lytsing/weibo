@@ -27,6 +27,8 @@ import com.android.volley.toolbox.Volley;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+
+import org.lytsing.android.weibo.core.Session;
 import org.lytsing.android.weibo.toolbox.BitmapLruCache;
 import org.lytsing.android.weibo.toolbox.OkHttpStack;
 
