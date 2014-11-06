@@ -152,10 +152,11 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         HashMap<String, String> headers = new HashMap<String, String>();
-        // add user agent header
+        // add user agent header which Android System support
         headers.put(HEADER_USER_AGENT, System.getProperty("http.agent"));
         // add gzip header
         headers.put(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
         return headers;
     }
 }
+

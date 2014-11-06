@@ -57,3 +57,4 @@ public class ImageViewerActivity extends Activity {
         finish();
     }
 }
+

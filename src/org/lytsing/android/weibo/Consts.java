@@ -20,7 +20,7 @@ package org.lytsing.android.weibo;
  * Constants.
  */
 public interface Consts {
-    
+
     String API_SERVER  = "https://api.weibo.com/2";
 
     String ACTION_SHOW_IMAGE_VIWVER = "org.lytsing.android.weibo.action.showimagevieweractivity";

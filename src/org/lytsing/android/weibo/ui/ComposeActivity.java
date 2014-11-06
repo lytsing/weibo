@@ -94,7 +94,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
-        StrictMode.setThreadPolicy(policy); 
+        StrictMode.setThreadPolicy(policy);
 
         imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
@@ -289,7 +289,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) { 
+        if (resultCode == RESULT_OK) {
             if (null == data) {
                 displayToast("添加图片失败!");
                 return;
@@ -324,7 +324,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     public void location_ajax() {
 
         LocationAjaxCallback cb = new LocationAjaxCallback();
-        cb.weakHandler(this, "locationCb").timeout(30 * 1000).accuracy(1000).iteration(3);      
+        cb.weakHandler(this, "locationCb").timeout(30 * 1000).accuracy(1000).iteration(3);
         cb.async(this);
 
         this.cb = cb;

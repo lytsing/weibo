@@ -32,7 +32,7 @@ import android.content.Context;
  */
 public class VolleyErrorHelper {
     /**
-     * Returns appropriate message which is to be displayed to the user 
+     * Returns appropriate message which is to be displayed to the user
      * against the specified error object.
      *
      * @param error
@@ -71,7 +71,7 @@ public class VolleyErrorHelper {
     }
 
     /**
-     * Handles the server error, tries to determine whether to show a stock message or to 
+     * Handles the server error, tries to determine whether to show a stock message or to
      * show a message retrieved from the server.
      *
      * @param err

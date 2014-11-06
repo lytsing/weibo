@@ -49,7 +49,7 @@ public class WeiboApplication extends Application {
         super.onCreate();
 
         sWeiboApplication = this;
-        
+
         mOauth2AccessToken = Session.restore(sWeiboApplication);
 
         mImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache(20));

@@ -318,7 +318,7 @@ public class TimelineActivity extends BaseActivity {
 
                         setRefreshActionButtonState(false);
                     }
-            
+
         },
         new Response.ErrorListener(){
 
@@ -327,7 +327,7 @@ public class TimelineActivity extends BaseActivity {
                 Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
                 setRefreshActionButtonState(false);
             }
-            
+
         });
 
         WeiboApplication.getWeiboApplication().addToRequestQueue(refreshRequest);

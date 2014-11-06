@@ -56,8 +56,6 @@ public class MenuFragment extends SherlockListFragment {
                 R.layout.slide, new String[] { "values", "images" },
                 new int[] { R.id.slide_list_title, R.id.slide_list_icon });
         setListAdapter(adapter);
-
     }
-
 }
 

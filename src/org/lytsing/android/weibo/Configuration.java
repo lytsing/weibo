@@ -24,7 +24,7 @@ public interface Configuration {
     String CONSUMER_KEY = "2357253761";
 
     String REDIRECT_CALLBACK_URL = "http://www.sina.com";
-    
+
     public static final String SCOPE =
             "email,direct_messages_read,direct_messages_write,"
             + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"

@@ -60,7 +60,7 @@ public class SettingsActivity extends SherlockActivity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.settings);
-                    }
+        }
 
         @Override
         public void onResume() {
@@ -92,7 +92,8 @@ public class SettingsActivity extends SherlockActivity {
                         getString(R.string.ok), listener,
                         getString(R.string.cancel), null);
             }
-            return true;
+
+            return super.onPreferenceTreeClick(preferenceScreen, preference);
         }
 
         private void image_clear_disk() {
