@@ -17,6 +17,8 @@
 package org.lytsing.android.weibo;
 
 import android.app.Application;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -54,7 +56,11 @@ public class WeiboApplication extends Application {
 
         mOauth2AccessToken = Session.restore(sWeiboApplication);
 
-        mImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache(20));
+        int memClass = ((ActivityManager) sWeiboApplication.getSystemService(Context.ACTIVITY_SERVICE))
+                .getMemoryClass();
+        // Use 1/8th of the available memory for this memory cache.
+        int cacheSize = 1024 * 1024 * memClass / 8;
+        mImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache(cacheSize));
 
         // set the max number of concurrent network connections, default is 4
         AjaxCallback.setNetworkLimit(8);

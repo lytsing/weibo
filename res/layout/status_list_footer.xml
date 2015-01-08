@@ -14,7 +14,7 @@
 		android:layout_height="?android:attr/listPreferredItemHeight"
 		>
 		<ProgressBar
-			android:id="@+android:id/progress_large"
+			android:id="@+id/progress_large"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:indeterminate="true"
