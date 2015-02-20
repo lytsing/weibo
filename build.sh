@@ -13,7 +13,7 @@ fi
 PRJ=Weibo
 DATE=`date +%Y%m%d`
 VER=1.3
-NAME=$PRJ-$DATE-$VER
+NAME=$PRJ-$VER-$DATE
 TARGET=android-16
 
 ant clean

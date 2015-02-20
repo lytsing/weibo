@@ -278,7 +278,7 @@ public class TimelineActivity extends BaseActivity {
         String url = Configuration.API_SERVER + "/statuses/friends_timeline.json";
         WeiboParameters  params = new WeiboParameters();
         params.put("access_token", mAccessToken.getToken());
-        params.put("sinceId", sinceId);
+        params.put("since_id", sinceId);
         params.put("max_id", 0);
         params.put("count", PER_REQUEST_COUNT);
         params.put("page", 1);
