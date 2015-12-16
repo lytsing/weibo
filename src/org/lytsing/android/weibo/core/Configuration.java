@@ -32,3 +32,4 @@ public interface Configuration {
 
     String API_SERVER  = "https://api.weibo.com/2";
 }
+

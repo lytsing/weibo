@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 lytsing.org
+ * Copyright (C) 2012 http://lytsing.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,3 +29,4 @@ public interface Consts {
 
     String ORIGINAL_PIC_URL_KEY = "original_pic_url";
 }
+

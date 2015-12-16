@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2012 lytsing.org
  *

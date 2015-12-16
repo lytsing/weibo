@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 lytsing.org
+ * Copyright (C) 2012 http://lytsing.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,41 +38,41 @@ import java.util.Map;
 import java.util.TimeZone;
 
 public class Util {
-	
-	private static Map<String, SimpleDateFormat> formatMap = new HashMap<String, SimpleDateFormat>();
 
-	public static Date parseDate(String str) throws WeiboException {
-		String format = "EEE MMM dd HH:mm:ss z yyyy";
-		if (str == null || "".equals(str)) {
-			return null;
-		}
-		SimpleDateFormat sdf = formatMap.get(format);
-		if (null == sdf) {
-			sdf = new SimpleDateFormat(format, Locale.ENGLISH);
-			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-			formatMap.put(format, sdf);
-		}
+    private static Map<String, SimpleDateFormat> formatMap = new HashMap<String, SimpleDateFormat>();
 
-		synchronized (sdf) {
-			// SimpleDateFormat is not thread safe
-			try {
-				return sdf.parse(str);
-			} catch (ParseException e) {
-				throw new WeiboException("Unexpected format(" + str
-						+ ") returned from sina.com.cn");
-			}
-		}
+    public static Date parseDate(String str) throws WeiboException {
+        String format = "EEE MMM dd HH:mm:ss z yyyy";
+        if (str == null || "".equals(str)) {
+            return null;
+        }
+        SimpleDateFormat sdf = formatMap.get(format);
+        if (null == sdf) {
+            sdf = new SimpleDateFormat(format, Locale.ENGLISH);
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            formatMap.put(format, sdf);
+        }
 
-	}
-	
-	public static String getNowLocaleTime() {
-		Date date = new Date();
+        synchronized (sdf) {
+            // SimpleDateFormat is not thread safe
+            try {
+                return sdf.parse(str);
+            } catch (ParseException e) {
+                throw new WeiboException("Unexpected format(" + str
+                        + ") returned from sina.com.cn");
+            }
+        }
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return sdf.format(date);
-	}
-	
-    /** 
+    }
+
+    public static String getNowLocaleTime() {
+        Date date = new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(date);
+    }
+
+    /**
      * needLoadMore
      * @param scrollPosition
      * @param loadedCount
@@ -83,15 +83,15 @@ public class Util {
         if (scrollPosition > 0) {
             if (scrollPosition + 3 >= loadedCount && loadedCount < totalCount) {
                 return true;
-            }   
-        }   
+            }
+        }
 
         return false;
     }
-	
+
     /**
      * Inflate a new view hierarchy from the specified XML resource.
-     * 
+     *
      * @param resource ID for an XML layout resource to load (e.g.,
      *        <code>R.layout.asset_info_section_header</code>)
      * @param context The current context.
@@ -104,7 +104,7 @@ public class Util {
 
     /**
      * Inflate a new view hierarchy from the specified xml resource.
-     * 
+     *
      * @param resourceID for an XML layout resource to load (e.g.,
      * @param context The current context.
      * @param parent simply an object that provides a set of LayoutParams
@@ -144,7 +144,7 @@ public class Util {
             }
         }
     }
-    
+
     public static void textHighlight(TextView textView, String start, String end) {
         Spannable sp = (Spannable) textView.getText();
         String text = textView.getText().toString();
@@ -171,7 +171,7 @@ public class Util {
             }
         }
     }
-    
+
     public static void showToast(final Activity activity, final String content) {
         activity.runOnUiThread(new Runnable() {
 
@@ -194,7 +194,7 @@ public class Util {
             }
         });
     }
-    
+
     protected static void setTextViewContent(final Activity activity, final TextView textView,
             final String content) {
         activity.runOnUiThread(new Runnable() {

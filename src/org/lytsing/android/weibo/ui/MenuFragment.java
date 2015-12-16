@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 lytsing.org
+ * Copyright (C) 2013 http://lytsing.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import java.util.Map;
 
 public class MenuFragment extends SherlockListFragment {
 
-    //String[] list_items = getSherlockActivity().getResources().getStringArray(R.array.slide_list_items);
     private String[] mListItems = new String[] {"Home", "Settings", "Search", "Help"};
 
     private int[] mIcons = new int[] {

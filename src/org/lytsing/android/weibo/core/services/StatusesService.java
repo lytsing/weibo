@@ -47,7 +47,7 @@ public abstract interface StatusesService {
             @Query("include_entities")Boolean includeEntities,
             Callback<List<Statuses>> cb);
 
-    
+
     @GET("/1.1/statuses/user_timeline.json")
     public abstract void userTimeline(
             @Query("user_id")Long userId,

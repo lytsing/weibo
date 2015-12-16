@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 lytsing.org
+ * Copyright (C) 2012 http://lytsing.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -162,7 +162,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 // 插入的表情
                 SpannableString ss = new SpannableString(view.getTag().toString());
                 Drawable d = getResources().getDrawable((int)mGVFaceAdapter.getItemId(position));
-                d.setBounds(0, 0, 35, 35);//设置表情图片的显示大小
+                d.setBounds(0, 0, 35, 35); // 设置表情图片的显示大小
                 ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BOTTOM);
                 ss.setSpan(span, 0, view.getTag().toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 // 在光标所在处插入表情

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.lytsing.android.weibo.core.models;
 
 
