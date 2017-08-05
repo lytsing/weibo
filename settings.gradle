@@ -1,4 +1,1 @@
-include ':weiboSDK'
 include ':comcostumandroidwidgetLoadMoreListView'
-include ':library'
-include ':weibo'

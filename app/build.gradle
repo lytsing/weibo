@@ -23,11 +23,11 @@ android {
 }
 
 dependencies {
-    compile project(':library')
     compile project(':comcostumandroidwidgetLoadMoreListView')
-    compile project(':weiboSDK')
     compile 'com.google.code.gson:gson:2.3'
+    compile 'com.sina.weibo.sdk:core:4.1.0:openDefaultRelease@aar'
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'net.simonvt.menudrawer:menudrawer:{latest-version}'
     compile 'com.android.support:support-v4:18.0.0'
     compile files('libs/CWAC-SackOfViewsAdapter.jar')
     compile files('libs/android-query-full.0.26.7.jar')

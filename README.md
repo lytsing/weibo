@@ -32,32 +32,14 @@ Dependent three-part libraries projects:
 * android-pulltorefresh-and-loadmore https://github.com/shontauro/android-pulltorefresh-and-loadmore
 * weibo_android_sdk https://github.com/sinaweibosdk/weibo_android_sdk
 
-Just git clone them, and import into weibo project.
 
 Instructions for building on the command line with ant can be found below.
 
-### Building with Ant ###
-
-Once you have the Android SDK installed along with the library dependencies,
-run the following command from the root directory of the WordPress for Android
-project:
-
-    android update project -p .
-
-This will create a `local.properties` file that is specific for your setup.
-You can then build the project by running:
-
-    ant debug
-
-You can install the package onto a connected device or a virtual device by
-running:
-
-    ant installd
+### Building with Gradle ###
 
 Run all in one command:
 	
 	./build.sh
-
 
 Also see the full Android documentation, [Building and Running from the Command
 Line][command-line].
