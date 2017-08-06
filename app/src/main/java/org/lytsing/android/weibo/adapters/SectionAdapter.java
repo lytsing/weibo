@@ -44,6 +44,7 @@ abstract public class SectionAdapter extends BaseAdapter {
      */
     public SectionAdapter(int sectionTitleId, Context context, ViewGroup parent) {
         this(Util.inflateView(R.layout.asset_info_section_header, context, parent));
+
         ((TextView)mSectionHeaderView).setText(sectionTitleId);
     }
 

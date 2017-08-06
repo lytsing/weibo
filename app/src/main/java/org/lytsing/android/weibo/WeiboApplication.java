@@ -56,8 +56,8 @@ public class WeiboApplication extends Application {
 
         mOauth2AccessToken = Session.restore(sWeiboApplication);
 
-        int memClass = ((ActivityManager) sWeiboApplication.getSystemService(Context.ACTIVITY_SERVICE))
-                .getMemoryClass();
+        int memClass = ((ActivityManager) sWeiboApplication.getSystemService(
+                Context.ACTIVITY_SERVICE)).getMemoryClass();
         // Use 1/8th of the available memory for this memory cache.
         int cacheSize = 1024 * 1024 * memClass / 8;
         mImageLoader = new ImageLoader(getRequestQueue(), new BitmapLruCache(cacheSize));

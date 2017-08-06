@@ -62,7 +62,7 @@ In short that is;
 Have fun and remember we do this in our spare time so don't be too serious :)
 
 ## License
-Copyright (c) 2012-2014 [Lytsing Huang](http://lytsing.org)
+Copyright (c) 2012-2017 [Lytsing Huang](http://lytsing.org)
 
 Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 

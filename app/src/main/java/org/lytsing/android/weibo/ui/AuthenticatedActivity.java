@@ -47,7 +47,7 @@ public class AuthenticatedActivity extends BaseActivity {
                 Configuration.REDIRECT_CALLBACK_URL, Configuration.SCOPE);
 
         mSsoHandler = new SsoHandler(this, weiboAuth);
-        mSsoHandler.authorize(new AuthDialogListener());
+        mSsoHandler.authorize(new SelfWbAuthListener());
     }
 
     private void enterTimeline() {
@@ -57,21 +57,27 @@ public class AuthenticatedActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    class AuthDialogListener implements WeiboAuthListener {
+    private class SelfWbAuthListener implements WeiboAuthListener {
 
         @Override
-        public void onComplete(Bundle values) {
-            String token = values.getString(Preferences.ACCESS_TOKEN);
-            String expires_in = values.getString(Preferences.EXPIRES_IN);
+        public void onComplete(final Bundle values) {
 
-            mAccessToken = new Oauth2AccessToken(token, expires_in);
-            if (mAccessToken.isSessionValid()) {
+            AuthenticatedActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String token = values.getString(Preferences.ACCESS_TOKEN);
+                    String expires_in = values.getString(Preferences.EXPIRES_IN);
 
-                Session.save(AuthenticatedActivity.this,
-                        mAccessToken);
-                getWeiboApplication().setOauth2AccessToken(mAccessToken);
-                enterTimeline();
-            }
+                    mAccessToken = new Oauth2AccessToken(token, expires_in);
+                    if (mAccessToken.isSessionValid()) {
+
+                        Session.save(AuthenticatedActivity.this,
+                                mAccessToken);
+                        getWeiboApplication().setOauth2AccessToken(mAccessToken);
+                        enterTimeline();
+                    }
+                }
+            });
         }
 
         @Override
