@@ -1,1 +1,2 @@
-include ':comcostumandroidwidgetLoadMoreListView'
+include ':app'
+include ':WeiboSDK'

@@ -23,11 +23,10 @@ android {
 }
 
 dependencies {
-    compile project(':comcostumandroidwidgetLoadMoreListView')
+    compile project(':WeiboSDK')
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.sina.weibo.sdk:core:4.1.0:openDefaultRelease@aar'
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'net.simonvt.menudrawer:menudrawer:{latest-version}'
+    compile 'net.simonvt.menudrawer:menudrawer:3.0.6@aar'
     compile 'com.android.support:support-v4:18.0.0'
     compile files('libs/CWAC-SackOfViewsAdapter.jar')
     compile files('libs/android-query-full.0.26.7.jar')
@@ -36,5 +35,6 @@ dependencies {
     compile files('libs/okio-1.0.1.jar')
     compile files('libs/retrofit-1.7.1.jar')
     compile files('libs/volley.jar')
+    compile(name: 'pullandloadmore-1.0.0', ext: 'aar')
 }
 

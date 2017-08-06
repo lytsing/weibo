@@ -126,8 +126,7 @@ public class TimelineActivity extends BaseActivity {
 
     private void initView() {
         setContentView(R.layout.timeline);
-
-        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
+        mMenuDrawer = MenuDrawer.attach(this);
         mMenuDrawer.setMenuView(R.layout.menu);
 
         MenuFragment menu = (MenuFragment)getSupportFragmentManager().findFragmentById(R.id.left_menu);
