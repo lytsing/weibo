@@ -33,22 +33,22 @@ public class WeiboApiException extends WeiboException {
 
     private static final int DEFAULT_ERROR_CODE = 0;
 
-    private final RetrofitError retrofitError;
+    private final RetrofitError mRetrofitError;
 
-    private final int errorCode;
+    private final int mErrorCode;
 
-    WeiboApiException(int errorCode, RetrofitError retrofitError) {
+    WeiboApiException(int mErrorCode, RetrofitError retrofitError) {
         super(retrofitError.getMessage());
-        this.retrofitError = retrofitError;
-        this.errorCode = errorCode;
+        this.mRetrofitError = retrofitError;
+        this.mErrorCode = mErrorCode;
     }
 
     WeiboApiException(RetrofitError retrofitError) {
         super(createExceptionMessage(retrofitError));
         setStackTrace(retrofitError.getStackTrace());
 
-        this.retrofitError = retrofitError;
-        this.errorCode = readErrorCode(retrofitError);
+        this.mRetrofitError = retrofitError;
+        this.mErrorCode = readErrorCode(retrofitError);
     }
 
     private static String createExceptionMessage(RetrofitError retrofitError) {
@@ -61,17 +61,17 @@ public class WeiboApiException extends WeiboException {
         return "unknown error";
     }
 
-    public int getErrorCode() {
-        return this.errorCode;
+    public int getmErrorCode() {
+        return this.mErrorCode;
     }
 
     public boolean canRetry() {
-        int status = this.retrofitError.getResponse().getStatus();
+        int status = this.mRetrofitError.getResponse().getStatus();
         return (status < 400) || (status > 499);
     }
 
-    public RetrofitError getRetrofitError() {
-        return this.retrofitError;
+    public RetrofitError getmRetrofitError() {
+        return this.mRetrofitError;
     }
 
     public static final WeiboApiException convert(RetrofitError retrofitError) {

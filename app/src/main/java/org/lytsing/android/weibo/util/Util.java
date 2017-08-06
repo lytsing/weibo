@@ -16,8 +16,6 @@
 
 package org.lytsing.android.weibo.util;
 
-import com.sina.weibo.sdk.exception.WeiboException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -28,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.sina.weibo.sdk.exception.WeiboException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,7 +37,8 @@ import java.util.TimeZone;
 
 public class Util {
 
-    private static Map<String, SimpleDateFormat> formatMap = new HashMap<String, SimpleDateFormat>();
+    private static Map<String, SimpleDateFormat> formatMap =
+            new HashMap<String, SimpleDateFormat>();
 
     public static Date parseDate(String str) throws WeiboException {
         String format = "EEE MMM dd HH:mm:ss z yyyy";

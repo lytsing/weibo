@@ -78,12 +78,12 @@ public class MultipartRequest extends JsonRequest<JSONObject> {
     }
 
 
-    public void addFileUpload(String param,File file) {
-        fileUploads.put(param,file);
+    public void addFileUpload(String param, File file) {
+        fileUploads.put(param, file);
     }
 
-    public void addStringUpload(String param,String content) {
-        stringUploads.put(param,content);
+    public void addStringUpload(String param, String content) {
+        stringUploads.put(param, content);
     }
 
     public Map<String,File> getFileUploads() {

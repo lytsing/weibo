@@ -40,8 +40,8 @@ public class TextUtil {
         Pattern pattern = Pattern.compile("@[^\\s:：]+[:：\\s]|\\[[^0-9]{1,4}\\]");
         Matcher matcher = pattern.matcher(spannableString);
         while (matcher.find()) {
-            String match=matcher.group();
-            if(match.startsWith("@")){ //@某人，加亮字体
+            String match = matcher.group();
+            if (match.startsWith("@")) { //@某人，加亮字体
                 spannableString.setSpan(new ForegroundColorSpan(0xff0077ff),
                         matcher.start(), matcher.end(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

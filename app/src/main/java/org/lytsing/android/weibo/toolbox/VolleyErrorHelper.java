@@ -44,13 +44,12 @@ public class VolleyErrorHelper {
     public static String getMessage(Object error, Context context) {
         if (error instanceof TimeoutError) {
             return context.getResources().getString(R.string.general_server_down);
-        }
-        else if (isServerProblem(error)) {
+        } else if (isServerProblem(error)) {
             return handleServerError(error, context);
-        }
-        else if (isNetworkProblem(error)) {
+        } else if (isNetworkProblem(error)) {
             return context.getResources().getString(R.string.networking_error);
         }
+
         return context.getResources().getString(R.string.general_error);
     }
 

@@ -204,9 +204,7 @@ public class TimelineActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //java.lang.NullPointerException at org.lytsing.android.weibo.ui.TimelineActivity.onSaveInstanceState(TimelineActivity.java:204)
-        //super.onSaveInstanceState(outState);
-        //outState.putParcelable(STATE_MENUDRAWER, mMenuDrawer.saveState());
+        // TODO:
     }
 
     @Override
@@ -289,7 +287,7 @@ public class TimelineActivity extends BaseActivity {
         GsonRequest<WeiboObject> refreshRequest = new GsonRequest<WeiboObject>(Method.GET, url,
                 null,
                 WeiboObject.class,
-                new Response.Listener<WeiboObject>(){
+                new Response.Listener<WeiboObject>() {
 
                     @Override
                     public void onResponse(WeiboObject response) {
@@ -320,7 +318,7 @@ public class TimelineActivity extends BaseActivity {
                     }
 
         },
-        new Response.ErrorListener(){
+        new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError e) {

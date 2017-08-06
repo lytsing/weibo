@@ -21,8 +21,8 @@ package org.lytsing.android.weibo.util;
  * Wrapper android.util.Log API for sending log output.
  */
 public class Log {
-    protected static final boolean DEBUG = true;
-    protected static final String TAG = "Weibo";
+    private static final boolean DEBUG = true;
+    private static final String TAG = "Weibo";
 
     /**
      * Send a VERBOSE log message.

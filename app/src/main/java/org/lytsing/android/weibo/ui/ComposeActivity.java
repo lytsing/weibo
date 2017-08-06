@@ -157,7 +157,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         mGVFaceAdapter = new GridViewFaceAdapter(this);
         mGridView = (GridView)findViewById(R.id.tweet_pub_faces);
         mGridView.setAdapter(mGVFaceAdapter);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 插入的表情
                 SpannableString ss = new SpannableString(view.getTag().toString());

@@ -147,7 +147,7 @@ public class GsonRequest<T> extends Request<T> {
     protected Map<String, String> getParams()
             throws com.android.volley.AuthFailureError {
         return mParams;
-    };
+    }
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
