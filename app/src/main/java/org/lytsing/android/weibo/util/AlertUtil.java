@@ -37,11 +37,11 @@ public final class AlertUtil {
      */
     public static void showAlert(Context context, int titleId, int messageId) {
         Dialog dlg = new AlertDialog.Builder(context)
-            .setIconAttribute(android.R.attr.alertDialogIcon)
-            .setTitle(titleId)
-            .setPositiveButton(android.R.string.ok, null)
-            .setMessage(messageId)
-            .create();
+                .setIconAttribute(android.R.attr.alertDialogIcon)
+                .setTitle(titleId)
+                .setPositiveButton(android.R.string.ok, null)
+                .setMessage(messageId)
+                .create();
 
         dlg.show();
     }
@@ -54,11 +54,11 @@ public final class AlertUtil {
      */
     public static void showAlert(Context context, String title, String message) {
         Dialog dlg = new AlertDialog.Builder(context)
-            .setIconAttribute(android.R.attr.alertDialogIcon)
-            .setTitle(title)
-            .setPositiveButton(android.R.string.ok, null)
-            .setMessage(message)
-            .create();
+                .setIconAttribute(android.R.attr.alertDialogIcon)
+                .setTitle(title)
+                .setPositiveButton(android.R.string.ok, null)
+                .setMessage(message)
+                .create();
 
         dlg.show();
     }
@@ -77,13 +77,13 @@ public final class AlertUtil {
             CharSequence positiveButtontxt, DialogInterface.OnClickListener positiveListener,
             CharSequence negativeButtontxt, DialogInterface.OnClickListener negativeListener) {
         Dialog dlg = new AlertDialog.Builder(context)
-            .setIconAttribute(android.R.attr.alertDialogIcon)
-            .setTitle(titleId)
-            .setPositiveButton(positiveButtontxt, positiveListener)
-            .setNegativeButton(negativeButtontxt, negativeListener)
-            .setMessage(messageId)
-            .setCancelable(false)
-            .create();
+                .setIconAttribute(android.R.attr.alertDialogIcon)
+                .setTitle(titleId)
+                .setPositiveButton(positiveButtontxt, positiveListener)
+                .setNegativeButton(negativeButtontxt, negativeListener)
+                .setMessage(messageId)
+                .setCancelable(false)
+                .create();
 
         dlg.show();
     }
@@ -99,12 +99,12 @@ public final class AlertUtil {
     public static void showAlert(Context context, int titleId, int messageId,
             CharSequence positiveButtontxt, DialogInterface.OnClickListener positiveListener) {
         Dialog dlg = new AlertDialog.Builder(context)
-            .setIconAttribute(android.R.attr.alertDialogIcon)
-            .setTitle(titleId)
-            .setPositiveButton(positiveButtontxt, positiveListener)
-            .setMessage(messageId)
-            .setCancelable(false)
-            .create();
+                .setIconAttribute(android.R.attr.alertDialogIcon)
+                .setTitle(titleId)
+                .setPositiveButton(positiveButtontxt, positiveListener)
+                .setMessage(messageId)
+                .setCancelable(false)
+                .create();
 
         dlg.show();
     }

@@ -26,8 +26,10 @@ import java.util.List;
 
 public abstract interface StatusesService {
     /**
-     * Returns most recent mentions (tweets containing a user's @screen_name) for the authenticating user, by default returns 20 tweets.
-     * The timeline returned is the equivalent of the one seen when you view your mentions on twitter.com.
+     * Returns most recent mentions (tweets containing a user's @screen_name) for the
+     * authenticating user, by default returns 20 tweets.
+     * The timeline returned is the equivalent of the one seen when you view your mentions on
+     * twitter.com.
      * The Twitter REST API goes back up to 800 tweets.
      * @param count (optional) Specifies the number of tweets to try and retrieve, up to a maximum of 200. The value of count is best thought of as a limit to the number of tweets to return because suspended or deleted content is removed after the count has been applied. We include retweets in the count, even if include_rts is not supplied. It is recommended you always send include_rts=1 when using this API method.
      * @param sinceId

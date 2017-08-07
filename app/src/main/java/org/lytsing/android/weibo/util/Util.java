@@ -80,9 +80,7 @@ public class Util {
      */
     public static boolean needLoadMore(long scrollPosition, long loadedCount, long totalCount) {
         if (scrollPosition > 0) {
-            if (scrollPosition + 3 >= loadedCount && loadedCount < totalCount) {
-                return true;
-            }
+            return (scrollPosition + 3 >= loadedCount && loadedCount < totalCount);
         }
 
         return false;
@@ -111,10 +109,10 @@ public class Util {
      * @return The root View of the inflated XML file.
      */
     public static View inflateView(int resource, Context context, ViewGroup parent) {
-        LayoutInflater vi = (LayoutInflater)context
+        LayoutInflater vi = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        return  vi.inflate(resource, parent, false);
+        return vi.inflate(resource, parent, false);
     }
 
     public static void textHighlight2(TextView textView, String start, String end) {

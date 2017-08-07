@@ -19,25 +19,22 @@ package org.lytsing.android.weibo.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SimpleAdapter;
-
 import com.actionbarsherlock.app.SherlockListFragment;
-
-import org.lytsing.android.weibo.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.lytsing.android.weibo.R;
 
 public class MenuFragment extends SherlockListFragment {
 
     private String[] mListItems = new String[] {"Home", "Settings", "Search", "Help"};
 
-    private int[] mIcons = new int[] {
-        R.drawable.ic_menu_home,
-        android.R.drawable.ic_menu_preferences,
-        android.R.drawable.ic_menu_search,
-        android.R.drawable.ic_menu_help
+    private int[] mIcons = new int[]{
+            R.drawable.ic_menu_home,
+            android.R.drawable.ic_menu_preferences,
+            android.R.drawable.ic_menu_search,
+            android.R.drawable.ic_menu_help
     };
 
     @Override

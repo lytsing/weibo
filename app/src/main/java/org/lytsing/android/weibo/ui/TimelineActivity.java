@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.volley.Request.Method;
@@ -39,20 +38,18 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.net.WeiboParameters;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
-
 import net.simonvt.menudrawer.MenuDrawer;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.core.Configuration;
-import org.lytsing.android.weibo.toolbox.VolleyErrorHelper;
 import org.lytsing.android.weibo.WeiboApplication;
 import org.lytsing.android.weibo.adapters.StatusItemAdapter;
+import org.lytsing.android.weibo.core.Configuration;
 import org.lytsing.android.weibo.core.models.Statuses;
 import org.lytsing.android.weibo.core.models.WeiboObject;
 import org.lytsing.android.weibo.toolbox.GsonRequest;
+import org.lytsing.android.weibo.toolbox.VolleyErrorHelper;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
@@ -317,16 +314,16 @@ public class TimelineActivity extends BaseActivity {
                         setRefreshActionButtonState(false);
                     }
 
-        },
-        new Response.ErrorListener() {
+                },
+                new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError e) {
-                Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
-                setRefreshActionButtonState(false);
-            }
+                    @Override
+                    public void onErrorResponse(VolleyError e) {
+                        Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
+                        setRefreshActionButtonState(false);
+                    }
 
-        });
+                });
 
         WeiboApplication.getWeiboApplication().addToRequestQueue(refreshRequest);
     }

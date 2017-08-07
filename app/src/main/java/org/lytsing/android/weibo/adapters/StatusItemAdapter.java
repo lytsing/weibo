@@ -23,9 +23,6 @@ import com.sina.weibo.sdk.exception.WeiboException;
 
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.R.id;
-import org.lytsing.android.weibo.R.layout;
-import org.lytsing.android.weibo.R.string;
 import org.lytsing.android.weibo.core.models.Statuses;
 import org.lytsing.android.weibo.toolbox.FadeInImageListener;
 import org.lytsing.android.weibo.util.DateTimeUtils;
@@ -35,7 +32,6 @@ import org.lytsing.android.weibo.util.Util;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;

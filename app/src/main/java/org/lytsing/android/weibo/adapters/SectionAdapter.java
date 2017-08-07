@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.util.Util;
 
@@ -29,7 +28,7 @@ import org.lytsing.android.weibo.util.Util;
  * abstract SectionAdapter.
  *
  */
-abstract public class SectionAdapter extends BaseAdapter {
+public abstract class SectionAdapter extends BaseAdapter {
     protected int mCount;
     protected boolean mDeactivated;
     protected View mSectionHeaderView;
@@ -45,7 +44,7 @@ abstract public class SectionAdapter extends BaseAdapter {
     public SectionAdapter(int sectionTitleId, Context context, ViewGroup parent) {
         this(Util.inflateView(R.layout.asset_info_section_header, context, parent));
 
-        ((TextView)mSectionHeaderView).setText(sectionTitleId);
+        ((TextView) mSectionHeaderView).setText(sectionTitleId);
     }
 
     /**

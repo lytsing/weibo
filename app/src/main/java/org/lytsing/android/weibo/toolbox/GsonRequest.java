@@ -38,7 +38,8 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 /**
- * GsonRequest is a way to solve the Volley's JSONObjectReuqest can't post paramsters like the StringRequest
+ * GsonRequest is a way to solve the Volley's JSONObjectReuqest can't post paramsters like the
+ * StringRequest
  * @see http://stackoverflow.com/questions/16626032/volley-post-get-parameters
  *
  * @author Lytsing Huang
@@ -145,7 +146,7 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     protected Map<String, String> getParams()
-            throws com.android.volley.AuthFailureError {
+            throws AuthFailureError {
         return mParams;
     }
 

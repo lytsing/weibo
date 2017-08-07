@@ -53,16 +53,14 @@ import com.androidquery.callback.LocationAjaxCallback;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.adapters.GridViewFaceAdapter;
 import org.lytsing.android.weibo.util.AlertUtil;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class ComposeActivity extends BaseActivity implements OnClickListener,
         RequestListener {
@@ -96,13 +94,13 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
         StrictMode.setThreadPolicy(policy);
 
-        imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         initView();
 
         initGridView();
 
-        //location_ajax();
+        //locationAjax();
     }
 
     public void initView() {
@@ -281,7 +279,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
                 mLongitude = "";
             } else {
                 aq.id(R.id.ly_loadlocation).visible();
-                location_ajax();
+                locationAjax();
             }
         }
     }
@@ -315,13 +313,13 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         String[] proj = { MediaStore.Images.Media.DATA };
         CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
         Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        return cursor.getString(column_index);
+        return cursor.getString(columnIndex);
     }
 
     private LocationAjaxCallback cb;
-    public void location_ajax() {
+    public void locationAjax() {
 
         LocationAjaxCallback cb = new LocationAjaxCallback();
         cb.weakHandler(this, "locationCb").timeout(30 * 1000).accuracy(1000).iteration(3);
@@ -336,9 +334,6 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             Log.d("Location:" + loc.toString());
             mLatitude = String.valueOf(loc.getLatitude());
             mLongitude = String.valueOf(loc.getLongitude());
-
-            //PlaceAPI api = new PlaceAPI(mAccessToken);
-            //api.nearbyPois(mLatitude, mLongitude, range, q, category, count, page, offset, listener);
 
             mIsLocation = true;
 

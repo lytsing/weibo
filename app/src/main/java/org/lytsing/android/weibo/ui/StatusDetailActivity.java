@@ -27,12 +27,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-
-import com.android.volley.toolbox.NetworkImageView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
+import com.android.volley.toolbox.NetworkImageView;
 import com.androidquery.AQuery;
 import com.commonsware.cwac.merge.MergeAdapter;
 import com.sina.weibo.sdk.exception.WeiboException;
@@ -40,7 +39,7 @@ import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.CommentsAPI;
 import com.sina.weibo.sdk.openapi.legacy.FavoritesAPI;
 import com.sina.weibo.sdk.openapi.legacy.StatusesAPI;
-
+import java.util.Date;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,8 +50,6 @@ import org.lytsing.android.weibo.core.models.Comment;
 import org.lytsing.android.weibo.core.models.Statuses;
 import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
-
-import java.util.Date;
 
 public class StatusDetailActivity extends BaseActivity implements RequestListener {
 
@@ -84,19 +81,19 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     private String getGeoGoogleMapUrl() {
         StringBuilder sb = new StringBuilder()
-            .append("http://maps.google.cn/maps/api/staticmap?center=")
-            .append(mStatus.geo.coordinates.get(0))
-            .append(",")
-            .append(mStatus.geo.coordinates.get(1))
-            .append("&zoom=12&size=")
-            .append(getResources().getDimensionPixelSize(R.dimen.map_width))
-            .append("x")
-            .append(getResources().getDimensionPixelSize(R.dimen.map_height))
-            .append("&maptype=roadmap&markers=markerStyles|color:red|")
-            .append(mStatus.geo.coordinates.get(0))
-            .append(",")
-            .append(mStatus.geo.coordinates.get(1))
-            .append("&sensor=true");
+                .append("http://maps.google.cn/maps/api/staticmap?center=")
+                .append(mStatus.geo.coordinates.get(0))
+                .append(",")
+                .append(mStatus.geo.coordinates.get(1))
+                .append("&zoom=12&size=")
+                .append(getResources().getDimensionPixelSize(R.dimen.map_width))
+                .append("x")
+                .append(getResources().getDimensionPixelSize(R.dimen.map_height))
+                .append("&maptype=roadmap&markers=markerStyles|color:red|")
+                .append(mStatus.geo.coordinates.get(0))
+                .append(",")
+                .append(mStatus.geo.coordinates.get(1))
+                .append("&sensor=true");
 
         return sb.toString();
     }
@@ -167,11 +164,12 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         aq.id(R.id.stream_user_name).text(mStatus.user.name);
         aq.id(R.id.stream_content).text(mStatus.text).visible();
 
-        ((NetworkImageView)view.findViewById(R.id.stream_user_image)).setImageUrl(
+        ((NetworkImageView) view.findViewById(R.id.stream_user_image)).setImageUrl(
                 mStatus.user.profile_image_url, getWeiboApplication().getImageLoader());
 
         if (mStatus.bmiddle_pic != null) {
-            NetworkImageView bmiddlePic = ((NetworkImageView)view.findViewById(R.id.stream_media_1_1));
+            NetworkImageView bmiddlePic = ((NetworkImageView) view.findViewById(
+                    R.id.stream_media_1_1));
             bmiddlePic.setVisibility(View.VISIBLE);
             bmiddlePic.setImageUrl(mStatus.bmiddle_pic, getWeiboApplication().getImageLoader());
         }
@@ -341,9 +339,9 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
-                                    int whichButton) {
+                                                int whichButton) {
                                 final String comment = commentText.getText().toString();
-                                if (comment.trim().length() > 0) {
+                                if (comment != null && comment.trim().length() > 0) {
                                     addComment(comment, false);
                                 }
                             }
@@ -351,7 +349,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                 .setNegativeButton(android.R.string.cancel,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
-                                    int whichButton) {
+                                                int whichButton) {
 
                             }
                         }).create().show();

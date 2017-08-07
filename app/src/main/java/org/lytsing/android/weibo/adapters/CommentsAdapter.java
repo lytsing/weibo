@@ -22,17 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.androidquery.AQuery;
-
+import java.util.ArrayList;
 import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.R.id;
-import org.lytsing.android.weibo.R.layout;
-import org.lytsing.android.weibo.R.string;
 import org.lytsing.android.weibo.core.models.Comment;
 import org.lytsing.android.weibo.util.Util;
-
-import java.util.ArrayList;
 
 /**
  * Comments Adapter.

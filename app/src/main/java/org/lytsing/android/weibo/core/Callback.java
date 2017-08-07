@@ -25,7 +25,8 @@ import retrofit.client.Response;
  * executed using the RestAdapter callback executor. When none is specified, the
  * following defaults are used: Callbacks are executed on the application's main
  * (UI) thread. See Also:
- * @see RestAdapter.Builder.setExecutors(java.util.concurrent.Executor,java.util.concurrent.Executor)
+ * @see RestAdapter.Builder.setExecutors(java.util.concurrent.Executor,
+ *                                      java.util.concurrent.Executor)
  *
  * @param <T> expected response type
  */
