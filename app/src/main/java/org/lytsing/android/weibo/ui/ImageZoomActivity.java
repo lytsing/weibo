@@ -40,10 +40,10 @@ public class ImageZoomActivity extends Activity {
 
         aq = new AQuery(this);
 
-        image_zoom();
+        imageZoom();
     }
 
-    private void image_zoom() {
+    private void imageZoom() {
         aq.id(R.id.text).text("Try pinch zoom with finger.");
         if (mOriginalImageUrl != null) {
             aq.id(R.id.web).progress(R.id.progress).webImage(mOriginalImageUrl);

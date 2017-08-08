@@ -341,7 +341,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
                                 final String comment = commentText.getText().toString();
-                                if (comment != null && comment.trim().length() > 0) {
+                                if (!comment.isEmpty()) {
                                     addComment(comment, false);
                                 }
                             }
@@ -369,8 +369,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                             public void onClick(DialogInterface dialog,
                                     int whichButton) {
                                 final String comment = commentText.getText().toString();
-                                final boolean comment_ori = (comment.trim().length() > 0 ? true
-                                        : false);
+                                final boolean comment_ori = comment.isEmpty();
 
                                 addRepost(comment, comment_ori);
                             }

@@ -194,11 +194,9 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
             } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Log.e(e.getMessage());
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Log.e(e.getMessage());
             }
 
             api.upload(this.mContent, bitmap, mLatitude, mLongitude, this);

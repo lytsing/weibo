@@ -441,7 +441,7 @@ public class TimelineActivity extends BaseActivity {
 
                             mHandler.sendMessage(msg);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.e(e.getMessage());
                         }
                     }
 

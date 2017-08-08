@@ -82,7 +82,7 @@ public class SettingsActivity extends SherlockActivity {
             } else if ("clear-cache".equals(preference.getKey())) {
                 DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        image_clear_disk();
+                        imageClearDisk();
                         preference.setSummary("Cache size: 0.00B");
                     }
                 };
@@ -96,7 +96,7 @@ public class SettingsActivity extends SherlockActivity {
             return super.onPreferenceTreeClick(preferenceScreen, preference);
         }
 
-        private void image_clear_disk() {
+        private void imageClearDisk() {
             AQUtility.cleanCacheAsync(sSettingsActivity, 0, 0);
         }
 
