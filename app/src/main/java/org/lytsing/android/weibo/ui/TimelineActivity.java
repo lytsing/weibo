@@ -227,7 +227,7 @@ public class TimelineActivity extends BaseActivity {
                     break;
                 case ERROR_CODE_RESPONSE:
                 case ON_ERROR_RESPONSE:
-                    displayToast("Error:" + (String) msg.obj);
+                    displayToast("Error:" + msg.obj);
                     mListView.onLoadMoreComplete();
                     break;
                 default:

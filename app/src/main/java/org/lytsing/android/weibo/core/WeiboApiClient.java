@@ -42,15 +42,15 @@ public class WeiboApiClient {
     }
 
     public FavoriteService getFavoriteService() {
-        return (FavoriteService) getService(FavoriteService.class);
+        return getService(FavoriteService.class);
     }
 
     public StatusesService getStatusesService() {
-        return (StatusesService) getService(StatusesService.class);
+        return getService(StatusesService.class);
     }
 
     public SearchService getSearchService() {
-        return (SearchService) getService(SearchService.class);
+        return getService(SearchService.class);
     }
 
     protected <T> T getService(Class<T> cls) {

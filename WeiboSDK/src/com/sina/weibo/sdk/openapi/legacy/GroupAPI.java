@@ -126,7 +126,7 @@ public class GroupAPI extends AbsOpenAPI {
     }
     // TODO 批量获取某些用户在指定用户的好友分组中的收录信息
     public void listed() {
-    };
+    }
 
     /**
      * 获取当前登陆用户某个分组的详细信息。

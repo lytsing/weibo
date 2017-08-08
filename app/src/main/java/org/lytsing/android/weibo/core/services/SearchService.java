@@ -10,9 +10,9 @@ import retrofit.http.Query;
 
 
 @SuppressWarnings("deprecation")
-public abstract interface SearchService {
+public interface SearchService {
     @GET("/1.1/search/tweets.json")
-    public abstract void tweets(
+    void tweets(
             @Query("q") String query,
             @EncodedQuery("geocode") Geo geocode,
             @Query("lang") String lang,

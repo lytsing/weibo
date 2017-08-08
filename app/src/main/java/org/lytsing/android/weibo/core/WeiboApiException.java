@@ -100,7 +100,7 @@ public class WeiboApiException extends WeiboException {
         Gson gson = new Gson();
         try {
             JsonObject responseObj = new JsonParser().parse(response).getAsJsonObject();
-            ApiError[] apiErrors = (ApiError[]) gson.fromJson(responseObj.get("errors"),
+            ApiError[] apiErrors = gson.fromJson(responseObj.get("errors"),
                     ApiError[].class);
 
             if (apiErrors.length == 0) {

@@ -24,7 +24,7 @@ import retrofit.http.Query;
 
 import java.util.List;
 
-public abstract interface StatusesService {
+public interface StatusesService {
     /**
      * Returns most recent mentions (tweets containing a user's @screen_name) for the
      * authenticating user, by default returns 20 tweets.
@@ -40,26 +40,26 @@ public abstract interface StatusesService {
      * @param cb
      */
     @GET("/1.1/statuses/mentions_timeline.json")
-    public abstract void mentionsTimeline(
-            @Query("count")Integer count,
-            @Query("since_id")Long sinceId,
-            @Query("max_id")Long maxId,
-            @Query("trim_user")Boolean trimUser,
-            @Query("contributor_details")Boolean contributeDetails,
-            @Query("include_entities")Boolean includeEntities,
+    void mentionsTimeline(
+            @Query("count") Integer count,
+            @Query("since_id") Long sinceId,
+            @Query("max_id") Long maxId,
+            @Query("trim_user") Boolean trimUser,
+            @Query("contributor_details") Boolean contributeDetails,
+            @Query("include_entities") Boolean includeEntities,
             Callback<List<Statuses>> cb);
 
 
     @GET("/1.1/statuses/user_timeline.json")
-    public abstract void userTimeline(
-            @Query("user_id")Long userId,
-            @Query("screen_name")String screenName,
-            @Query("count")Integer count,
-            @Query("since_id")Long sinceId,
-            @Query("max_id")Long maxId,
-            @Query("trim_user")Boolean trimUser,
-            @Query("exclude_replies")Boolean excludeReplies,
-            @Query("contributor_details")Boolean contributeDetails,
-            @Query("include_rts")Boolean includeRetweets,
+    void userTimeline(
+            @Query("user_id") Long userId,
+            @Query("screen_name") String screenName,
+            @Query("count") Integer count,
+            @Query("since_id") Long sinceId,
+            @Query("max_id") Long maxId,
+            @Query("trim_user") Boolean trimUser,
+            @Query("exclude_replies") Boolean excludeReplies,
+            @Query("contributor_details") Boolean contributeDetails,
+            @Query("include_rts") Boolean includeRetweets,
             Callback<List<Statuses>> cb);
 }
