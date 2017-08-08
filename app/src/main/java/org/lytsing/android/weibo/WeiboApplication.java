@@ -52,7 +52,7 @@ public class WeiboApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        sWeiboApplication = this;
+        setWeiboApplication(this);
 
         mOauth2AccessToken = Session.restore(sWeiboApplication);
 
@@ -87,11 +87,16 @@ public class WeiboApplication extends Application {
         // clear all memory cached images when system is in low memory
         // note that you can configure the max image cache count, see
         // CONFIGURATION
+        super.onLowMemory();
         BitmapAjaxCallback.clearCache();
     }
 
     public static synchronized WeiboApplication getWeiboApplication() {
         return sWeiboApplication;
+    }
+
+    static void setWeiboApplication(WeiboApplication application) {
+        sWeiboApplication = application;
     }
 
     public Oauth2AccessToken getOauth2AccessToken() {
@@ -130,8 +135,8 @@ public class WeiboApplication extends Application {
      * Adds the specified request to the global queue, if tag is specified
      * then it is used else Default TAG is used.
      *
-     * @param req
-     * @param tag
+     * @param req request
+     * @param tag log tag
      */
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         // set the default tag if tag is empty
@@ -145,8 +150,7 @@ public class WeiboApplication extends Application {
     /**
      * Adds the specified request to the global queue using the Default TAG.
      *
-     * @param req
-     * @param tag
+     * @param req request
      */
     public <T> void addToRequestQueue(Request<T> req) {
         // set the default tag if tag is empty
@@ -159,7 +163,7 @@ public class WeiboApplication extends Application {
      * Cancels all pending requests by the specified TAG, it is important
      * to specify a TAG so that the pending/ongoing requests can be cancelled.
      *
-     * @param tag
+     * @param tag tag of request
      */
     public void cancelPendingRequests(Object tag) {
         if (mRequestQueue != null) {

@@ -54,8 +54,8 @@ task findbugs(type: FindBugs,
     exclude '**/gen/**'
 
     reports {
-        xml.enabled = true
-        html.enabled = false
+        xml.enabled = false
+        html.enabled = true
         xml {
             destination "$reportsDir/findbugs/findbugs.xml"
         }
@@ -78,7 +78,7 @@ task pmd(type: Pmd, group: 'Verification', description: 'Inspect sourcecode for 
     exclude '**/gen/**'
 
     reports {
-        xml.enabled = true
+        xml.enabled = false
         html.enabled = true
         xml {
             destination "$reportsDir/pmd/pmd.xml"

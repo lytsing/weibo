@@ -54,8 +54,9 @@ public class FadeInImageListener implements ImageLoader.ImageListener {
 
     @Override
     public void onResponse(ImageContainer response, boolean arg1) {
-        if (mImageView.get() != null) {
-            ImageView image = mImageView.get();
+        ImageView image = mImageView.get();
+
+        if (response != null && image != null) {
             if (response.getBitmap() != null) {
                 image.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_in));
                 image.setImageBitmap(response.getBitmap());
