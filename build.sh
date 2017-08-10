@@ -5,4 +5,6 @@
 # Date: 2017-08-02
 #
 
+./gradlew check
 ./gradlew clean build
+
