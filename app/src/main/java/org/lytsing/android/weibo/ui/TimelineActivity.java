@@ -34,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.net.WeiboParameters;
@@ -50,7 +51,6 @@ import org.lytsing.android.weibo.core.models.Statuses;
 import org.lytsing.android.weibo.core.models.WeiboObject;
 import org.lytsing.android.weibo.toolbox.GsonRequest;
 import org.lytsing.android.weibo.toolbox.VolleyErrorHelper;
-import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Util;
 
@@ -126,7 +126,7 @@ public class TimelineActivity extends BaseActivity {
         mMenuDrawer = MenuDrawer.attach(this);
         mMenuDrawer.setMenuView(R.layout.menu);
 
-        MenuFragment menu = (MenuFragment)getSupportFragmentManager().findFragmentById(R.id.left_menu);
+        MenuFragment menu = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.left_menu);
         menu.getListView().setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -289,7 +289,7 @@ public class TimelineActivity extends BaseActivity {
                     @Override
                     public void onResponse(WeiboObject response) {
                         final int refreshCount = response.statuses.size();
-                        Log.d("newsMsgLists length == " + refreshCount);
+                        Logger.d("newsMsgLists length == " + refreshCount);
                         if (refreshCount > 0) {
                             mSinceId = response.statuses.get(0).id;
                             mAdapter.addNewestStatuses(response.statuses);
@@ -379,7 +379,7 @@ public class TimelineActivity extends BaseActivity {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(error.getMessage());
+                Logger.e(error.getMessage());
                 String errorMsg = VolleyErrorHelper.getMessage(error, getApplicationContext());
 
                 hideLoadingIndicator();
@@ -413,7 +413,8 @@ public class TimelineActivity extends BaseActivity {
 
     private void loadMoreData(final long maxId) {
         StatusesAPI statusAPI = new StatusesAPI(mAccessToken);
-        statusAPI.friendsTimeline(0, maxId, PER_REQUEST_COUNT, 1, false, StatusesAPI.FEATURE_ALL, false,
+        statusAPI.friendsTimeline(0, maxId, PER_REQUEST_COUNT, 1, false, StatusesAPI.FEATURE_ALL,
+                false,
                 new RequestListener() {
 
                     @Override
@@ -441,7 +442,7 @@ public class TimelineActivity extends BaseActivity {
 
                             mHandler.sendMessage(msg);
                         } catch (JSONException e) {
-                            Log.e(e.getMessage());
+                            Logger.e(e.getMessage());
                         }
                     }
 

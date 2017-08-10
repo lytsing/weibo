@@ -28,6 +28,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.BitmapAjaxCallback;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 
 import org.lytsing.android.weibo.core.Session;
@@ -52,6 +54,7 @@ public class WeiboApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Logger.addLogAdapter(new AndroidLogAdapter());
         setWeiboApplication(this);
 
         mOauth2AccessToken = Session.restore(sWeiboApplication);

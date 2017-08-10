@@ -19,6 +19,7 @@ package org.lytsing.android.weibo.adapters;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.androidquery.AQuery;
+import com.orhanobut.logger.Logger;
 import com.sina.weibo.sdk.exception.WeiboException;
 
 import org.lytsing.android.weibo.Consts;
@@ -26,7 +27,6 @@ import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.core.models.Statuses;
 import org.lytsing.android.weibo.toolbox.FadeInImageListener;
 import org.lytsing.android.weibo.util.DateTimeUtils;
-import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
 
 import android.content.Context;
@@ -144,7 +144,7 @@ public class StatusItemAdapter extends BaseAdapter {
 
         if (statuses.geo != null) {
             holder.gps.setVisibility(View.VISIBLE);
-            Log.d(statuses.geo.toString());
+            Logger.d(statuses.geo.toString());
         }
 
         String time = "";
@@ -156,7 +156,7 @@ public class StatusItemAdapter extends BaseAdapter {
                         date.getTime());
             }
         } catch (WeiboException e) {
-            Log.e("WeiboException:" + e.getMessage());
+            Logger.e("WeiboException:" + e.getMessage());
         }
 
         holder.time.setText(time);

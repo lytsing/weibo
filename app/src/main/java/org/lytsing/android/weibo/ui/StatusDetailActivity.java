@@ -34,6 +34,7 @@ import com.actionbarsherlock.view.Window;
 import com.android.volley.toolbox.NetworkImageView;
 import com.androidquery.AQuery;
 import com.commonsware.cwac.merge.MergeAdapter;
+import com.orhanobut.logger.Logger;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.CommentsAPI;
@@ -48,7 +49,6 @@ import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.adapters.CommentsAdapter;
 import org.lytsing.android.weibo.core.models.Comment;
 import org.lytsing.android.weibo.core.models.Statuses;
-import org.lytsing.android.weibo.util.Log;
 import org.lytsing.android.weibo.util.Util;
 
 public class StatusDetailActivity extends BaseActivity implements RequestListener {
@@ -126,22 +126,21 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         api.repost(mStatus.id, content, comment_ori ? StatusesAPI.COMMENTS_RIGAL_STATUSES
                 : StatusesAPI.COMMENTS_CUR_STATUSES, new RequestListener() {
 
-            @Override
-            public void onComplete(String result) {
-                runOnUiThread(new Runnable() {
-
                     @Override
-                    public void run() {
-                        displayToast(R.string.repost_success);
+                    public void onComplete(String result) {
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                displayToast(R.string.repost_success);
+                            }
+                        });
                     }
-                });
-            }
 
-            @Override
-            public void onWeiboException(WeiboException e) {
-                // TODO Auto-generated method stub
-
-            }
+        @Override
+        public void onWeiboException(WeiboException e) {
+            Logger.e(e.getMessage());
+        }
 
         });
     }
@@ -261,9 +260,9 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                                 });
                             }
                         } catch (JSONException e) {
-                            Log.e("JSONException", e);
+                            Logger.e("JSONException", e);
                         } catch (WeiboException e) {
-                            Log.e("WeiboException", e);
+                            Logger.e("WeiboException", e);
                         }
                         // TODO Auto-generated method stub
 

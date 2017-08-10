@@ -29,10 +29,10 @@ import android.text.format.Formatter;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.androidquery.util.AQUtility;
+import com.orhanobut.logger.Logger;
 
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.util.AlertUtil;
-import org.lytsing.android.weibo.util.Log;
 
 import java.io.File;
 
@@ -110,7 +110,7 @@ public class SettingsActivity extends SherlockActivity {
                 PackageInfo pi = pm.getPackageInfo(sSettingsActivity.getPackageName(), 0);
                 versionName = pi.versionName;
             } catch (NameNotFoundException e) {
-                Log.e("Get Version Code error!", e);
+                Logger.e("Get Version Code error!", e);
             }
 
             buildVersion.setSummary(versionName);
