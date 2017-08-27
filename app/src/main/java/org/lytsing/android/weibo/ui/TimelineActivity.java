@@ -76,7 +76,7 @@ public class TimelineActivity extends BaseActivity {
 
     protected long mMaxId = 0;
 
-    private AQuery aq;
+    private AQuery mAq;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,7 +142,7 @@ public class TimelineActivity extends BaseActivity {
             }
         });
 
-        aq = new AQuery(this);
+        mAq = new AQuery(this);
 
         mListView = ((PullAndLoadListView) findViewById(R.id.msg_list_item));
 
@@ -237,21 +237,21 @@ public class TimelineActivity extends BaseActivity {
     };
 
     private void showLoadingIndicator() {
-        aq.id(R.id.placeholder_loading).visible();
+        mAq.id(R.id.placeholder_loading).visible();
         setRefreshActionButtonState(true);
     }
 
     private void hideLoadingIndicator() {
-        aq.id(R.id.placeholder_loading).gone();
+        mAq.id(R.id.placeholder_loading).gone();
         setRefreshActionButtonState(false);
     }
 
     private void showErrorIndicator() {
-        aq.id(R.id.placeholder_error).visible();
+        mAq.id(R.id.placeholder_error).visible();
     }
 
     private void hideErrorIndicator() {
-        aq.id(R.id.placeholder_error).gone();
+        mAq.id(R.id.placeholder_error).gone();
     }
 
     private String getLastSyncTime(String pre) {
@@ -366,7 +366,7 @@ public class TimelineActivity extends BaseActivity {
                 }
 
                 hideLoadingIndicator();
-                aq.id(R.id.placeholder_error).gone();
+                mAq.id(R.id.placeholder_error).gone();
 
                 showContents();
                 mAdapter.notifyDataSetChanged();
@@ -384,8 +384,8 @@ public class TimelineActivity extends BaseActivity {
 
                 hideLoadingIndicator();
                 showErrorIndicator();
-                aq.id(R.id.error_msg).text(errorMsg);
-                aq.id(R.id.retry_button).clicked(new OnClickListener() {
+                mAq.id(R.id.error_msg).text(errorMsg);
+                mAq.id(R.id.retry_button).clicked(new OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -458,7 +458,7 @@ public class TimelineActivity extends BaseActivity {
     }
 
     private void showContents() {
-        aq.id(R.id.timelist_list).visible();
+        mAq.id(R.id.timelist_list).visible();
 
         // FIXME: put it here, else will pop up "Tap to Refresh"
         mListView.setAdapter(mAdapter);

@@ -65,9 +65,9 @@ public final class AlertUtil {
 
     /**
      * Show Alert Dialog with tow buttons.
-     * @param context
-     * @param titleId
-     * @param messageId
+     * @param context Activity context
+     * @param titleId title
+     * @param messageId meassage id
      * @param positiveButtontxt
      * @param positiveListener
      * @param negativeButtontxt
