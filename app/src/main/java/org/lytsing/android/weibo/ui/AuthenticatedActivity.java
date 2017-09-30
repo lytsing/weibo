@@ -66,9 +66,9 @@ public class AuthenticatedActivity extends BaseActivity {
                 @Override
                 public void run() {
                     String token = values.getString(Preferences.ACCESS_TOKEN);
-                    String expires_in = values.getString(Preferences.EXPIRES_IN);
+                    String expiresIn = values.getString(Preferences.EXPIRES_IN);
 
-                    mAccessToken = new Oauth2AccessToken(token, expires_in);
+                    mAccessToken = new Oauth2AccessToken(token, expiresIn);
                     if (mAccessToken.isSessionValid()) {
 
                         Session.save(AuthenticatedActivity.this,

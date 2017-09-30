@@ -28,26 +28,26 @@ import org.lytsing.android.weibo.R;
 
 public class ImageViewerActivity extends Activity {
 
-    private AQuery aq;
+    private AQuery mAq;
 
-    private String mMiddleImageUrl = null;
+    private String mMiddleImageUrl;
 
-    private String mOriginalPicUrl = null;
+    private String mOriginalPicUrl;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.imageviewactivity);
 
-        aq = new AQuery(this);
+        mAq = new AQuery(this);
 
         mMiddleImageUrl = getIntent().getStringExtra(Consts.MIDDLE_IMAGE_URL_KEY);
         mOriginalPicUrl = getIntent().getStringExtra(Consts.ORIGINAL_PIC_URL_KEY);
 
-        aq.id(R.id.ivImageDia).progress(R.id.progress)
+        mAq.id(R.id.ivImageDia).progress(R.id.progress)
             .image(mMiddleImageUrl, false, false, 0, 0, null, AQuery.FADE_IN_NETWORK, 0);
 
-        aq.id(R.id.toLargeImage).clicked(this, "buttonClicked");
+        mAq.id(R.id.toLargeImage).clicked(this, "buttonClicked");
     }
 
     public void buttonClicked(View button) {

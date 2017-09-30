@@ -25,7 +25,7 @@ import org.lytsing.android.weibo.R;
 
 public class ImageZoomActivity extends Activity {
 
-    private AQuery aq;
+    private AQuery mAq;
 
     private String mOriginalImageUrl;
 
@@ -38,16 +38,16 @@ public class ImageZoomActivity extends Activity {
 
         mOriginalImageUrl = getIntent().getStringExtra("original_pic_url");
 
-        aq = new AQuery(this);
+        mAq = new AQuery(this);
 
         imageZoom();
     }
 
     private void imageZoom() {
-        aq.id(R.id.text).text("Try pinch zoom with finger.");
+        mAq.id(R.id.text).text("Try pinch zoom with finger.");
         if (mOriginalImageUrl != null) {
-            aq.id(R.id.web).progress(R.id.progress).webImage(mOriginalImageUrl);
-            // aq.id(R.id.web).progress(R.id.progress).webImage(url, true, true,
+            mAq.id(R.id.web).progress(R.id.progress).webImage(mOriginalImageUrl);
+            // mAq.id(R.id.web).progress(R.id.progress).webImage(url, true, true,
             // 0xFF000000);
         }
     }
