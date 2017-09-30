@@ -6,6 +6,8 @@
 
 This projects is being designed to be a light-weight, fast user experience open Weibo alternative for Android. require Android 4.0+
 
+For Android developer novice, this project also is a good study staff.
+
 * Follow [Android Patterns](http://www.androidpatterns.com/).
 * Use lots of Open Source.
 * No annoying ads.
