@@ -16,23 +16,23 @@
 
 package org.lytsing.android.weibo.ui;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.WeiboApplication;
 
 import android.os.Bundle;
 import androidx.core.app.NavUtils;
-import android.widget.Toast;
+import androidx.fragment.app.FragmentActivity;
 
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 /**
  * A base activity that handles common functionality in the app.
  * @author Liqing Huang
  */
-public abstract class BaseActivity extends SherlockFragmentActivity {
+public abstract class BaseActivity extends FragmentActivity {
 
     private static final int TOAST_DURATION = Toast.LENGTH_SHORT;
 
@@ -46,13 +46,11 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 
         mApplication = (WeiboApplication) getApplication();
         mAccessToken = mApplication.getOauth2AccessToken();
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.base, menu);
+        getMenuInflater().inflate(R.menu.base, menu);
         return true;
     }
 

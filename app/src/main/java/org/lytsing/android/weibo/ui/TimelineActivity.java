@@ -22,12 +22,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -97,7 +97,7 @@ public class TimelineActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.home, menu);
         mOptionsMenu = menu;
         return true;
     }
@@ -157,6 +157,7 @@ public class TimelineActivity extends BaseActivity {
 
         mListView.setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
 
+            @Override
             public void onLoadMore() {
                 loadMoreData(mMaxId);
             }
@@ -202,6 +203,7 @@ public class TimelineActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         // TODO:
+        super.onSaveInstanceState(outState);
     }
 
     @Override

@@ -24,13 +24,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ListView;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.android.volley.toolbox.NetworkImageView;
 import com.androidquery.AQuery;
 import com.commonsware.cwac.merge.MergeAdapter;
@@ -218,7 +218,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     }
 
     private void loadCommentData() {
-        setSupportProgressBarIndeterminateVisibility(true);
+        setProgressBarIndeterminateVisibility(true);
 
         api.show(mStatus.id, 0, 0, 50, 1, CommentsAPI.AUTHOR_FILTER_ALL,
                 new RequestListener() {
@@ -253,7 +253,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                                     @Override
                                     public void run() {
                                         //setRefreshActionButtonState(false);
-                                        setSupportProgressBarIndeterminateVisibility(false);
+                                        setProgressBarIndeterminateVisibility(false);
 
                                         mCommentsAdapter.refresh();
                                     }
@@ -299,7 +299,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getSupportMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.repost, menu);
         mOptionsMenu = menu;
 
@@ -337,6 +337,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                 .setView(textEntryView)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
                                 final String comment = commentText.getText().toString();
@@ -347,6 +348,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                         })
                 .setNegativeButton(android.R.string.cancel,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
 
@@ -365,6 +367,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                 .setView(textEntryView)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog,
                                     int whichButton) {
                                 final String comment = commentText.getText().toString();
@@ -375,6 +378,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                         })
                 .setNegativeButton(android.R.string.cancel,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog,
                                     int whichButton) {
 

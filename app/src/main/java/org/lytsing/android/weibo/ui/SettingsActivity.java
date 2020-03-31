@@ -16,6 +16,7 @@
 
 package org.lytsing.android.weibo.ui;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,7 +28,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.text.format.Formatter;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.androidquery.util.AQUtility;
 import com.orhanobut.logger.Logger;
 
@@ -40,7 +40,7 @@ import java.io.File;
  * Settings Activity.
  * @author Liqing Huang
  */
-public class SettingsActivity extends SherlockActivity {
+public class SettingsActivity extends Activity {
 
     private static SettingsActivity sSettingsActivity;
 
@@ -53,7 +53,7 @@ public class SettingsActivity extends SherlockActivity {
                 new SettingsFragment()).commit();
 
         sSettingsActivity = this;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public static class SettingsFragment extends PreferenceFragment {
@@ -85,6 +85,7 @@ public class SettingsActivity extends SherlockActivity {
                         "file:///android_asset/licenses.html"));
             } else if ("clear-cache".equals(preference.getKey())) {
                 DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
                         imageClearDisk();
                         preference.setSummary("Cache size: 0.00B");
@@ -135,6 +136,7 @@ public class SettingsActivity extends SherlockActivity {
                 return size;
             }
 
+            @Override
             protected void onPostExecute(Long result) {
                 Preference clearCache = getPreferenceScreen().findPreference("clear-cache");
                 String cacheSize = Formatter.formatFileSize(sSettingsActivity, result);

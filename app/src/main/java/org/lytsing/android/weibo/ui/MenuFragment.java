@@ -19,18 +19,19 @@ package org.lytsing.android.weibo.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SimpleAdapter;
-import com.actionbarsherlock.app.SherlockListFragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.lytsing.android.weibo.R;
 
+import androidx.fragment.app.ListFragment;
+
 /**
  * Menu Fragment.
  * @author Liqing Huang
  */
-public class MenuFragment extends SherlockListFragment {
+public class MenuFragment extends ListFragment {
 
     private String[] mListItems = new String[] {"Home", "Settings", "Search", "Help"};
 

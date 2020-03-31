@@ -35,6 +35,9 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -44,9 +47,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
@@ -109,7 +109,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
     public void initView() {
         this.setContentView(R.layout.newblog2);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAq = new AQuery(this);
 
@@ -122,12 +122,15 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
         mEdit = (EditText) this.findViewById(R.id.et_mblog);
         mEdit.addTextChangedListener(new TextWatcher() {
+            @Override
             public void afterTextChanged(Editable s) {
             }
 
+            @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
+            @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String mText = mEdit.getText().toString();
                 int len = mText.length();
@@ -145,6 +148,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         });
 
         mEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 // 显示软键盘
                 showIMM();
@@ -160,6 +164,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
         mGridView = (GridView) findViewById(R.id.tweet_pub_faces);
         mGridView.setAdapter(mGVFaceAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // 插入的表情
                 SpannableString ss = new SpannableString(view.getTag().toString());
@@ -190,8 +195,9 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     private void composeNewPost() {
         StatusesAPI api = new StatusesAPI(mAccessToken);
         mContent = mEdit.getText().toString();
-        if (TextUtils.isEmpty(mContent))
+        if (TextUtils.isEmpty(mContent)) {
             return;
+        }
 
         if (!TextUtils.isEmpty(mPicPath)) {
             Utils.showToast(this, R.string.sending);
@@ -214,7 +220,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getSupportMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.send, menu);
 
         return true;
@@ -242,9 +248,12 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
         if (viewId == R.id.ll_text_limit_unit) {
             mContent = mEdit.getText().toString();
-            if (TextUtils.isEmpty(mContent)) return;
+            if (TextUtils.isEmpty(mContent)) {
+                return;
+            }
 
             DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mEdit.setText("");
                 }
@@ -258,6 +267,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             popup.getMenuInflater().inflate(R.menu.pic, popup.getMenu());
 
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
                 public boolean onMenuItemClick(android.view.MenuItem item) {
 
                     Intent galleryIntent = new Intent();
