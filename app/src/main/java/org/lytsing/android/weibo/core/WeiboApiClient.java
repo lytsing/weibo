@@ -28,6 +28,10 @@ import java.util.concurrent.ExecutorService;
 import javax.net.ssl.SSLSocketFactory;
 import retrofit.RestAdapter;
 
+/**
+ * Weibo Api Client.
+ * @author Liqing Huang
+ */
 public class WeiboApiClient {
     final ConcurrentHashMap<Class, Object> services;
 

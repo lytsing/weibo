@@ -24,7 +24,11 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TextUtil {
+/**
+ * Text Utils
+ * @author Liqing Huang
+ */
+public class TextUtils {
 
     /**
      * 将text中@某人的字体加亮，匹配的表情文字以表情显示

@@ -52,7 +52,7 @@ import org.lytsing.android.weibo.core.models.WeiboObject;
 import org.lytsing.android.weibo.toolbox.GsonRequest;
 import org.lytsing.android.weibo.toolbox.VolleyErrorHelper;
 import org.lytsing.android.weibo.util.Preferences;
-import org.lytsing.android.weibo.util.Util;
+import org.lytsing.android.weibo.util.Utils;
 
 public class TimelineActivity extends BaseActivity {
 
@@ -221,7 +221,7 @@ public class TimelineActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case ON_SUCC_RESPONSE:
-                    setLastSyncTime(Util.getNowLocaleTime());
+                    setLastSyncTime(Utils.getNowLocaleTime());
                     mAdapter.notifyDataSetChanged();
                     mListView.onLoadMoreComplete();
                     break;
@@ -301,7 +301,7 @@ public class TimelineActivity extends BaseActivity {
                         mListView.onRefreshComplete();
                         mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
 
-                        setLastSyncTime(Util.getNowLocaleTime());
+                        setLastSyncTime(Utils.getNowLocaleTime());
 
                         if (refreshCount > 0) {
                             displayToast(String
@@ -319,7 +319,7 @@ public class TimelineActivity extends BaseActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError e) {
-                        Util.showToast(TimelineActivity.this, "Error:" + e.getMessage());
+                        Utils.showToast(TimelineActivity.this, "Error:" + e.getMessage());
                         setRefreshActionButtonState(false);
                     }
 
@@ -370,7 +370,7 @@ public class TimelineActivity extends BaseActivity {
 
                 showContents();
                 mAdapter.notifyDataSetChanged();
-                setLastSyncTime(Util.getNowLocaleTime());
+                setLastSyncTime(Utils.getNowLocaleTime());
             }
         };
     }

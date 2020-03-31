@@ -24,6 +24,9 @@ import retrofit.http.Query;
 
 import java.util.List;
 
+/**
+ * @author Liqing Huang
+ */
 public interface StatusesService {
     /**
      * Returns most recent mentions (tweets containing a user's @screen_name) for the

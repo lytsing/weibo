@@ -19,6 +19,9 @@ package org.lytsing.android.weibo.core.models;
 
 import java.io.Serializable;
 
+/**
+ * @author Liqing Huang
+ */
 public class Statuses implements Serializable {
 
     private static final long serialVersionUID = 1L;

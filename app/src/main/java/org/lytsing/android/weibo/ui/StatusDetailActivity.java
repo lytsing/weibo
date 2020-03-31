@@ -49,7 +49,7 @@ import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.adapters.CommentsAdapter;
 import org.lytsing.android.weibo.core.models.Comment;
 import org.lytsing.android.weibo.core.models.Statuses;
-import org.lytsing.android.weibo.util.Util;
+import org.lytsing.android.weibo.util.Utils;
 
 public class StatusDetailActivity extends BaseActivity implements RequestListener {
 
@@ -151,7 +151,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         mCommentsAdapter = new CommentsAdapter(this);
         mListView = (ListView) findViewById(R.id.list_view);
 
-        View view = Util.inflateView(R.layout.list_item_stream_activity, this, null);
+        View view = Utils.inflateView(R.layout.list_item_stream_activity, this, null);
 
         mAdapter = new MergeAdapter();
         mAdapter.addView(view);
@@ -234,7 +234,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
                                     JSONObject d = c.getJSONObject(i);
                                     String commentBody = d.getString("text");
                                     String createdAt = d.getString("created_at");
-                                    Date date = Util.parseDate(createdAt);
+                                    Date date = Utils.parseDate(createdAt);
                                     Comment comment = new Comment();
                                     comment.setBody(commentBody);
                                     comment.setCreationTime(DateFormat.getDateFormat(
@@ -283,7 +283,7 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
             @Override
             public void onComplete(String result) {
-                Util.showToast(StatusDetailActivity.this, R.string.favorites);
+                Utils.showToast(StatusDetailActivity.this, R.string.favorites);
             }
 
             @Override
@@ -384,12 +384,12 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
 
     @Override
     public void onComplete(String response) {
-        Util.showToast(this, R.string.comment_success);
+        Utils.showToast(this, R.string.comment_success);
     }
 
     @Override
     public void onWeiboException(final WeiboException e) {
-        Util.showToast(this, e.getMessage());
+        Utils.showToast(this, e.getMessage());
     }
 
     public void setRefreshActionButtonState(boolean refreshing) {

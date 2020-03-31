@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+/**
+ * @author Liqing Huang
+ */
 public class GridViewFaceAdapter extends BaseAdapter {
     // 定义Context
     private Context mContext;

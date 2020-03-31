@@ -18,6 +18,9 @@ package org.lytsing.android.weibo.core.models;
 
 import java.io.Serializable;
 
+/**
+ * @author Liqing Huang
+ */
 public class Visible implements Serializable {
     /**
      *

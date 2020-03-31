@@ -16,7 +16,11 @@
 
 package org.lytsing.android.weibo.core.models;
 
+/**
+ * @author Liqing Huang
+ */
 public class Pois {
+
     String poiid;
     String title;
     String address;

@@ -19,6 +19,10 @@ package org.lytsing.android.weibo.toolbox;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 
+/**
+ * Display Message Error.
+ * @author Liqing Huang
+ */
 public class DisplayMessageError extends VolleyError {
     private String mDisplayErrorHtml;
 
@@ -34,10 +38,11 @@ public class DisplayMessageError extends VolleyError {
         return mDisplayErrorHtml;
     }
 
+    @Override
     public String toString() {
-        return new StringBuilder().append("DisplayErrorMessage[")
-            .append(mDisplayErrorHtml)
-            .append("]").toString();
+        return "DisplayErrorMessage["
+                + mDisplayErrorHtml
+                + "]";
     }
 }
 

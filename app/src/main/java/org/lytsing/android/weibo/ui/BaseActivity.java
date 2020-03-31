@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 /**
  * A base activity that handles common functionality in the app.
+ * @author Liqing Huang
  */
 public abstract class BaseActivity extends SherlockFragmentActivity {
 

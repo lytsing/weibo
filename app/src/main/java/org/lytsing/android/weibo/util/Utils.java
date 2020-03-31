@@ -35,7 +35,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class Util {
+/**
+ * Utils
+ * @author Liqing Huang
+ */
+public class Utils {
 
     private static Map<String, SimpleDateFormat> formatMap =
             new HashMap<String, SimpleDateFormat>();

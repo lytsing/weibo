@@ -40,7 +40,7 @@ import java.util.zip.GZIPInputStream;
 /**
  * GsonRequest is a way to solve the Volley's JSONObjectReuqest can't post paramsters like the
  * StringRequest
- * @see http://stackoverflow.com/questions/16626032/volley-post-get-parameters
+ * @see {http://stackoverflow.com/questions/16626032/volley-post-get-parameters}
  *
  * @author Lytsing Huang
  *
@@ -152,7 +152,7 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        HashMap<String, String> headers = new HashMap<String, String>();
+        HashMap<String, String> headers = new HashMap<String, String>(2);
         // add user agent header which Android System support
         headers.put(HEADER_USER_AGENT, System.getProperty("http.agent"));
         // add gzip header

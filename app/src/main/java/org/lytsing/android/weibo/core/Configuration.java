@@ -18,6 +18,7 @@ package org.lytsing.android.weibo.core;
 
 /**
  * Configuration for weibo sdk api.
+ * @author Liqing Huang
  */
 public interface Configuration {
 

@@ -30,6 +30,7 @@ import java.util.Calendar;
  *  it would display the seconds or minutes or hours,
  *  while for other timestamps it would display the date.
  *
+ * @author Liqing Huang
  * @see http://stackoverflow.com/questions/3910042/javaandroid-convert-sqlite-date-to-x-days-ago
  */
 public class DateTimeUtils extends DateUtils {

@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import org.lytsing.android.weibo.R;
-import org.lytsing.android.weibo.util.Util;
+import org.lytsing.android.weibo.util.Utils;
 
 /**
  * abstract SectionAdapter.
@@ -42,7 +42,7 @@ public abstract class SectionAdapter extends BaseAdapter {
      * @param parent The parent that this view will eventually be attached to
      */
     public SectionAdapter(int sectionTitleId, Context context, ViewGroup parent) {
-        this(Util.inflateView(R.layout.asset_info_section_header, context, parent));
+        this(Utils.inflateView(R.layout.asset_info_section_header, context, parent));
 
         ((TextView) mSectionHeaderView).setText(sectionTitleId);
     }

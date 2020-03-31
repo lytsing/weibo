@@ -28,7 +28,8 @@ import android.content.Context;
 import org.lytsing.android.weibo.R;
 
 /**
- * simple helper to display appropriate message when one of these exceptions occurs
+ * simple helper to display appropriate message when one of these exceptions occurs.
+ * @author Liqing Huang
  * @see http://arnab.ch/blog/2013/08/asynchronous-http-requests-in-android-using-volley/
  *
  */

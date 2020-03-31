@@ -26,6 +26,10 @@ import java.util.List;
 import java.util.Map;
 import org.lytsing.android.weibo.R;
 
+/**
+ * Menu Fragment.
+ * @author Liqing Huang
+ */
 public class MenuFragment extends SherlockListFragment {
 
     private String[] mListItems = new String[] {"Home", "Settings", "Search", "Help"};

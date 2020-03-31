@@ -19,6 +19,10 @@ package org.lytsing.android.weibo.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+/**
+ * The Preferences class.
+ * @author Liqing Huang
+ */
 public final class Preferences {
 
     public static final String PREFERENCES_NAME = "weibo_preferences";

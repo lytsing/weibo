@@ -20,6 +20,9 @@ package org.lytsing.android.weibo.core.models;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @author Liqing Huang
+ */
 public class RetweetedStatus implements Serializable {
     /**
      *

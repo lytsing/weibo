@@ -22,6 +22,10 @@ import android.webkit.WebView;
 
 import org.lytsing.android.weibo.R;
 
+/**
+ * License Activity.
+ * @author Liqing Huang
+ */
 public class LicenseActivity extends Activity {
 
     @Override

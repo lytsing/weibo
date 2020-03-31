@@ -16,6 +16,10 @@
 
 package org.lytsing.android.weibo.core;
 
+/**
+ * Weibo Exception.
+ * @author Liqing Huang
+ */
 public class WeiboException extends RuntimeException {
     public WeiboException(String detailMessage) {
         super(detailMessage);

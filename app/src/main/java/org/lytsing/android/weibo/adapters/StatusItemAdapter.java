@@ -27,7 +27,7 @@ import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.core.models.Statuses;
 import org.lytsing.android.weibo.toolbox.FadeInImageListener;
 import org.lytsing.android.weibo.util.DateTimeUtils;
-import org.lytsing.android.weibo.util.Util;
+import org.lytsing.android.weibo.util.Utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -105,7 +105,7 @@ public class StatusItemAdapter extends BaseAdapter {
         }
 
         //if (convertView == null) {
-        convertView = Util.inflateView(R.layout.list_item_status, mContext);
+        convertView = Utils.inflateView(R.layout.list_item_status, mContext);
         holder = new ViewHolder();
         holder.userImage = (ImageView) convertView.findViewById(R.id.ivItemPortrait);
         holder.userName = (TextView) convertView.findViewById(R.id.tvItemName);
@@ -150,7 +150,7 @@ public class StatusItemAdapter extends BaseAdapter {
         String time = "";
 
         try {
-            Date date = Util.parseDate(statuses.created_at);
+            Date date = Utils.parseDate(statuses.created_at);
             if (date != null) {
                 time = DateTimeUtils.getInstance(mContext).getTimeDiffString(
                         date.getTime());
@@ -162,9 +162,9 @@ public class StatusItemAdapter extends BaseAdapter {
         holder.time.setText(time);
 
         holder.content.setText(statuses.text, TextView.BufferType.SPANNABLE);
-        Util.textHighlight(holder.content, "#", "#");
+        Utils.textHighlight(holder.content, "#", "#");
         //Util.textHighlight(holder.content, "@",":");
-        Util.textHighlight(holder.content, "http://", " ");
+        Utils.textHighlight(holder.content, "http://", " ");
 
         holder.tweetForm.setText(Html.fromHtml(String.format(
                 mContext.getResources().getString(R.string.from), statuses.source)));
@@ -221,9 +221,9 @@ public class StatusItemAdapter extends BaseAdapter {
             text += statuses.retweeted_status.text;
 
             holder.retweetedText.setText(text, TextView.BufferType.SPANNABLE);
-            Util.textHighlight(holder.retweetedText, "#", "#");
+            Utils.textHighlight(holder.retweetedText, "#", "#");
             //Util.textHighlight(holder.retweetedText, "@",":");
-            Util.textHighlight(holder.retweetedText, "http://", " ");
+            Utils.textHighlight(holder.retweetedText, "http://", " ");
 
             if (statuses.retweeted_status.thumbnail_pic != null) {
                 final String bmiddlePicUrl = statuses.retweeted_status.bmiddle_pic;

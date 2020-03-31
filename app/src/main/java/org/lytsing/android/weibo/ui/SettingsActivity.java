@@ -36,6 +36,10 @@ import org.lytsing.android.weibo.util.AlertUtil;
 
 import java.io.File;
 
+/**
+ * Settings Activity.
+ * @author Liqing Huang
+ */
 public class SettingsActivity extends SherlockActivity {
 
     private static SettingsActivity sSettingsActivity;

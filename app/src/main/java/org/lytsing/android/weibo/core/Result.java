@@ -20,6 +20,7 @@ import retrofit.client.Response;
 
 /**
  *
+ * @author Liqing Huang
  * @param <T> - Parsed type, available in the data
  */
 public class Result<T> {

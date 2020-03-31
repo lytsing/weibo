@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 
 /**
  * Alert Diaglog Util Class.
+ * @author Liqing Huang
  */
 public final class AlertUtil {
 

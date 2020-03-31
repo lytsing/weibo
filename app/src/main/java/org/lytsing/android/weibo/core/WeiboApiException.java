@@ -28,6 +28,10 @@ import java.io.UnsupportedEncodingException;
 import retrofit.RetrofitError;
 import retrofit.mime.TypedByteArray;
 
+/**
+ * Weibo Api Exception.
+ * @author Liqing Huang
+ */
 public class WeiboApiException extends WeiboException {
     private static final String ERROR_CODE = "code";
 
@@ -85,8 +89,10 @@ public class WeiboApiException extends WeiboException {
         }
         byte[] responseBytes = ((TypedByteArray) retrofitError.getResponse().getBody()).getBytes();
 
-        if (responseBytes == null)
+        if (responseBytes == null) {
             return 0;
+        }
+
         try {
             String response = new String(responseBytes, "UTF-8");
             return parseErrorCode(response);

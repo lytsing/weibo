@@ -24,6 +24,10 @@ import android.webkit.WebView;
 
 import org.lytsing.android.weibo.R;
 
+/**
+ * WebView Dialog.
+ * @author Liqing Huang
+ */
 public class WebViewDialog extends FragmentActivity {
 
     public static Intent getIntent(Context context, int title, String url) {

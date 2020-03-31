@@ -26,10 +26,11 @@ import com.androidquery.AQuery;
 import java.util.ArrayList;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.core.models.Comment;
-import org.lytsing.android.weibo.util.Util;
+import org.lytsing.android.weibo.util.Utils;
 
 /**
  * Comments Adapter.
+ * @author Liqing Huang
  */
 public class CommentsAdapter extends BaseAdapter {
 
@@ -48,7 +49,7 @@ public class CommentsAdapter extends BaseAdapter {
     public CommentsAdapter(Context context) {
         mComments = new ArrayList<Comment>();
         mContext = context;
-        mNoComments = (TextView) Util.inflateView(R.layout.status_info_simple_1_medium, context);
+        mNoComments = (TextView) Utils.inflateView(R.layout.status_info_simple_1_medium, context);
     }
 
     /**
@@ -83,7 +84,7 @@ public class CommentsAdapter extends BaseAdapter {
         if (convertView != null && convertView.getId() == R.id.comment_list_item) {
             commentsView = convertView;
         } else {
-            commentsView = Util.inflateView(R.layout.comment_list_item, mContext, null);
+            commentsView = Utils.inflateView(R.layout.comment_list_item, mContext, null);
         }
 
         if (!hasComments()) {

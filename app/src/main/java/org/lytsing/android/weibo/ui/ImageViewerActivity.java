@@ -26,6 +26,10 @@ import com.androidquery.AQuery;
 import org.lytsing.android.weibo.Consts;
 import org.lytsing.android.weibo.R;
 
+/**
+ * Image Viewer Activity.
+ * @author Liqing Huang
+ */
 public class ImageViewerActivity extends Activity {
 
     private AQuery mAq;

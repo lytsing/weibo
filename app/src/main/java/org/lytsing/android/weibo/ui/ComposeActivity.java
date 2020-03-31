@@ -60,8 +60,11 @@ import java.io.IOException;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.adapters.GridViewFaceAdapter;
 import org.lytsing.android.weibo.util.AlertUtil;
-import org.lytsing.android.weibo.util.Util;
+import org.lytsing.android.weibo.util.Utils;
 
+/**
+ * @author Liqing Huang
+ */
 public class ComposeActivity extends BaseActivity implements OnClickListener,
         RequestListener {
 
@@ -87,6 +90,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
     public static final int WEIBO_MAX_LENGTH = 140;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -172,7 +176,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
     @Override
     public void onComplete(String response) {
-        Util.showToast(this, R.string.send_success);
+        Utils.showToast(this, R.string.send_success);
         this.finish();
     }
 
@@ -180,7 +184,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
     public void onWeiboException(final WeiboException e) {
         String content = String.format(
                 ComposeActivity.this.getString(R.string.send_failed) + ":%s", e.getMessage());
-        Util.showToast(this, content);
+        Utils.showToast(this, content);
     }
 
     private void composeNewPost() {
@@ -190,7 +194,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
             return;
 
         if (!TextUtils.isEmpty(mPicPath)) {
-            Util.showToast(this, R.string.sending);
+            Utils.showToast(this, R.string.sending);
             Bitmap bitmap = null;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);

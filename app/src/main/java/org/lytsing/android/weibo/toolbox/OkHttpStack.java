@@ -27,6 +27,7 @@ import com.squareup.okhttp.OkUrlFactory;
 /**
  * An {@link com.android.volley.toolbox.HttpStack HttpStack} implementation which
  * uses OkHttp as its transport.
+ * @author Liqing Huang
  */
 public class OkHttpStack extends HurlStack {
     private final OkHttpClient client;

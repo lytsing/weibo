@@ -21,6 +21,9 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author Liqing Huang
+ */
 public class Geo implements Serializable {
     private static final long serialVersionUID = 5703295501784257267L;
 

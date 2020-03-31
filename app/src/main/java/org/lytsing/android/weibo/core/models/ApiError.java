@@ -18,6 +18,9 @@ package org.lytsing.android.weibo.core.models;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author Liqing Huang
+ */
 public class ApiError {
 
     @SerializedName("message")

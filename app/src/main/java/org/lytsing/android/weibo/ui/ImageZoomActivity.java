@@ -23,6 +23,10 @@ import com.androidquery.AQuery;
 
 import org.lytsing.android.weibo.R;
 
+/**
+ * Image Zoom Activity.
+ * @author Liqing Huang
+ */
 public class ImageZoomActivity extends Activity {
 
     private AQuery mAq;

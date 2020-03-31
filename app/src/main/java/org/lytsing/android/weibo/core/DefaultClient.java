@@ -30,6 +30,10 @@ import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
+/**
+ * Default Client.
+ * @author Liqing Huang
+ */
 public class DefaultClient implements Client {
     final Client wrappedClient;
 
