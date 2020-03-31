@@ -24,7 +24,7 @@ import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.WeiboApplication;
 
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import androidx.core.app.NavUtils;
 import android.widget.Toast;
 
 

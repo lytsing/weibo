@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply from: '../config/quality/quality.gradle'
 
 android {
-    compileSdkVersion 16
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId "org.lytsing.android.weibo"
         minSdkVersion 14
-        targetSdkVersion 15
+        targetSdkVersion 29
     }
 
     buildTypes {
@@ -24,13 +24,13 @@ android {
 }
 
 dependencies {
-    compile project(':WeiboSDK')
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.orhanobut:logger:2.1.1'
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'net.simonvt.menudrawer:menudrawer:3.0.6@aar'
-    compile 'com.android.support:support-v4:18.0.0'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile(name: 'pullandloadmore-1.0.0', ext: 'aar')
+    implementation project(':WeiboSDK')
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.orhanobut:logger:2.2.0'
+    implementation 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    implementation 'net.simonvt.menudrawer:menudrawer:3.0.6@aar'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(name: 'pullandloadmore-1.0.0', ext: 'aar')
 }
 

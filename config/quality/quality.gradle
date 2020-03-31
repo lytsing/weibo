@@ -15,10 +15,10 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 dependencies {
-    checkstyle 'com.puppycrawl.tools:checkstyle:6.11.1'
+    checkstyle 'com.puppycrawl.tools:checkstyle:8.31'
 }
 
-def qualityConfigDir = "$project.rootDir/config/quality";
+def qualityConfigDir = "$project.rootDir/config/quality"
 def reportsDir = "$project.buildDir/reports"
 
 check.dependsOn 'checkstyle', 'findbugs', 'pmd'
@@ -28,28 +28,28 @@ task checkstyle(type: Checkstyle, group: 'Verification', description: 'Runs code
     source 'src'
     include '**/*.java'
 
-    ignoreFailures = true
-
     reports {
-        xml.enabled = true
-        xml {
-            destination "$reportsDir/checkstyle/checkstyle.xml"
+        xml.enabled = false
+        html.enabled true
+        html {
+            destination file("$reportsDir/checkstyle/checkstyle.html")
         }
     }
 
-    classpath = files( )
+    ignoreFailures = true
+    classpath = files()
 }
 
 task findbugs(type: FindBugs,
         group: 'Verification',
         description: 'Inspect java bytecode for bugs',
-        dependsOn: ['compileDebugSources','compileReleaseSources']) {
+        dependsOn: ['compileDebugSources', 'compileReleaseSources']) {
 
-    ignoreFailures = false
+    ignoreFailures = true
     effort = "max"
     reportLevel = "high"
     excludeFilter = new File("$qualityConfigDir/findbugs/android-exclude-filter.xml")
-    classes = files("$project.rootDir/app/build/intermediates/classes")
+    classes = files("$project.rootDir/app/build/intermediates/javac")
 
     source 'src'
     include '**/*.java'
@@ -59,10 +59,10 @@ task findbugs(type: FindBugs,
         xml.enabled = false
         html.enabled = true
         xml {
-            destination "$reportsDir/findbugs/findbugs.xml"
+            destination file("$reportsDir/findbugs/findbugs.xml")
         }
         html {
-            destination "$reportsDir/findbugs/findbugs.html"
+            destination file("$reportsDir/findbugs/findbugs.html")
         }
     }
 
@@ -72,7 +72,7 @@ task findbugs(type: FindBugs,
 
 task pmd(type: Pmd, group: 'Verification', description: 'Inspect sourcecode for bugs') {
     ruleSetFiles = files("$qualityConfigDir/pmd/pmd-ruleset.xml")
-    ignoreFailures = false
+    ignoreFailures = true
     ruleSets = []
 
     source 'src'
@@ -83,10 +83,10 @@ task pmd(type: Pmd, group: 'Verification', description: 'Inspect sourcecode for 
         xml.enabled = false
         html.enabled = true
         xml {
-            destination "$reportsDir/pmd/pmd.xml"
+            destination file("$reportsDir/pmd/pmd.xml")
         }
         html {
-            destination "$reportsDir/pmd/pmd.html"
+            destination file("$reportsDir/pmd/pmd.html")
         }
     }
 }

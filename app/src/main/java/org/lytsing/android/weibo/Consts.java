@@ -18,6 +18,7 @@ package org.lytsing.android.weibo;
 
 /**
  * Constants.
+ * @author Liqing Huang
  */
 public interface Consts {
 

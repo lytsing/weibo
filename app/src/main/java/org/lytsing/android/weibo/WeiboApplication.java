@@ -38,6 +38,7 @@ import org.lytsing.android.weibo.toolbox.OkHttpStack;
 
 /**
  * WeiboApplication.
+ * @author Liqing Huang
  */
 public class WeiboApplication extends Application {
 
