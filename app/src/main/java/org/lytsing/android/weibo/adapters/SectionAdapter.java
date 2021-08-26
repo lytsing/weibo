@@ -69,6 +69,7 @@ public abstract class SectionAdapter extends BaseAdapter {
      * Are all items in this SectionAdapter enable?
      * If yes it means all items are selectable and clickable.
      */
+    @Override
     public boolean areAllItemsEnabled() {
         return false;
     }
@@ -84,11 +85,13 @@ public abstract class SectionAdapter extends BaseAdapter {
      * How many items are in the data set represented by this
      * Adapter.
      */
+    @Override
     public int getCount() {
         if (mDeactivated) {
             return 0;
         } else {
-            return mCount + 1; // add one for header
+            // add one for header
+            return mCount + 1;
         }
     }
 
@@ -98,6 +101,7 @@ public abstract class SectionAdapter extends BaseAdapter {
      *
      * @param position Position of the item whose data we want
      */
+    @Override
     public Object getItem(int position) {
         if (position == 0) {
             return mSectionHeaderView;
@@ -112,6 +116,7 @@ public abstract class SectionAdapter extends BaseAdapter {
      *
      * @param position Position of the item whose data we want
      */
+    @Override
     public long getItemId(int position) {
         if (position == 0) {
             return mSectionHeaderView.getId();
@@ -128,6 +133,7 @@ public abstract class SectionAdapter extends BaseAdapter {
      * @param convertView View to recycle, if not null
      * @param parent ViewGroup containing the returned View
      */
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         return position == 0 ? mSectionHeaderView : null;
@@ -140,6 +146,7 @@ public abstract class SectionAdapter extends BaseAdapter {
      * @param position Index of the item
      * @return True if the item is not a separator
      */
+    @Override
     public boolean isEnabled(int position) {
         return false;
     }

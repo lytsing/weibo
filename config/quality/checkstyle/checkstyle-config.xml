@@ -10,10 +10,12 @@
 
     <!-- 过滤实体类属性命名检查，具体实体类配置在 suppressions.xml -->
     <!-- https://blog.dominikschadow.de/2013/09/remove-checkstyle-warnings-for-certain-classes -->
+    <!--
     <module name="SuppressionFilter">
         <property name="file"
-                  value="./config/quality/checkstyle/suppressions.xml"/>
+          value="./config/quality/checkstyle/suppressions.xml"/>
     </module>
+    -->
 
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>

@@ -56,6 +56,7 @@ public class DefaultClient implements Client {
         }
     }
 
+    @Override
     public Response execute(Request request) throws IOException {
         return this.wrappedClient.execute(request);
     }

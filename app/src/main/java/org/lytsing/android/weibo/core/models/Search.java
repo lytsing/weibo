@@ -20,6 +20,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * @author Liqing Huang
+ */
 public class Search {
 
     @SerializedName("statuses")

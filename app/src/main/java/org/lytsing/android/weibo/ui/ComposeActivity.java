@@ -27,13 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import androidx.core.app.NavUtils;
-import androidx.loader.content.CursorLoader;
-import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.text.TextWatcher;
+import android.text.*;
 import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,12 +35,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.TextView;
+import android.widget.*;
+import androidx.core.app.NavUtils;
+import androidx.loader.content.CursorLoader;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.LocationAjaxCallback;
@@ -54,13 +45,14 @@ import com.orhanobut.logger.Logger;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.StatusesAPI;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import org.lytsing.android.weibo.R;
 import org.lytsing.android.weibo.adapters.GridViewFaceAdapter;
 import org.lytsing.android.weibo.util.AlertUtil;
 import org.lytsing.android.weibo.util.Utils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * @author Liqing Huang

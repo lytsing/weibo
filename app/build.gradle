@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply from: '../config/quality/quality.gradle'
+//apply from: '../config/quality/quality.gradle'
 
 android {
     compileSdkVersion 29
@@ -25,7 +25,8 @@ android {
 
 dependencies {
     implementation project(':WeiboSDK')
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.android.volley:volley:1.2.0'
+    implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'net.simonvt.menudrawer:menudrawer:3.0.6@aar'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

@@ -40,10 +40,14 @@ import org.json.JSONObject;
  */
 public class MultipartRequest extends JsonRequest<JSONObject> {
 
-    /* To hold the parameter name and the File to upload */
+    /**
+     * To hold the parameter name and the File to upload
+     */
     private Map<String, File> fileUploads = new HashMap<String, File>();
 
-    /* To hold the parameter name and the string content to upload */
+    /**
+     * To hold the parameter name and the string content to upload
+     */
     private Map<String, String> stringUploads = new HashMap<String, String>();
 
     private Map<String, String> headers = new HashMap<String, String>();

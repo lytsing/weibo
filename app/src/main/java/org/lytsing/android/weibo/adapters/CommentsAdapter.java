@@ -97,7 +97,7 @@ public class CommentsAdapter extends BaseAdapter {
         aq.id(R.id.author).text(comment.getAuthor());
         aq.id(R.id.time).text(comment.getCreationTime());
 
-        TextView commentBody = (TextView) commentsView.findViewById(R.id.comment_body);
+        TextView commentBody = commentsView.findViewById(R.id.comment_body);
         commentBody.setText(comment.getBody());
         if (comment.hasTruncated()) {
             commentBody.setMaxLines(2);

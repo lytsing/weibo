@@ -56,21 +56,36 @@ public class GridViewFaceAdapter extends BaseAdapter {
                 R.drawable.f104, R.drawable.f105 };
     }
 
-    // 获取图片的个数
+    /**
+     * 获取图片的个数.
+     * @return
+     */
+    @Override
     public int getCount() {
         return mImageIds.length;
     }
 
-    // 获取图片在库中的位置
+    /**
+     * 获取图片在库中的位置
+     * @param position
+     * @return
+     */
+    @Override
     public Object getItem(int position) {
         return position;
     }
 
-    // 获取图片ID
+    /**
+     * 获取图片ID
+     * @param position
+     * @return
+     */
+    @Override
     public long getItemId(int position) {
         return mImageIds[position];
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {

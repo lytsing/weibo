@@ -44,6 +44,7 @@ import java.util.List;
 
 /**
  * Statuses item adapter.
+ * @author Liqing Huang
  */
 public class StatusItemAdapter extends BaseAdapter {
 
