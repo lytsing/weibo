@@ -16,9 +16,6 @@
 
 package com.sina.weibo.sdk.widget;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +29,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
 import com.sina.weibo.sdk.R;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuth;
@@ -43,6 +39,8 @@ import com.sina.weibo.sdk.exception.WeiboException;
 import com.sina.weibo.sdk.net.RequestListener;
 import com.sina.weibo.sdk.openapi.LogoutAPI;
 import com.sina.weibo.sdk.utils.LogUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 该类提供了一个简单的登录/注销控件。

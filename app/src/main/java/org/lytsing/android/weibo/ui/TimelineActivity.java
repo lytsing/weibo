@@ -30,7 +30,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.androidquery.AQuery;
 import com.costum.android.widget.PullAndLoadListView;
 import com.google.gson.Gson;
@@ -54,6 +53,9 @@ import org.lytsing.android.weibo.toolbox.VolleyErrorHelper;
 import org.lytsing.android.weibo.util.Preferences;
 import org.lytsing.android.weibo.util.Utils;
 
+/**
+ * @author Liqing Huang
+ */
 public class TimelineActivity extends BaseActivity {
 
     private final int ON_SUCC_RESPONSE = 0;
@@ -81,6 +83,10 @@ public class TimelineActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.timeline);
+        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.OVERLAY);
+        mMenuDrawer.setMenuView(R.layout.menu);
 
         if (mAccessToken.isSessionValid()) {
             initView();
@@ -122,9 +128,6 @@ public class TimelineActivity extends BaseActivity {
     }
 
     private void initView() {
-        setContentView(R.layout.timeline);
-        mMenuDrawer = MenuDrawer.attach(this);
-        mMenuDrawer.setMenuView(R.layout.menu);
 
         MenuFragment menu = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.left_menu);
         menu.getListView().setOnItemClickListener(new OnItemClickListener() {
@@ -144,24 +147,15 @@ public class TimelineActivity extends BaseActivity {
 
         mAq = new AQuery(this);
 
-        mListView = ((PullAndLoadListView) findViewById(R.id.msg_list_item));
+        mListView = findViewById(R.id.msg_list_item);
 
         // Set a listener to be invoked when the list should be refreshed.
-        mListView.setOnRefreshListener(new PullAndLoadListView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Do work to refresh the list here.
-                refreshStatuses(mSinceId);
-            }
+        mListView.setOnRefreshListener(() -> {
+            // Do work to refresh the list here.
+            refreshStatuses(mSinceId);
         });
 
-        mListView.setOnLoadMoreListener(new PullAndLoadListView.OnLoadMoreListener() {
-
-            @Override
-            public void onLoadMore() {
-                loadMoreData(mMaxId);
-            }
-        });
+        mListView.setOnLoadMoreListener(() -> loadMoreData(mMaxId));
 
         mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
 
@@ -170,26 +164,22 @@ public class TimelineActivity extends BaseActivity {
 
         requestFriendsTimeline();
 
-        mListView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
+        mListView.setOnItemClickListener((parent, view, position, id) -> {
 
-                // see: How to determine onItemClick for pulltorefreshlistview
-                // http://stackoverflow.com/questions/10959030/how-to-determine-onitemclick-for-pulltorefreshlistview
-                Statuses status = (Statuses) mListView
-                        .getItemAtPosition(position);
+            // see: How to determine onItemClick for pulltorefreshlistview
+            // http://stackoverflow.com/questions/10959030/how-to-determine-onitemclick-for-pulltorefreshlistview
+            Statuses status = (Statuses) mListView
+                    .getItemAtPosition(position);
 
-                if (status == null) {
-                    return;
-                } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Consts.STATUSES_KEY, status);
+            if (status == null) {
+                return;
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Consts.STATUSES_KEY, status);
 
-                    Intent intent = new Intent(TimelineActivity.this, StatusDetailActivity.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(TimelineActivity.this, StatusDetailActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
@@ -286,45 +276,35 @@ public class TimelineActivity extends BaseActivity {
         GsonRequest<WeiboObject> refreshRequest = new GsonRequest<WeiboObject>(Method.GET, url,
                 null,
                 WeiboObject.class,
-                new Response.Listener<WeiboObject>() {
-
-                    @Override
-                    public void onResponse(WeiboObject response) {
-                        final int refreshCount = response.statuses.size();
-                        Logger.d("newsMsgLists length == " + refreshCount);
-                        if (refreshCount > 0) {
-                            mSinceId = response.statuses.get(0).id;
-                            mAdapter.addNewestStatuses(response.statuses);
-                        }
-
-                        mAdapter.notifyDataSetChanged();
-                        // Call onRefreshComplete when the list has been
-                        // refreshed.
-                        mListView.onRefreshComplete();
-                        mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
-
-                        setLastSyncTime(Utils.getNowLocaleTime());
-
-                        if (refreshCount > 0) {
-                            displayToast(String
-                                    .format(getResources().getString(R.string.new_blog_toast),
-                                            refreshCount));
-                        } else {
-                            displayToast(R.string.no_new_blog_toast);
-                        }
-
-                        setRefreshActionButtonState(false);
+                response -> {
+                    final int refreshCount = response.statuses.size();
+                    Logger.d("newsMsgLists length == " + refreshCount);
+                    if (refreshCount > 0) {
+                        mSinceId = response.statuses.get(0).id;
+                        mAdapter.addNewestStatuses(response.statuses);
                     }
 
+                    mAdapter.notifyDataSetChanged();
+                    // Call onRefreshComplete when the list has been
+                    // refreshed.
+                    mListView.onRefreshComplete();
+                    mListView.setLastUpdated(getLastSyncTime(Preferences.PREF_LAST_SYNC_TIME));
+
+                    setLastSyncTime(Utils.getNowLocaleTime());
+
+                    if (refreshCount > 0) {
+                        displayToast(String
+                                .format(getResources().getString(R.string.new_blog_toast),
+                                        refreshCount));
+                    } else {
+                        displayToast(R.string.no_new_blog_toast);
+                    }
+
+                    setRefreshActionButtonState(false);
                 },
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError e) {
-                        Utils.showToast(TimelineActivity.this, "Error:" + e.getMessage());
-                        setRefreshActionButtonState(false);
-                    }
-
+                e -> {
+                    Utils.showToast(TimelineActivity.this, "Error:" + e.getMessage());
+                    setRefreshActionButtonState(false);
                 });
 
         WeiboApplication.getWeiboApplication().addToRequestQueue(refreshRequest);
@@ -355,46 +335,34 @@ public class TimelineActivity extends BaseActivity {
     }
 
     private Response.Listener<WeiboObject> createMyReqSuccessListener() {
-        return new Response.Listener<WeiboObject>() {
-            @Override
-            public void onResponse(WeiboObject info) {
-                for (Statuses status : info.statuses) {
-                    mAdapter.addStatuses(status);
-                    mMaxId = status.id - 1;
-                }
-
-                if (info.statuses.size() > 0) {
-                    mSinceId = info.statuses.get(0).id;
-                }
-
-                hideLoadingIndicator();
-                mAq.id(R.id.placeholder_error).gone();
-
-                showContents();
-                mAdapter.notifyDataSetChanged();
-                setLastSyncTime(Utils.getNowLocaleTime());
+        return info -> {
+            for (Statuses status : info.statuses) {
+                mAdapter.addStatuses(status);
+                mMaxId = status.id - 1;
             }
+
+            if (info.statuses.size() > 0) {
+                mSinceId = info.statuses.get(0).id;
+            }
+
+            hideLoadingIndicator();
+            mAq.id(R.id.placeholder_error).gone();
+
+            showContents();
+            mAdapter.notifyDataSetChanged();
+            setLastSyncTime(Utils.getNowLocaleTime());
         };
     }
 
     private Response.ErrorListener createMyReqErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Logger.e(error.getMessage());
-                String errorMsg = VolleyErrorHelper.getMessage(error, getApplicationContext());
+        return error -> {
+            Logger.e(error.getMessage());
+            String errorMsg = VolleyErrorHelper.getMessage(error, getApplicationContext());
 
-                hideLoadingIndicator();
-                showErrorIndicator();
-                mAq.id(R.id.error_msg).text(errorMsg);
-                mAq.id(R.id.retry_button).clicked(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        requestFriendsTimeline();
-                    }
-                });
-            }
+            hideLoadingIndicator();
+            showErrorIndicator();
+            mAq.id(R.id.error_msg).text(errorMsg);
+            mAq.id(R.id.retry_button).clicked(v -> requestFriendsTimeline());
         };
     }
 

@@ -30,7 +30,7 @@ import org.lytsing.android.weibo.R;
 /**
  * simple helper to display appropriate message when one of these exceptions occurs.
  * @author Liqing Huang
- * @see http://arnab.ch/blog/2013/08/asynchronous-http-requests-in-android-using-volley/
+ * @see <a href="http://arnab.ch/blog/2013/08/asynchronous-http-requests-in-android-using-volley/">asynchronous-http-requests-in-android-using-volley</a>
  *
  */
 public class VolleyErrorHelper {

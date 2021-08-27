@@ -62,20 +62,17 @@ public class AuthenticatedActivity extends BaseActivity {
         @Override
         public void onComplete(final Bundle values) {
 
-            AuthenticatedActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String token = values.getString(Preferences.ACCESS_TOKEN);
-                    String expiresIn = values.getString(Preferences.EXPIRES_IN);
+            AuthenticatedActivity.this.runOnUiThread(() -> {
+                String token = values.getString(Preferences.ACCESS_TOKEN);
+                String expiresIn = values.getString(Preferences.EXPIRES_IN);
 
-                    mAccessToken = new Oauth2AccessToken(token, expiresIn);
-                    if (mAccessToken.isSessionValid()) {
+                mAccessToken = new Oauth2AccessToken(token, expiresIn);
+                if (mAccessToken.isSessionValid()) {
 
-                        Session.save(AuthenticatedActivity.this,
-                                mAccessToken);
-                        getWeiboApplication().setOauth2AccessToken(mAccessToken);
-                        enterTimeline();
-                    }
+                    Session.save(AuthenticatedActivity.this,
+                            mAccessToken);
+                    getWeiboApplication().setOauth2AccessToken(mAccessToken);
+                    enterTimeline();
                 }
             });
         }
@@ -100,4 +97,3 @@ public class AuthenticatedActivity extends BaseActivity {
         }
     }
 }
-
