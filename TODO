@@ -2,5 +2,5 @@ TODO:
 1. 更新 SDK 到最新版本
 2. 更新 okhttp 到最新版本
 3. 总体 MVP 的思想，结合 dagger2 和 otto 来达成事件分发
-4. 图片框架 使用 Facebook 的 fresco
+4. 使用 Kotlin + Jetpack Compose 重写
 

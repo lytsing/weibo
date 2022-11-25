@@ -78,8 +78,8 @@ public class GsonRequest<T> extends Request<T> {
         this.mParams = params;
         mGson = new Gson();
 
-        //Set a retry policy in case of SocketTimeout & ConnectionTimeout Exceptions.
-        //Volley does retry for you if you have specified the policy.
+        // Set a retry policy in case of SocketTimeout & ConnectionTimeout Exceptions.
+        // Volley does retry for you if you have specified the policy.
         setRetryPolicy(new DefaultRetryPolicy(SET_SOCKET_TIMEOUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));

@@ -77,7 +77,7 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     /**
-     * @param text desplay text
+     * @param text display text
      */
     public void displayToast(CharSequence text) {
         Toast.makeText(this, text, TOAST_DURATION).show();
