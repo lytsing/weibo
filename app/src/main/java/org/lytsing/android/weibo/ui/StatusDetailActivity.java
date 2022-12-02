@@ -83,15 +83,15 @@ public class StatusDetailActivity extends BaseActivity implements RequestListene
         StringBuilder sb = new StringBuilder()
                 .append("http://maps.google.cn/maps/api/staticmap?center=")
                 .append(mStatus.geo.coordinates.get(0))
-                .append(",")
+                .append(',')
                 .append(mStatus.geo.coordinates.get(1))
                 .append("&zoom=12&size=")
                 .append(getResources().getDimensionPixelSize(R.dimen.map_width))
-                .append("x")
+                .append('x')
                 .append(getResources().getDimensionPixelSize(R.dimen.map_height))
                 .append("&maptype=roadmap&markers=markerStyles|color:red|")
                 .append(mStatus.geo.coordinates.get(0))
-                .append(",")
+                .append(',')
                 .append(mStatus.geo.coordinates.get(1))
                 .append("&sensor=true");
 

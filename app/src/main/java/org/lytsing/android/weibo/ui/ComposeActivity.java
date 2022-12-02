@@ -260,7 +260,7 @@ public class ComposeActivity extends BaseActivity implements OnClickListener,
 
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
-                public boolean onMenuItemClick(android.view.MenuItem item) {
+                public boolean onMenuItemClick(MenuItem item) {
 
                     Intent galleryIntent = new Intent();
                     galleryIntent.setType("image/*");
