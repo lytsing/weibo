@@ -26,7 +26,7 @@
 
 ## 运行环境
 
-- JDK：用 Android Studio 自带的 JBR。`build.sh` 把 `JAVA_HOME` 指到 `/Applications/Android Studio.app/Contents/jbr/Contents/Home`
+- JDK 17。Gradle 7.5 不能用 Android Studio 自带的 JDK 21。本机可用 Homebrew 的 `openjdk@17`
 - Android Gradle Plugin 7.4.1
 - Gradle Wrapper **7.5**
 - `app`：`compileSdkVersion` / `targetSdkVersion` 30，`minSdkVersion` 14，已启用 AndroidX
@@ -34,12 +34,29 @@
 
 ## 编译
 
+可安装的调试包：
+
 ```bash
-./gradlew check
-./gradlew clean build
+./build.sh
 ```
 
-`./build.sh` 就是上面两条，并先设置 `JAVA_HOME`。`check` 会跑 Checkstyle 8.31 和 PMD，失败不中断构建，报告在 `app/build/reports/`。
+脚本会选用 JDK 17，再执行 `./gradlew :app:assembleDebug`。产物是 `app/build/outputs/apk/debug/app-debug.apk`。
+
+未签名的发布包：
+
+```bash
+./gradlew :app:assembleRelease
+```
+
+产物是 `app/build/outputs/apk/release/app-release-unsigned.apk`。工程里没有配置签名，这个包不能直接安装。
+
+代码检查单独跑，不挡打包：
+
+```bash
+./gradlew check
+```
+
+`check` 会跑 Checkstyle 8.31 和 PMD，失败不中断构建，报告在 `app/build/reports/`。
 
 ## 模块
 
